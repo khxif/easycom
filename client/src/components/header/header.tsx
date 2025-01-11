@@ -14,7 +14,7 @@ import SearchBar from "./search-bar";
 
 export function Header() {
   return (
-    <header className="flex flex-col max-w-7xl mx-auto p-4 space-y-4">
+    <header className="flex flex-col max-w-7xl mx-auto p-4 space-y-4 ">
       <nav className="flex items-center justify-between">
         <Logo />
 

@@ -9,11 +9,11 @@ export default function SearchBar() {
   return (
     <form
       onSubmit={handleSearch}
-      className="flex items-center justify-between py-2 px-4 border border-black rounded-xl max-w-5xl w-full mx-auto"
+      className="flex items-center justify-between py-2 px-4 border rounded-xl max-w-5xl w-full mx-auto"
     >
       <input
         type="text"
-        className="bg-transparent outline-none placeholder:text-black p-2 w-full"
+        className="bg-transparent outline-none p-2 w-full"
         placeholder="Search The Store"
       />
       <SearchIcon size={22} onClick={handleSearch} />

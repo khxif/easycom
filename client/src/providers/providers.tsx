@@ -1,6 +1,16 @@
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ReactNode } from "react";
+import { ThemeProvider } from "./theme-provide";
 
-export default function Providers({ children }: { children: ReactNode }) {
-  return <TooltipProvider>{children}</TooltipProvider>;
+export function Providers({ children }: { children: ReactNode }) {
+  return (
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      <TooltipProvider>{children}</TooltipProvider>
+    </ThemeProvider>
+  );
 }
