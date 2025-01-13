@@ -5,7 +5,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
     <main className="flex h-full ">
       <section
         className="hidden bg-primary/20 w-full h-full items-center justify-center
-      md:flex flex-[2]"
+      md:flex md:flex-[2]"
       >
         <span className="flex flex-col space-y-2">
           <h1 className="text-3xl">Welcome to Easycom!</h1>

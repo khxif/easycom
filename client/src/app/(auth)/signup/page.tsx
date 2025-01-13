@@ -12,12 +12,18 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useSignupMutation } from "@/hooks/mutations";
+import { useAuthStore } from "@/stores/auth-store";
 import { signupSchema, SignupSchemaType } from "@/zod-schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 export default function SignupPage() {
+  const authenticate = useAuthStore((state) => state.authenticate);
+  const { mutateAsync } = useSignupMutation();
+
   const form = useForm<SignupSchemaType>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
@@ -27,9 +33,14 @@ export default function SignupPage() {
     },
   });
 
-  function onSubmit(values: SignupSchemaType) {
-    console.log(values);
-  }
+  const onSubmit = (values: SignupSchemaType) => {
+    mutateAsync(values, {
+      onSuccess: (data) => {
+        authenticate(data.user, data.token);
+        redirect("/");
+      },
+    });
+  };
   return (
     <div className="w-full flex flex-col space-y-6 font-medium">
       <h1 className="text-2xl">Signup</h1>

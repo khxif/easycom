@@ -12,12 +12,18 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useLoginMutation } from "@/hooks/mutations";
+import { useAuthStore } from "@/stores/auth-store";
 import { loginSchema, LoginSchemaType } from "@/zod-schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 export default function LoginPage() {
+  const authenticate = useAuthStore((state) => state.authenticate);
+  const { mutateAsync } = useLoginMutation();
+
   const form = useForm<LoginSchemaType>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -26,9 +32,14 @@ export default function LoginPage() {
     },
   });
 
-  function onSubmit(values: LoginSchemaType) {
-    console.log(values);
-  }
+  const onSubmit = (values: LoginSchemaType) => {
+    mutateAsync(values, {
+      onSuccess: (data) => {
+        authenticate(data.user, data.token);
+        redirect("/");
+      },
+    });
+  };
   return (
     <div className="w-full flex flex-col space-y-6 font-medium">
       <h1 className="text-2xl">Login</h1>

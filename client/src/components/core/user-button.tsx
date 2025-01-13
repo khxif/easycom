@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -9,18 +9,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useAuthStore } from "@/stores/auth-store";
 import {
   LogOutIcon,
   MonitorSmartphoneIcon,
   MoonStarIcon,
   SunIcon,
 } from "lucide-react";
-import { Button } from "../ui/button";
 import { useTheme } from "next-themes";
+import { Button } from "../ui/button";
 
 type Theme = "light" | "dark" | "system";
 
 export default function UserButton() {
+  const user = useAuthStore((state) => state.user);
   const { setTheme } = useTheme();
 
   const handleThemeChange = (theme: Theme) => {
@@ -35,7 +37,10 @@ export default function UserButton() {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-[22rem]">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuLabel className="flex flex-col space-y-1">
+          <h6>{user?.name}</h6>
+          <p className="text-muted-foreground">{user?.email}</p>
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>Profile</DropdownMenuItem>
         <DropdownMenuItem>Billing</DropdownMenuItem>
