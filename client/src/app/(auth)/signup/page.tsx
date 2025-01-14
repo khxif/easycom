@@ -16,9 +16,10 @@ import { useSignupMutation } from "@/hooks/mutations";
 import { useAuthStore } from "@/stores/auth-store";
 import { signupSchema, SignupSchemaType } from "@/zod-schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AxiosError } from "axios";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 export default function SignupPage() {
   const authenticate = useAuthStore((state) => state.authenticate);
@@ -33,13 +34,22 @@ export default function SignupPage() {
     },
   });
 
-  const onSubmit = (values: SignupSchemaType) => {
-    mutateAsync(values, {
-      onSuccess: (data) => {
-        authenticate(data.user, data.token);
-        redirect("/");
-      },
-    });
+  const onSubmit = async (values: SignupSchemaType) => {
+    try {
+      const { user, token } = await mutateAsync(values);
+      authenticate(user, token);
+
+      toast.success("Logged in successfully");
+    } catch (error) {
+      const axiosError = error as AxiosError<{ message: string }>;
+
+      if (axiosError.response)
+        toast.error(axiosError.response?.data?.message || "Unknown error");
+      else {
+        console.error(error);
+        toast.error("An unexpected error occurred");
+      }
+    }
   };
   return (
     <div className="w-full flex flex-col space-y-6 font-medium">

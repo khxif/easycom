@@ -16,9 +16,10 @@ import { useLoginMutation } from "@/hooks/mutations";
 import { useAuthStore } from "@/stores/auth-store";
 import { loginSchema, LoginSchemaType } from "@/zod-schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AxiosError } from "axios";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 export default function LoginPage() {
   const authenticate = useAuthStore((state) => state.authenticate);
@@ -32,14 +33,24 @@ export default function LoginPage() {
     },
   });
 
-  const onSubmit = (values: LoginSchemaType) => {
-    mutateAsync(values, {
-      onSuccess: (data) => {
-        authenticate(data.user, data.token);
-        redirect("/");
-      },
-    });
+  const onSubmit = async (values: LoginSchemaType) => {
+    try {
+      const { user, token } = await mutateAsync(values);
+      authenticate(user, token);
+
+      toast.success("Logged in successfully");
+    } catch (error) {
+      const axiosError = error as AxiosError<{ message: string }>;
+
+      if (axiosError.response)
+        toast.error(axiosError.response?.data?.message || "Unknown error");
+      else {
+        console.error(error);
+        toast.error("An unexpected error occurred");
+      }
+    }
   };
+
   return (
     <div className="w-full flex flex-col space-y-6 font-medium">
       <h1 className="text-2xl">Login</h1>

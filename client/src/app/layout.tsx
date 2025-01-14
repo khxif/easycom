@@ -1,6 +1,7 @@
 import { Providers } from "@/providers/providers";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 const Montseratt = Montserrat({
@@ -22,6 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${Montseratt.className}  `}>
         <Providers>{children}</Providers>
+        <Toaster />
       </body>
     </html>
   );
