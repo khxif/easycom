@@ -1,7 +1,7 @@
+import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import { createToken } from "../lib/create-token";
 import { hashPassword } from "../lib/hash-password";
-import bcrypt from "bcrypt";
 import { User } from "../models/User";
 
 export const signup = async (req: Request, res: Response): Promise<void> => {
@@ -65,6 +65,21 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     res.status(200).json({ token, user });
   } catch (error) {
     console.log("Login  error:", (error as Error).message);
+    res.status(402).json({ message: (error as Error).message });
+  }
+};
+
+export const getMe = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const user = await User.findById(res.locals._id);
+    if (!user) {
+      res.status(401).json({ message: "User not found" });
+      return;
+    }
+
+    res.json({ user });
+  } catch (error) {
+    console.log("getMe  error:", (error as Error).message);
     res.status(402).json({ message: (error as Error).message });
   }
 };
