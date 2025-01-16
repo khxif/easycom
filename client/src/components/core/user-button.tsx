@@ -18,12 +18,15 @@ import {
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 type Theme = "light" | "dark" | "system";
 
 export default function UserButton() {
   const user = useAuthStore((state) => state.user);
-  const { setTheme } = useTheme();
+  const logout = useAuthStore((state) => state.logout);
+  const { theme: currentTheme, setTheme } = useTheme();
 
   const handleThemeChange = (theme: Theme) => {
     setTheme(theme);
@@ -42,41 +45,36 @@ export default function UserButton() {
           <p className="text-muted-foreground">{user?.email}</p>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Profile</DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link href="/account">Account</Link>
+        </DropdownMenuItem>
         <DropdownMenuItem>Billing</DropdownMenuItem>
         <DropdownMenuItem className="flex flex-col items-start space-y-1">
           <h6 className="font-semibold">Color Theme</h6>
           <div className="flex space-x-4">
-            <Button
-              onClick={() => handleThemeChange("light")}
-              variant="outline"
-              className="rounded-full w-full"
-            >
-              <SunIcon />
-              Light
-            </Button>
-            <Button
-              onClick={() => handleThemeChange("dark")}
-              variant="outline"
-              className="rounded-full w-full"
-            >
-              <MoonStarIcon />
-              Dark
-            </Button>
-            <Button
-              onClick={() => handleThemeChange("system")}
-              variant="outline"
-              className="rounded-full w-full"
-            >
-              <MonitorSmartphoneIcon />
-              System
-            </Button>
+            {themes.map((theme) => (
+              <Button
+                onClick={() => handleThemeChange(theme)}
+                variant="outline"
+                className={cn(
+                  "rounded-full w-full",
+                  theme === currentTheme && "border-blue-600"
+                )}
+                key={theme}
+              >
+                {theme === "light" && <SunIcon />}
+                {theme === "dark" && <MoonStarIcon />}
+                {theme === "system" && <MonitorSmartphoneIcon />}
+                {theme}
+              </Button>
+            ))}
           </div>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <Button
+            onClick={() => logout()}
             variant="ghost"
-            className="text-red-600 font-medium flex items-center justify-center w-full  hover:text-red-600"
+            className="text-red-600 font-medium flex items-center justify-center w-full hover:text-red-600"
           >
             <LogOutIcon />
             <p>Logout</p>
@@ -86,3 +84,5 @@ export default function UserButton() {
     </DropdownMenu>
   );
 }
+
+const themes = ["light", "dark", "system"] as Theme[];

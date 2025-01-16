@@ -14,3 +14,10 @@ export const signup = async (body: SignupSchemaType) => {
 
   return data.data;
 };
+
+export const getAuthMe = async () => {
+  const data = await apiClient.get<User>("auth/me");
+  console.log(data.data);
+
+  return data.data;
+}

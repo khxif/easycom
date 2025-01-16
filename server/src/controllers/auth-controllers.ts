@@ -77,7 +77,7 @@ export const getMe = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    res.json({ user });
+    res.json(user);
   } catch (error) {
     console.log("getMe  error:", (error as Error).message);
     res.status(402).json({ message: (error as Error).message });

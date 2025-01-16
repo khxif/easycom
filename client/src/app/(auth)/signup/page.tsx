@@ -18,10 +18,12 @@ import { signupSchema, SignupSchemaType } from "@/zod-schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 export default function SignupPage() {
+  const router = useRouter();
   const authenticate = useAuthStore((state) => state.authenticate);
   const { mutateAsync } = useSignupMutation();
 
@@ -40,6 +42,7 @@ export default function SignupPage() {
       authenticate(user, token);
 
       toast.success("Logged in successfully");
+      router.push("/");
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
 

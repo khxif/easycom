@@ -4,6 +4,7 @@ class TokenStorage {
   }
 
   get() {
+    if (typeof window === "undefined") return null;
     return localStorage.getItem("@easycom/token");
   }
 

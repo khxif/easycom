@@ -1,3 +1,4 @@
+import { RootLayout } from "@/layout/root-layout";
 import { Providers } from "@/providers/providers";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
   description: "E-commerce made easy!",
 };
 
-export default function RootLayout({
+export default function MainLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -22,7 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${Montseratt.className}  `}>
-        <Providers>{children}</Providers>
+        <Providers>
+          <RootLayout>{children}</RootLayout>
+        </Providers>
         <Toaster />
       </body>
     </html>
