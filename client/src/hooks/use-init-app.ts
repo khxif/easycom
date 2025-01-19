@@ -7,5 +7,6 @@ export function useInitApp() {
   useQuery({
     queryKey: ["initApp"],
     queryFn: initApp,
+    retry: false,
   });
 }

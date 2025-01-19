@@ -13,10 +13,16 @@ export const useRootLayoutStore = create<RootLayoutStore>()((set) => ({
   async initApp() {
     try {
       const token = tokenStorage.get();
-      if (!token) return;
+      if (!token) {
+        set({ isAppInitialized: true });
+        return null;
+      }
 
       const user = await getAuthMe();
-      if (!user) return;
+      if (!user) {
+        set({ isAppInitialized: true });
+        return null;
+      }
 
       const { authenticate } = useAuthStore.getState();
       authenticate(user, token);
@@ -24,7 +30,9 @@ export const useRootLayoutStore = create<RootLayoutStore>()((set) => ({
 
       return user;
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      set({ isAppInitialized: true });
+      return null;
     }
   },
 }));
