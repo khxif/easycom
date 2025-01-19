@@ -83,3 +83,34 @@ export const getMe = async (req: Request, res: Response): Promise<void> => {
     res.status(402).json({ message: (error as Error).message });
   }
 };
+
+export const adminSignup = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { name, email, password } = req.body;
+    if (!name || !email || !password) {
+      res.status(400).json({ message: "Missing Credentials!" });
+      return;
+    }
+
+    const hashedPassword = await hashPassword(password);
+    console.log(hashedPassword);
+
+    const admin = new User({
+      name,
+      email,
+      password: hashedPassword,
+      role: "super-admin",
+      is_admin: true,
+    });
+    await admin.save();
+    console.log(admin);
+
+    res.json(admin);
+  } catch (error) {
+    console.log(`Admin Signup error: ${(error as Error)?.message}`);
+    res.status(500).json({ message: (error as Error)?.message });
+  }
+};

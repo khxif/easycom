@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
     enum: ["super-admin", "admin", "user"],
     default: "user",
   },
+  is_admin: { type: Boolean, required: true, default: false },
 });
 
 export const User =
