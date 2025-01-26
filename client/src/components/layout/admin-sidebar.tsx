@@ -38,8 +38,10 @@ export function AdminSidebar() {
   const pathname = usePathname();
   console.log(pathname);
   return (
-    <aside className="hidden max-w-xs w-full h-svh flex-col space-y-20 py-4 px-2 bg-[#202427] 
-      text-white md:flex">
+    <aside
+      className="hidden max-w-xs w-full h-svh flex-col space-y-20 py-4 px-2 bg-[#202427] 
+      text-white md:flex"
+    >
       <div>
         <Logo />
       </div>
@@ -48,9 +50,13 @@ export function AdminSidebar() {
           <Link
             href={link.url}
             key={link.url}
-            className={cn("flex items-center space-x-2 p-4 rounded-lg hover:bg-zinc-700",{
-              "bg-zinc-700": pathname === link.url,
-            })}
+            className={cn(
+              "flex items-center space-x-2 p-4 rounded-lg hover:bg-zinc-700",
+              {
+                "bg-zinc-700":
+                  pathname.startsWith(link.url) && link.url !== "/admin",
+              }
+            )}
           >
             <link.icon size={20} />
             <p className="text-sm">{link.title}</p>

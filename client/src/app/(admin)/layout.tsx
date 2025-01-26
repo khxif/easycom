@@ -6,11 +6,11 @@ import { ReactNode } from "react";
 export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
     <AdminProtected>
-      <main className="flex">
+      <main className="flex h-svh overflow-y-hidden">
         <AdminSidebar />
         <section className="flex flex-col w-full">
           <DashboardHeader />
-          {children}
+          <div className="min-h-full overflow-y-scroll">{children}</div>
         </section>
       </main>
     </AdminProtected>
