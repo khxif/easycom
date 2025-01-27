@@ -6,3 +6,13 @@ interface User {
   phone_number?: string;
   is_admin: boolean;
 }
+
+interface Product {
+  _id: string;
+  name: string;
+  price: number;
+  stock: number;
+  description: string;
+  image_url: string;
+  category: string;
+}
