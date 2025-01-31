@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,24 +8,19 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useAuthStore } from "@/stores/auth-store";
-import {
-  LogOutIcon,
-  MonitorSmartphoneIcon,
-  MoonStarIcon,
-  SunIcon,
-} from "lucide-react";
-import { useTheme } from "next-themes";
-import { Button } from "../ui/button";
-import { cn } from "@/lib/utils";
-import Link from "next/link";
+} from '@/components/ui/dropdown-menu';
+import { useAuthStore } from '@/stores/auth-store';
+import { LogOutIcon, MonitorSmartphoneIcon, MoonStarIcon, SunIcon } from 'lucide-react';
+import { useTheme } from 'next-themes';
+import { Button } from '../ui/button';
+import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
-type Theme = "light" | "dark" | "system";
+type Theme = 'light' | 'dark' | 'system';
 
 export default function UserButton() {
-  const user = useAuthStore((state) => state.user);
-  const logout = useAuthStore((state) => state.logout);
+  const user = useAuthStore(state => state.user);
+  const logout = useAuthStore(state => state.logout);
   const { theme: currentTheme, setTheme } = useTheme();
 
   const handleThemeChange = (theme: Theme) => {
@@ -45,26 +40,27 @@ export default function UserButton() {
           <p className="text-muted-foreground">{user?.email}</p>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <Link href="/account">Account</Link>
-        </DropdownMenuItem>
+
+        {user?.is_admin && (
+          <DropdownMenuItem>
+            <Link href="/admin">Admin</Link>
+          </DropdownMenuItem>
+        )}
+
         <DropdownMenuItem>Billing</DropdownMenuItem>
         <DropdownMenuItem className="flex flex-col items-start space-y-1">
           <h6 className="font-semibold">Color Theme</h6>
           <div className="flex space-x-4">
-            {themes.map((theme) => (
+            {themes.map(theme => (
               <Button
                 onClick={() => handleThemeChange(theme)}
                 variant="outline"
-                className={cn(
-                  "rounded-full w-full",
-                  theme === currentTheme && "border-blue-600"
-                )}
+                className={cn('rounded-full w-full', theme === currentTheme && 'border-blue-600')}
                 key={theme}
               >
-                {theme === "light" && <SunIcon />}
-                {theme === "dark" && <MoonStarIcon />}
-                {theme === "system" && <MonitorSmartphoneIcon />}
+                {theme === 'light' && <SunIcon />}
+                {theme === 'dark' && <MoonStarIcon />}
+                {theme === 'system' && <MonitorSmartphoneIcon />}
                 {theme}
               </Button>
             ))}
@@ -85,4 +81,4 @@ export default function UserButton() {
   );
 }
 
-const themes = ["light", "dark", "system"] as Theme[];
+const themes = ['light', 'dark', 'system'] as Theme[];

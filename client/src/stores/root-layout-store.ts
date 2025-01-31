@@ -31,6 +31,7 @@ export const useRootLayoutStore = create<RootLayoutStore>()((set) => ({
       return user;
     } catch (error) {
       console.error(error);
+      tokenStorage.clear();
       set({ isAppInitialized: true });
       return null;
     }
