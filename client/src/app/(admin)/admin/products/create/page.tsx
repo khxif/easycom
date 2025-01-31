@@ -19,10 +19,12 @@ import { ArrowLeft as ArrowLeftIcon } from 'lucide-react';
 import { CldUploadButton } from 'next-cloudinary';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 export default function CreateProductPage() {
+  const router = useRouter();
   const { mutateAsync } = useCreateProductMutation();
 
   const form = useForm<ProductSchemaType>({
@@ -32,8 +34,8 @@ export default function CreateProductPage() {
       category: '',
       description: '',
       image_url: '',
-      price: 0,
-      stock: 0,
+      price: "",
+      stock: "",
     },
   });
 
@@ -42,8 +44,10 @@ export default function CreateProductPage() {
       const data = await mutateAsync(values);
       if (data.statusText === 'OK') {
         toast.success('Product created successfully');
+        router.push('/admin/products');
         form.reset();
       }
+      toast.error('Failed to create product');
     } catch (error) {
       console.log(error);
       toast.error('Failed to create product');
