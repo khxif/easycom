@@ -77,7 +77,7 @@ export const getMe = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    res.json(user);
+    res.json(user).status(200);
   } catch (error) {
     console.log("getMe  error:", (error as Error).message);
     res.status(402).json({ message: (error as Error).message });
@@ -108,7 +108,7 @@ export const adminSignup = async (
     await admin.save();
     console.log(admin);
 
-    res.json(admin);
+    res.json(admin).status(200)
   } catch (error) {
     console.log(`Admin Signup error: ${(error as Error)?.message}`);
     res.status(500).json({ message: (error as Error)?.message });

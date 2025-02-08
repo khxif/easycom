@@ -1,12 +1,13 @@
-"use client";
+'use client';
 
-import { useInitApp } from "@/hooks/use-init-app";
-import { useRootLayoutStore } from "@/stores/root-layout-store";
+import { Loading } from '@/components/core/loading';
+import { useInitApp } from '@/hooks/use-init-app';
+import { useRootLayoutStore } from '@/stores/root-layout-store';
 
 export function RootLayout({ children }: { children: React.ReactNode }) {
   const { isAppInitialized } = useRootLayoutStore();
 
   useInitApp();
 
-  return <>{isAppInitialized ? children : <>Loading</>}</>;
+  return <>{isAppInitialized ? children : <Loading />}</>;
 }
