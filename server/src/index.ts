@@ -6,6 +6,7 @@ import morgan from 'morgan';
 
 import AdminRoutes from './routes/admin-routes';
 import AuthRoutes from './routes/auth-routes';
+import OverviewRoutes from './routes/overview-routes';
 import ProductRoutes from './routes/product-routes';
 dotenv.config();
 
@@ -13,7 +14,7 @@ const app: Express = express();
 const port = process.env.PORT || 8888;
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Express + TypeScript Server');
+  res.send('Easycom Server');
 });
 
 app.use(cors());
@@ -23,6 +24,7 @@ app.use(morgan('dev'));
 app.use('/api/auth', AuthRoutes);
 app.use('/api/admins', AdminRoutes);
 app.use('/api/products', ProductRoutes);
+app.use('/api/overview', OverviewRoutes);
 
 connectDB().then(() => {
   app.listen(port, () => {

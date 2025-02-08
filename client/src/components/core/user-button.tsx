@@ -9,12 +9,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/stores/auth-store';
 import { LogOutIcon, MonitorSmartphoneIcon, MoonStarIcon, SunIcon } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { Button } from '../ui/button';
-import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { Button } from '../ui/button';
 
 type Theme = 'light' | 'dark' | 'system';
 
@@ -42,9 +42,9 @@ export default function UserButton() {
         <DropdownMenuSeparator />
 
         {user?.is_admin && (
-          <DropdownMenuItem>
-            <Link href="/admin">Admin</Link>
-          </DropdownMenuItem>
+          <Link href="/admin" prefetch>
+            <DropdownMenuItem>Admin</DropdownMenuItem>
+          </Link>
         )}
 
         <DropdownMenuItem>Billing</DropdownMenuItem>

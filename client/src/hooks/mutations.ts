@@ -1,4 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
+import * as AdminFetchers from '../fetchers/admins';
 import * as AuthFetchers from '../fetchers/auth';
 import * as ProductFetchers from '../fetchers/products';
 
@@ -12,4 +13,8 @@ export const useSignupMutation = () => {
 
 export const useCreateProductMutation = () => {
   return useMutation({ mutationFn: ProductFetchers.createProduct });
+};
+
+export const useCreateAdminMutation = () => {
+  return useMutation({ mutationFn: AdminFetchers.createAdmin });
 };

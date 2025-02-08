@@ -1,8 +1,6 @@
 'use client';
 
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
-import { Loading } from '../../core/loading';
-
 import {
   Table,
   TableBody,
@@ -18,11 +16,7 @@ interface DataTableProps<TData, TValue> {
   isLoading?: boolean;
 }
 
-export function AdminsTable<TData, TValue>({
-  columns,
-  data,
-  isLoading,
-}: DataTableProps<TData, TValue>) {
+export function AdminsTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
@@ -48,26 +42,22 @@ export function AdminsTable<TData, TValue>({
           ))}
         </TableHeader>
         <TableBody>
-          {!isLoading ? (
-            table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map(row => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-                  {row.getVisibleCells().map(cell => (
-                    <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No results.
-                </TableCell>
+          {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map(row => (
+              <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                {row.getVisibleCells().map(cell => (
+                  <TableCell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
               </TableRow>
-            )
+            ))
           ) : (
-            <Loading />
+            <TableRow>
+              <TableCell colSpan={columns.length} className="h-24 text-center">
+                No results.
+              </TableCell>
+            </TableRow>
           )}
         </TableBody>
       </Table>

@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { useGetAdmins } from '@/hooks/queries';
 import { ColumnDef } from '@tanstack/react-table';
 import Link from 'next/link';
-import { Loading } from '../../../../components/core/loading';
 
 export default function AdminsPage() {
   const { data, isLoading } = useGetAdmins();
@@ -13,16 +12,12 @@ export default function AdminsPage() {
   return (
     <main className="p-5 flex flex-col space-y-10">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold md:text-3xl">Products list</h1>
-        <Link href="/admin/products/create">
+        <h1 className="text-2xl font-semibold md:text-3xl">Admins list</h1>
+        <Link href="/admin/admins/create">
           <Button>Admins</Button>
         </Link>
       </div>
-      {!isLoading ? (
-        <AdminsTable columns={columns} data={data?.data} isLoading={isLoading} />
-      ) : (
-        <Loading />
-      )}
+      {data?.data && <AdminsTable columns={columns} data={data?.data} isLoading={isLoading} />}
     </main>
   );
 }
