@@ -8,11 +8,15 @@ export const getAllProducts = async (req: Request, res: Response): Promise<void>
     const query: Record<string, unknown> = {};
     if (name) query.name = { $regex: name, $options: 'i' };
 
-    const products = await Product.find(query).limit(Number(limit) || 10);
+    const [products, total] = await Promise.all([
+      Product.find(query).limit(Number(limit) || 10),
+      Product.countDocuments(query),
+    ]);
     const meta = {
-      total: products.length,
+      limit: products.length,
+      total,
     };
-    res.json({ data: products, meta });
+    res.json({ data: products, meta }).status(200);
   } catch (error) {
     console.log('Get all products error:', (error as Error).message);
     res.status(402).json({ message: (error as Error).message });
@@ -38,7 +42,7 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
 
     await product.save();
 
-    res.json({ message: 'Product created successfully' });
+    res.json({ message: 'Product created successfully' }).status(200);
   } catch (error) {
     console.log('Create Product error:', (error as Error).message);
     res.status(402).json({ message: (error as Error).message });

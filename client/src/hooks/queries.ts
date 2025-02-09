@@ -3,10 +3,13 @@ import * as OverviewFetchers from '@/fetchers/overview';
 import * as ProductFetchers from '@/fetchers/products';
 import { useQuery } from '@tanstack/react-query';
 
-export function useGetProducts() {
+export function useGetProducts(limit?: number) {
   return useQuery({
-    queryKey: ['products'],
-    queryFn: ProductFetchers.getProducts,
+    queryKey: ['products', limit],
+    queryFn: () => ProductFetchers.getProducts(limit),
+    staleTime: 5000, // ✅ Prevents unnecessary re-fetching
+    gcTime: Infinity, 
+    placeholderData: prev => prev || { data: [], meta: { total: 0 } }
   });
 }
 
