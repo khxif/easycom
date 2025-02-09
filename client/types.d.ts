@@ -1,3 +1,5 @@
+declare module 'react-heart';
+
 interface User {
   _id: string;
   email: string;
