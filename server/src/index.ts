@@ -1,46 +1,36 @@
+import cluster from 'cluster';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express, { Express, Request, Response } from 'express';
-import mongoose from 'mongoose';
 import morgan from 'morgan';
-
-import AdminRoutes from './routes/admin-routes';
-import AuthRoutes from './routes/auth-routes';
-import FavoriteRoutes from './routes/favorite-routes';
-import OverviewRoutes from './routes/overview-routes';
-import ProductRoutes from './routes/product-routes';
+import { connectDB } from './lib/connectDB';
+import { setupRoutes } from './routes';
 dotenv.config();
 
-const app: Express = express();
 const port = process.env.PORT || 8888;
+const numCPUs = require('os').cpus().length;
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Easycom Server');
-});
+const setupMiddlewares = (app: Express) => {
+  app.use(cors());
+  app.use(express.json());
+  app.use(morgan('dev'));
+};
 
-app.use(cors());
-app.use(express.json());
-app.use(morgan('dev'));
+const startServer = async () => {
+  const app: Express = express();
 
-app.use('/api/auth', AuthRoutes);
-app.use('/api/admins', AdminRoutes);
-app.use('/api/favorites', FavoriteRoutes);
-app.use('/api/products', ProductRoutes);
-app.use('/api/overview', OverviewRoutes);
+  setupMiddlewares(app);
+  setupRoutes(app);
 
-connectDB().then(() => {
-  app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-  });
-});
-
-async function connectDB() {
   try {
-    await mongoose.connect(process.env.MONGO_URI as string);
-    console.log('MongoDB connected');
+    await connectDB();
+    app.listen(port, () => console.log(`Server is running on port ${port}`));
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
-}
 
-module.exports = app;
+  module.exports = app;
+};
+
+if (cluster.isPrimary) for (let i = 0; i < numCPUs; i++) cluster.fork();
+else startServer();

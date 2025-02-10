@@ -32,5 +32,6 @@ export const useGetMyFavorites = (id: string) => {
   return useQuery({
     queryKey: ['favorites', id],
     queryFn: () => FavoriteFetchers.getMyFavorites(id),
+    enabled: !!id,
   });
 };
