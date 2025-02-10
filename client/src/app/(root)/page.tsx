@@ -3,22 +3,21 @@
 import { Loading } from '@/components/core/loading';
 import { ProductCard } from '@/components/core/product-card';
 import { useGetProducts } from '@/hooks/queries';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 export default function HomePage() {
   const [limit, setLimit] = useState(10);
   const { data, isLoading } = useGetProducts(limit);
-  console.log(data);
   const products = data?.data as Product[];
 
-  const scrollRef = useRef<number>(0);
-  useEffect(() => {
-    window.scrollTo(0, scrollRef.current);
-  }, [data]);
+  // const scrollRef = useRef<number>(0);
+  // useEffect(() => {
+  //   window.scrollTo(0, scrollRef.current);
+  // }, [data]);
 
   const handleNext = () => {
-    scrollRef.current = window.scrollY;
+    // scrollRef.current = window.scrollY;
     setLimit(prev => prev + 10);
   };
   return (
