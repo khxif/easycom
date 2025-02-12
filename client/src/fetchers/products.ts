@@ -11,3 +11,14 @@ export async function createProduct(product: ProductSchemaType) {
 
   return data;
 }
+
+export async function getProductById(id?: string) {
+  const { data } = await apiClient.get(`/products/${id}`);
+  return data;
+}
+
+export async function updateProduct(options: { product: ProductSchemaType; id?: string }) {
+  const data = await apiClient.put(`/products/${options?.id}`, options?.product);
+
+  return data;
+}

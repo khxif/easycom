@@ -16,6 +16,10 @@ export const useCreateProductMutation = () => {
   return useMutation({ mutationFn: ProductFetchers.createProduct });
 };
 
+export const useUpdateProductMutation = () => {
+  return useMutation({ mutationFn: ProductFetchers.updateProduct });
+};
+
 export const useCreateAdminMutation = () => {
   return useMutation({ mutationFn: AdminFetchers.createAdmin });
 };

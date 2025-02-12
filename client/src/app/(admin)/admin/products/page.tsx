@@ -5,6 +5,7 @@ import { ProductsTable } from '@/components/dashboard/tables/product-table';
 import { Button } from '@/components/ui/button';
 import { useGetProducts } from '@/hooks/queries';
 import { ColumnDef } from '@tanstack/react-table';
+import { PencilIcon, Trash2Icon } from 'lucide-react';
 import Link from 'next/link';
 
 export default function ProductsPage() {
@@ -58,5 +59,23 @@ const columns: ColumnDef<Product>[] = [
   {
     accessorKey: 'stock',
     header: 'Stock',
+  },
+  {
+    accessorKey: '_id',
+    header: 'Action',
+    cell: row => {
+      return (
+        <div className="flex space-x-2">
+          <Link href={`/admin/products/${row.getValue()}/edit`}>
+            <Button size="sm" variant="ghost" color="primary">
+              <PencilIcon className="size-6" />
+            </Button>
+          </Link>
+          <Button size="sm" variant="destructive">
+            <Trash2Icon className="text-sm" />
+          </Button>
+        </div>
+      );
+    },
   },
 ];

@@ -2,7 +2,7 @@ import * as AdminFetchers from '@/fetchers/admins';
 import * as FavoriteFetchers from '@/fetchers/favorite';
 import * as OverviewFetchers from '@/fetchers/overview';
 import * as ProductFetchers from '@/fetchers/products';
-import { useQuery } from '@tanstack/react-query';
+import { queryOptions, useQuery } from '@tanstack/react-query';
 
 export function useGetProducts(limit?: number) {
   return useQuery({
@@ -13,6 +13,17 @@ export function useGetProducts(limit?: number) {
     placeholderData: prev => prev || { data: [], meta: { total: 0 } },
   });
 }
+
+export const getProductById = (id: string) => {
+  return queryOptions({
+    queryKey: ['product', id],
+    queryFn: () => ProductFetchers.getProductById(id),
+  });
+};
+
+export const useGetProductById = (id: string) => {
+  return useQuery(getProductById(id));
+};
 
 export function useGetAdmins() {
   return useQuery({
