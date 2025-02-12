@@ -1,36 +1,42 @@
 'use client';
 
-import { Calendar, Home, Inbox, Search, Settings } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import {
+  BookUserIcon,
+  LayoutDashboardIcon,
+  ShoppingBagIcon,
+  UserCogIcon,
+  UsersIcon,
+} from 'lucide-react';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Logo } from '../core/logo';
-import Link from 'next/link';
-import { cn } from '@/lib/utils';
 
 const links = [
   {
     title: 'Overview',
-    url: '/admin',
-    icon: Home,
+    url: '/admin/overview',
+    icon: LayoutDashboardIcon,
   },
   {
     title: 'Products',
     url: '/admin/products',
-    icon: Inbox,
+    icon: ShoppingBagIcon,
   },
   {
-    title: 'Users',
-    url: '/admin/users',
-    icon: Calendar,
+    title: 'Customers',
+    url: '/admin/customers',
+    icon: UsersIcon,
   },
   {
     title: 'Admins',
     url: '/admin/admins',
-    icon: Search,
+    icon: UserCogIcon,
   },
   {
     title: 'Account',
     url: '/admin/account',
-    icon: Settings,
+    icon: BookUserIcon,
   },
 ];
 
@@ -51,7 +57,6 @@ export function AdminSidebar() {
             key={link.url}
             className={cn('flex items-center space-x-2 p-4 rounded-lg hover:bg-zinc-700', {
               'bg-zinc-700': pathname.startsWith(link.url) && link.url !== '/admin',
-             
             })}
           >
             <link.icon size={20} />

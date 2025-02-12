@@ -11,7 +11,7 @@ export default function AdminsPage() {
   const { data, isLoading } = useGetAdmins();
   console.log(data);
   return (
-    <main className="p-5 flex flex-col space-y-10">
+    <main className="p-5 flex flex-col space-y-10 pb-40">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold md:text-3xl">Admins list</h1>
         <Link href="/admin/admins/create">

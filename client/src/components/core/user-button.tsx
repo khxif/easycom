@@ -42,7 +42,7 @@ export default function UserButton() {
         <DropdownMenuSeparator />
 
         {user?.is_admin && (
-          <Link href="/admin" prefetch>
+          <Link href="/admin/overview" prefetch>
             <DropdownMenuItem>Admin</DropdownMenuItem>
           </Link>
         )}

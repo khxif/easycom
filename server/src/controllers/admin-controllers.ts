@@ -78,7 +78,7 @@ export const getAdminById = async (req: Request, res: Response): Promise<void> =
       return;
     }
 
-    const admin = await User.findById(id);
+    const admin = await User.findOne({ _id: id, is_admin: true });
     if (!admin) {
       res.status(404).json({ message: 'Admin not found' });
       return;

@@ -2,6 +2,7 @@ import * as AdminFetchers from '@/fetchers/admins';
 import * as FavoriteFetchers from '@/fetchers/favorite';
 import * as OverviewFetchers from '@/fetchers/overview';
 import * as ProductFetchers from '@/fetchers/products';
+import * as UsersFetchers from '@/fetchers/users';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
 export function useGetProducts(limit?: number) {
@@ -56,4 +57,22 @@ export const useGetMyFavorites = (id: string) => {
     queryFn: () => FavoriteFetchers.getMyFavorites(id),
     enabled: !!id,
   });
+};
+
+export const useGetUsers = () => {
+  return useQuery({
+    queryKey: ['users'],
+    queryFn: UsersFetchers.getUsers,
+  });
+};
+
+export const getUserById = (id: string) => {
+  return queryOptions({
+    queryKey: ['users', id],
+    queryFn: () => UsersFetchers.getUserById(id),
+  });
+};
+
+export const useGetUserById = (id: string) => {
+  return useQuery(getUserById(id));
 };
