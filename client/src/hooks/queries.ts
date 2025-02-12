@@ -32,6 +32,17 @@ export function useGetAdmins() {
   });
 }
 
+export const getAdminById = (id: string) => {
+  return queryOptions({
+    queryKey: ['admins', id],
+    queryFn: () => AdminFetchers.getAdminById(id),
+  });
+};
+
+export const useGetAdminById = (id: string) => {
+  return useQuery(getAdminById(id));
+};
+
 export function useGetOverview() {
   return useQuery({
     queryKey: ['overview'],

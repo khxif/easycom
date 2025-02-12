@@ -12,3 +12,15 @@ export const createAdmin = async (admin: AdminSchemaType) => {
 
   return data;
 };
+
+export const getAdminById = async (id: string) => {
+  const { data } = await apiClient.get(`/admins/${id}`);
+
+  return data;
+};
+
+export const updateAdmin = async (options: { id: string; admin: AdminSchemaType }) => {
+  const data = await apiClient.put(`/admins/${options?.id}`, options?.admin);
+
+  return data;
+};
