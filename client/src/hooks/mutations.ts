@@ -2,6 +2,7 @@ import * as AdminFetchers from '@/fetchers/admins';
 import * as AuthFetchers from '@/fetchers/auth';
 import * as FavoriteFetchers from '@/fetchers/favorite';
 import * as ProductFetchers from '@/fetchers/products';
+import * as ProfileFetchers from '@/fetchers/profile';
 import { useMutation } from '@tanstack/react-query';
 
 export const useLoginMutation = () => {
@@ -34,4 +35,8 @@ export const useAddFavoritesMutation = () => {
 
 export const useRemoveFavoritesMutation = () => {
   return useMutation({ mutationFn: FavoriteFetchers.removeFavorites });
+};
+
+export const useUpdateProfileMutation = () => {
+  return useMutation({ mutationFn: ProfileFetchers.updateProfile });
 };

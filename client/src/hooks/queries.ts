@@ -2,6 +2,7 @@ import * as AdminFetchers from '@/fetchers/admins';
 import * as FavoriteFetchers from '@/fetchers/favorite';
 import * as OverviewFetchers from '@/fetchers/overview';
 import * as ProductFetchers from '@/fetchers/products';
+import * as ProfileFetchers from '@/fetchers/profile';
 import * as UsersFetchers from '@/fetchers/users';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
@@ -75,4 +76,11 @@ export const getUserById = (id: string) => {
 
 export const useGetUserById = (id: string) => {
   return useQuery(getUserById(id));
+};
+
+export const useGetMyProfile = () => {
+  return useQuery({
+    queryKey: ['profile'],
+    queryFn: ProfileFetchers.getProfile,
+  });
 };
