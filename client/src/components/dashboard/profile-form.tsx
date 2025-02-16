@@ -13,6 +13,8 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { ProfileSchemaType } from '@/zod-schemas/profile';
+import { CldUploadButton } from 'next-cloudinary';
+import Image from 'next/image';
 import { UseFormReturn } from 'react-hook-form';
 
 interface ProfileFormProps {
@@ -24,6 +26,37 @@ export function ProfileForm({ form, handleSubmit }: ProfileFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={handleSubmit} className="space-y-8 w-full">
+      <div>
+          <FormField
+            control={form.control}
+            name="profile_picture"
+            render={({ field }) => (
+              <FormItem className="flex space-x-4 items-center">
+                <FormControl>
+                  <CldUploadButton
+                    uploadPreset="cw4upclb"
+                    options={{ maxFiles: 1 }}
+                    className="size-28 border flex items-center justify-center p-1 
+                  rounded-full"
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    onSuccess={(data: any) => field.onChange(data?.info?.secure_url)}
+                  >
+                    <Image
+                      width={50}
+                      height={50}
+                      src={field.value || '/assets/product-placeholder.png'}
+                      alt="placeholder"
+                      className="w-full h-full object-fill rounded-full"
+                    />
+                  </CldUploadButton>
+                </FormControl>
+                <FormLabel>Profile Picture</FormLabel>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
         <FormField
           control={form.control}
           name="name"

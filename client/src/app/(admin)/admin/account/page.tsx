@@ -15,7 +15,7 @@ export default function AccountPage() {
   const { data, isLoading } = useGetMyProfile();
 
   return (
-    <main className="p-5 flex flex-col space-y-10">
+    <main className="p-5 flex flex-col space-y-10 pb-40">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold md:text-3xl">Account</h1>
       </div>
@@ -46,6 +46,7 @@ function ProfileFormWrapper({ data }: { data: User }) {
       name: data?.name ?? '',
       email: data?.email ?? '',
       phone_number: data?.phone_number ?? '',
+      profile_picture: data?.profile_picture ?? '',
     },
   });
 

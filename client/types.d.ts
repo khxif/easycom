@@ -7,6 +7,7 @@ interface User {
   role: "user" | "admin" | "super-admin";
   phone_number?: string;
   is_admin: boolean;
+  profile_picture?: string;
 }
 
 interface Product {
