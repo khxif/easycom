@@ -70,5 +70,5 @@ function ProductFormWrapper({ product }: { product: Product }) {
       toast.error('Failed to update product');
     }
   };
-  return <ProductForm form={form} handleSubmit={form.handleSubmit(onSubmit)} />;
+  return <ProductForm form={form} handleSubmit={form.handleSubmit(onSubmit)} isEdit />;
 }

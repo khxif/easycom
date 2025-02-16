@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { useGetAdmins } from '@/hooks/queries';
 import { ColumnDef } from '@tanstack/react-table';
-import { PencilIcon, PhoneIcon, ShieldIcon, TrashIcon } from 'lucide-react';
+import { PencilIcon, PhoneIcon, PlusCircleIcon, ShieldIcon, TrashIcon } from 'lucide-react';
 import Link from 'next/link';
 
 export default function AdminsPage() {
@@ -16,7 +16,10 @@ export default function AdminsPage() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold md:text-3xl">Admins list</h1>
         <Link href="/admin/admins/create">
-          <Button>Admins</Button>
+          <Button className="flex items-center space-x-1">
+            <PlusCircleIcon className="size-8" />
+            <p>Admins</p>
+          </Button>
         </Link>
       </div>
       {data?.data && <AdminsTable columns={columns} data={data?.data} isLoading={isLoading} />}

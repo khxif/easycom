@@ -10,6 +10,7 @@ import {
   CircleDollarSignIcon,
   LayersIcon,
   PencilIcon,
+  PlusCircleIcon,
   TrashIcon,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -22,7 +23,10 @@ export default function ProductsPage() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold md:text-3xl">Products list</h1>
         <Link href="/admin/products/create">
-          <Button>Add Products</Button>
+          <Button className="flex items-center space-x-1">
+            <PlusCircleIcon className="size-8" />
+            <p>Products</p>
+          </Button>
         </Link>
       </div>
       {!isLoading ? (

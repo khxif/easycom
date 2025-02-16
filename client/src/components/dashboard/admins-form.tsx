@@ -70,7 +70,7 @@ export default function AdminsForm({ form, handleSubmit, isEdit }: AdminFormProp
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Admin Name</FormLabel>
+                <FormLabel> Name</FormLabel>
                 <FormControl>
                   <Input placeholder="Name" {...field} />
                 </FormControl>
@@ -152,7 +152,7 @@ export default function AdminsForm({ form, handleSubmit, isEdit }: AdminFormProp
               Cancel
             </Button>
           </Link>
-          <Button type="submit">{isEdit ? 'Update Admin' : 'Add Admin'}</Button>
+          <Button type="submit">{isEdit ? 'Update' : 'Create'}</Button>
         </CardFooter>
       </form>
     </Form>

@@ -21,9 +21,10 @@ import { UseFormReturn } from 'react-hook-form';
 interface ProductFormProps {
   form: UseFormReturn<ProductSchemaType, unknown, undefined>;
   handleSubmit: React.FormEventHandler<HTMLFormElement>;
+  isEdit?: boolean;
 }
 
-export function ProductForm({ form, handleSubmit }: ProductFormProps) {
+export function ProductForm({ form, handleSubmit, isEdit }: ProductFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={handleSubmit} className="space-y-8 py-2">
@@ -51,7 +52,7 @@ export function ProductForm({ form, handleSubmit }: ProductFormProps) {
                     />
                   </CldUploadButton>
                 </FormControl>
-                <FormLabel>Product Image</FormLabel>
+                <FormLabel> Image</FormLabel>
                 <FormMessage />
               </FormItem>
             )}
@@ -134,7 +135,7 @@ export function ProductForm({ form, handleSubmit }: ProductFormProps) {
               Cancel
             </Button>
           </Link>
-          <Button type="submit">Submit</Button>
+          <Button type="submit">{isEdit ? 'Update' : 'Create'}</Button>
         </CardFooter>
       </form>
     </Form>
