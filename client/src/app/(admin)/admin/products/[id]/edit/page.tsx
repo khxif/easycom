@@ -41,7 +41,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
   );
 }
 
-export function ProductFormWrapper({ product }: { product: Product }) {
+function ProductFormWrapper({ product }: { product: Product }) {
   const router = useRouter();
   const { mutateAsync } = useUpdateProductMutation();
 

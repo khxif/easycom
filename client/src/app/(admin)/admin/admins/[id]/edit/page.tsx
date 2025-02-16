@@ -39,7 +39,7 @@ export default function AdminEditPage({ params }: { params: Promise<{ id: string
   );
 }
 
-export const AdminFormWrapper = ({ admin }: { admin: User }) => {
+const AdminFormWrapper = ({ admin }: { admin: User }) => {
   const router = useRouter();
   const { mutateAsync } = useUpdateAdminMutation();
 
