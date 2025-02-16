@@ -18,7 +18,7 @@ export const getAdmins = async (req: Request, res: Response): Promise<void> => {
 
 export const createAdmin = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { name, email, password, role, phone_number } = req.body;
+    const { name, email, password, role, phone_number, profile_picture } = req.body;
     if (!name || !email || !password || !role || !phone_number) {
       res.status(422).json({ message: 'Missing required fields' });
       return;
@@ -38,6 +38,7 @@ export const createAdmin = async (req: Request, res: Response): Promise<void> =>
       name,
       phone_number,
       is_admin: true,
+      profile_picture,
     });
 
     await admin.save();

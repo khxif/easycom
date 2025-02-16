@@ -8,5 +8,6 @@ export function useInitApp() {
     queryKey: ["initApp"],
     queryFn: initApp,
     retry: false,
+    networkMode: "always",
   });
 }

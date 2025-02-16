@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -8,11 +8,11 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     required: true,
-    enum: ["super-admin", "admin", "user"],
-    default: "user",
+    enum: ['super-admin', 'admin', 'user'],
+    default: 'user',
   },
   is_admin: { type: Boolean, required: true, default: false },
+  profile_picture: { type: String, required: false, default: '' },
 });
 
-export const User =
-  mongoose?.models?.User || mongoose.model("User", userSchema);
+export const User = mongoose?.models?.User || mongoose.model('User', userSchema);

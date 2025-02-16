@@ -1,10 +1,11 @@
 'use client';
 
 import { AdminsTable } from '@/components/dashboard/tables/admin-table';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { useGetAdmins } from '@/hooks/queries';
 import { ColumnDef } from '@tanstack/react-table';
-import { MailIcon, PencilIcon, PhoneIcon, ShieldIcon, TrashIcon } from 'lucide-react';
+import { PencilIcon, PhoneIcon, ShieldIcon, TrashIcon } from 'lucide-react';
 import Link from 'next/link';
 
 export default function AdminsPage() {
@@ -25,16 +26,22 @@ export default function AdminsPage() {
 
 const columns: ColumnDef<User>[] = [
   {
-    accessorKey: 'name',
-    header: 'Admin Name',
-  },
-  {
-    accessorKey: 'email',
-    header: () => (
-      <span className="flex items-center space-x-1.5 py-4">
-        <MailIcon className="size-4" />
-        <p>Email</p>
-      </span>
+    accessorKey: 'profile_picture',
+    header: 'Name',
+    cell: ({ row }) => (
+      <div className="flex items-center space-x-4 p-2">
+        <Avatar>
+          <AvatarImage src={(row.getValue('profile_picture') as string) ?? ''} />
+          <AvatarFallback>{row.original.name.split(' ').join('')[0]}</AvatarFallback>
+        </Avatar>
+
+        <Link href={`/admin/admins/${row.original._id}`}>
+          <span className="flex flex-col space-y-2">
+            <h2 className="font-medium">{row.original.name}</h2>
+            <p className="text-muted-foreground text-sm">{row.original.email}</p>
+          </span>
+        </Link>
+      </div>
     ),
   },
   {
@@ -52,6 +59,11 @@ const columns: ColumnDef<User>[] = [
       <span className="flex items-center space-x-1.5 py-4">
         <ShieldIcon className="size-4" />
         <p>Role</p>
+      </span>
+    ),
+    cell: row => (
+      <span className="flex items-center space-x-1.5 py-4">
+        <p className="capitalize">{(row.getValue() as string).split('-').join(' ')}</p>
       </span>
     ),
   },
