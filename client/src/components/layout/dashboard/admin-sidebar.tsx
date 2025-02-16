@@ -10,9 +10,9 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Logo } from '../core/logo';
+import { Logo } from '../../core/logo';
 
-const links = [
+export const links = [
   {
     title: 'Overview',
     url: '/admin/overview',
@@ -56,7 +56,7 @@ export function AdminSidebar() {
             href={link.url}
             key={link.url}
             className={cn('flex items-center space-x-2 p-4 rounded-lg hover:bg-zinc-700', {
-              'bg-zinc-700': pathname.startsWith(link.url) && link.url !== '/admin',
+              'bg-zinc-700': pathname.startsWith(link.url),
             })}
           >
             <link.icon size={20} />

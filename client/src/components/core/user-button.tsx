@@ -18,7 +18,7 @@ import { Button } from '../ui/button';
 
 type Theme = 'light' | 'dark' | 'system';
 
-export default function UserButton() {
+export function UserButton() {
   const user = useAuthStore(state => state.user);
   const logout = useAuthStore(state => state.logout);
   const { theme: currentTheme, setTheme } = useTheme();

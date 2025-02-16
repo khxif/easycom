@@ -1,5 +1,5 @@
-import { DashboardHeader } from "@/components/header/dashboard-header";
-import { AdminSidebar } from "@/components/layout/admin-sidebar";
+import { DashboardHeader } from "@/components/layout/dashboard/dashboard-header";
+import { AdminSidebar } from "@/components/layout/dashboard/admin-sidebar";
 import { AdminProtected } from "@/providers/admin-protected";
 import { ReactNode } from "react";
 
