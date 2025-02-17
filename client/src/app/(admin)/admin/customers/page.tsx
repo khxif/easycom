@@ -1,5 +1,6 @@
 'use client';
 
+import { Loading } from '@/components/core/loading';
 import { CustomersTable } from '@/components/dashboard/tables/customer-table';
 import { Button } from '@/components/ui/button';
 import { useGetUsers } from '@/hooks/queries';
@@ -14,7 +15,11 @@ export default function UsersPage() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold md:text-3xl">Customers list</h1>
       </div>
-      {data?.data && <CustomersTable columns={columns} data={data?.data} isLoading={isLoading} />}
+      {!isLoading ? (
+        <CustomersTable columns={columns} data={data?.data} isLoading={isLoading} />
+      ) : (
+        <Loading />
+      )}
     </main>
   );
 }

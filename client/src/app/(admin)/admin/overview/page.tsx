@@ -3,6 +3,7 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { useGetOverview } from '@/hooks/queries';
 import { Users as UsersIcon } from 'lucide-react';
+import CountUp from 'react-countup';
 
 export default function OverviewPage() {
   const { data: overview } = useGetOverview();
@@ -19,7 +20,9 @@ export default function OverviewPage() {
             <UsersIcon />
             <div className="flex flex-col space-y-1.5">
               <h2 className="font-semibold text-xl">Total Products</h2>
-              <p className="font-medium text-lg">{overview?.total_products}</p>
+              <p className="font-medium text-lg">
+                <CountUp end={overview?.total_products ?? 0} duration={2} />
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -29,7 +32,9 @@ export default function OverviewPage() {
             <UsersIcon />
             <div className="flex flex-col space-y-1.5">
               <h2 className="font-semibold text-xl">Total Users</h2>
-              <p className="font-medium text-lg">{overview?.total_users}</p>
+              <p className="font-medium text-lg">
+                <CountUp end={overview?.total_users ?? 0} duration={2} />
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -39,7 +44,9 @@ export default function OverviewPage() {
             <UsersIcon />
             <div className="flex flex-col space-y-1.5">
               <h2 className="font-semibold text-xl">Total Admins</h2>
-              <p className="font-medium text-lg">{overview?.total_admins}</p>
+              <p className="font-medium text-lg">
+                <CountUp end={overview?.total_admins ?? 0} duration={2} />
+              </p>
             </div>
           </CardContent>
         </Card>

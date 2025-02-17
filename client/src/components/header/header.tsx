@@ -19,7 +19,7 @@ export function Header() {
         <div className="flex items-center space-x-6">
           {navLinks.map(link => (
             <Tooltip key={link.id}>
-              <TooltipTrigger>
+              <TooltipTrigger className='hidden md:block'>
                 <Link href={link.href}>
                   <link.icon size={22} />
                 </Link>
