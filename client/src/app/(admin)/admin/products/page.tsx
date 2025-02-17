@@ -1,9 +1,12 @@
 'use client';
 
 import { Loading } from '@/components/core/loading';
+import { ConfirmModal } from '@/components/dashboard/confirm-modal';
 import { ProductsTable } from '@/components/dashboard/tables/product-table';
 import { Button } from '@/components/ui/button';
+import { useDeleteProductMutation } from '@/hooks/mutations';
 import { useGetProducts } from '@/hooks/queries';
+import { useQueryClient } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
 import {
   ChartColumnStackedIcon,
@@ -14,6 +17,8 @@ import {
   TrashIcon,
 } from 'lucide-react';
 import Link from 'next/link';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 export default function ProductsPage() {
   const { data, isLoading } = useGetProducts();
@@ -94,19 +99,46 @@ const columns: ColumnDef<Product>[] = [
   {
     accessorKey: '_id',
     header: '',
-    cell: row => {
+    cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
-          <Link href={`/admin/products/${row.getValue()}/edit`}>
+          <Link href={`/admin/products/${row.original._id}/edit`}>
             <Button size="sm" variant="ghost" color="primary">
               <PencilIcon className="size-6" />
             </Button>
           </Link>
-          <Button size="sm" variant="ghost">
-            <TrashIcon className="text-red-600 size-6" />
-          </Button>
+          <DeleteProduct id={row.original._id} />
         </div>
       );
     },
   },
 ];
+
+function DeleteProduct({ id }: { id: string }) {
+  const queryClient = useQueryClient();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { mutateAsync } = useDeleteProductMutation();
+
+  const handleDelete = async () => {
+    try {
+      const data = await mutateAsync(id);
+      if (data.statusText !== 'OK') return toast.error('Failed to delete product');
+
+      queryClient.invalidateQueries({ queryKey: ['products'] });
+      toast.success('Product deleted successfully');
+      setIsModalOpen(false);
+    } catch (error) {
+      console.log(error);
+      toast.error('Failed to delete product');
+    }
+  };
+  return (
+    <>
+      <Button size="sm" variant="ghost" onClick={() => setIsModalOpen(true)}>
+        <TrashIcon className="text-red-600 size-6" />
+      </Button>
+      <ConfirmModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} onConfirm={handleDelete} />
+    </>
+  );
+}

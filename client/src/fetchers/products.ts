@@ -22,3 +22,8 @@ export async function updateProduct(options: { product: ProductSchemaType; id?: 
 
   return data;
 }
+
+export async function deleteProduct(id?: string) {
+  const data = await apiClient.delete(`/products/${id}`);
+  return data;
+}

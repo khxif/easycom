@@ -30,12 +30,11 @@ export default function CreateProductPage() {
   const onSubmit = async (values: ProductSchemaType) => {
     try {
       const data = await mutateAsync(values);
-      if (data.statusText === 'OK') {
-        toast.success('Product created successfully');
-        router.push('/admin/products');
-        form.reset();
-      }
-      toast.error('Failed to create product');
+      if (data.statusText !== 'OK') return toast.error('Failed to create product');
+
+      toast.success('Product created successfully');
+      router.push('/admin/products');
+      form.reset();
     } catch (error) {
       console.log(error);
       toast.error('Failed to create product');

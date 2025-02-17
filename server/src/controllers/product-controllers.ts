@@ -91,3 +91,25 @@ export const updateProduct = async (req: Request, res: Response): Promise<void> 
     res.status(402).json({ message: (error as Error).message });
   }
 };
+
+export const deleteProduct = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      res.status(422).json({ message: 'Missing Product id' });
+      return;
+    }
+
+    const product = await Product.findById(id);
+    if (!product) {
+      res.status(404).json({ message: 'Product not found' });
+      return;
+    }
+
+    await Product.findByIdAndDelete(id);
+    res.status(200).json({ message: 'Product deleted' });
+  } catch (error) {
+    console.log('Delete product error:', (error as Error).message);
+    res.status(402).json({ message: (error as Error).message });
+  }
+};
