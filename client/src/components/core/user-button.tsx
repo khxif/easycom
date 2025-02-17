@@ -30,8 +30,13 @@ export function UserButton() {
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>CN</AvatarFallback>
+          <AvatarImage src={user?.profile_picture} />
+          <AvatarFallback>
+            {user?.name
+              ?.split(' ')
+              .map(name => name[0])
+              .join('')}
+          </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-[22rem]">

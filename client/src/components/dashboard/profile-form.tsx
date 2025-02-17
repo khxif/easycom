@@ -26,7 +26,7 @@ export function ProfileForm({ form, handleSubmit }: ProfileFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={handleSubmit} className="space-y-8 w-full">
-      <div>
+        <div>
           <FormField
             control={form.control}
             name="profile_picture"
@@ -44,14 +44,27 @@ export function ProfileForm({ form, handleSubmit }: ProfileFormProps) {
                     <Image
                       width={50}
                       height={50}
-                      src={field.value || '/assets/product-placeholder.png'}
+                      src={field.value ? field.value : '/assets/product-placeholder.png'}
                       alt="placeholder"
                       className="w-full h-full object-fill rounded-full"
                     />
                   </CldUploadButton>
                 </FormControl>
-                <FormLabel>Profile Picture</FormLabel>
-                <FormMessage />
+                {field.value ? (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    type="button"
+                    onClick={() => field.onChange('')}
+                  >
+                    Remove
+                  </Button>
+                ) : (
+                  <div className="flex flex-col space-y-2.5">
+                    <FormLabel>Profile Picture</FormLabel>
+                    <FormMessage />
+                  </div>
+                )}
               </FormItem>
             )}
           />

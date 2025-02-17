@@ -58,8 +58,21 @@ export default function AdminsForm({ form, handleSubmit, isEdit }: AdminFormProp
                     />
                   </CldUploadButton>
                 </FormControl>
-                <FormLabel>Profile Picture</FormLabel>
-                <FormMessage />
+                {field.value ? (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    type="button"
+                    onClick={() => field.onChange('')}
+                  >
+                    Remove
+                  </Button>
+                ) : (
+                  <div className="flex flex-col space-y-2.5">
+                    <FormLabel>Profile Picture</FormLabel>
+                    <FormMessage />
+                  </div>
+                )}
               </FormItem>
             )}
           />

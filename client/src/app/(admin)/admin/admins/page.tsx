@@ -1,5 +1,6 @@
 'use client';
 
+import { Loading } from '@/components/core/loading';
 import { AdminsTable } from '@/components/dashboard/tables/admin-table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -22,7 +23,11 @@ export default function AdminsPage() {
           </Button>
         </Link>
       </div>
-      {data?.data && <AdminsTable columns={columns} data={data?.data} isLoading={isLoading} />}
+      {!isLoading ? (
+        <AdminsTable columns={columns} data={data?.data} isLoading={isLoading} />
+      ) : (
+        <Loading/>
+      )}
     </main>
   );
 }
