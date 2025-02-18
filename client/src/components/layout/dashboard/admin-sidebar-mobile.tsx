@@ -1,6 +1,5 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 import { MenuIcon } from 'lucide-react';
@@ -20,9 +19,7 @@ export function AdminSidebarMobile() {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="link" onClick={() => setOpen(true)} className="md:hidden">
-          <MenuIcon className="size-20" />
-        </Button>
+        <MenuIcon className="size-6 md:hidden cursor-pointer" onClick={() => setOpen(true)} />
       </SheetTrigger>
       <SheetContent side="left">
         <SheetTitle>Easycom</SheetTitle>

@@ -138,7 +138,14 @@ function DeleteProduct({ id }: { id: string }) {
       <Button size="sm" variant="ghost" onClick={() => setIsModalOpen(true)}>
         <TrashIcon className="text-red-600 size-6" />
       </Button>
-      <ConfirmModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} onConfirm={handleDelete} />
+      <ConfirmModal
+        isOpen={isModalOpen}
+        setIsOpen={setIsModalOpen}
+        onConfirm={handleDelete}
+        title="Confirm Delete"
+        description="Do you want to delete the product?"
+        buttonText="Delete"
+      />
     </>
   );
 }
