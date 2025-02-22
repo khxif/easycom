@@ -1,0 +1,24 @@
+import { Request, Response } from 'express';
+import { Cart } from '../models/Cart';
+
+export const addToCart = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { userId, productId, quantity } = req.body;
+    if (!productId || !userId || !quantity) {
+      res.status(422).json({ message: 'Product ID, User ID and quantity are required' });
+      return;
+    }
+
+    let cart = await Cart.findOne({ user: userId });
+    if (!cart) cart = await new Cart({ user: userId, products: [{ productId, quantity }] }).save();
+    else {
+      cart.products.push({ productId, quantity });
+      await cart.save();
+    }
+
+    res.status(200).json({ message: 'Product added to cart' });
+  } catch (error) {
+    console.log('Add to cart error:', (error as Error).message);
+    res.status(402).json({ message: (error as Error).message });
+  }
+};

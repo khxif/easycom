@@ -2,18 +2,31 @@
 
 import { Loading } from '@/components/core/loading';
 import { Button } from '@/components/ui/button';
+import { useAddToCartMutation } from '@/hooks/mutations';
 import { useGetProductById } from '@/hooks/queries';
-import { HeartIcon, MinusIcon, PlusIcon, ShoppingCartIcon } from 'lucide-react';
+import { useAuthStore } from '@/stores/auth-store';
+import { MinusIcon, PlusIcon, ShoppingCartIcon } from 'lucide-react';
 import Image from 'next/image';
 import { use, useState } from 'react';
 
 export default function ProductPage({ params }: { params: Promise<{ id: string }> }) {
+  const [quantity, setQuantity] = useState(1);
+  const user = useAuthStore(state => state.user);
+
   const { id } = use(params);
   const { data: product, isLoading } = useGetProductById(id);
   console.log(product);
 
-  const [quantity, setQuantity] = useState(1);
+  const { mutateAsync } = useAddToCartMutation();
 
+  const handleAddToCart = async () => {
+    try {
+     const res = await mutateAsync({ userId: user?._id as string, productId: id, quantity });
+     console.log(res)
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <main className="max-w-7xl mx-auto py-5 px-4 md:px-0 pb-40">
       {!isLoading ? (
@@ -43,7 +56,11 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
                   <MinusIcon className="h-6 w-6 cursor-pointer " />
                 </button>
                 <p className="text-sm font-bold">{quantity}</p>
-                <button onClick={() => setQuantity(quantity + 1)}>
+                <button
+                  className="disabled:text-muted"
+                  onClick={() => setQuantity(quantity + 1)}
+                  disabled={quantity === product?.stock}
+                >
                   <PlusIcon className="h-6 w-6 cursor-pointer" />
                 </button>
               </span>
@@ -55,14 +72,10 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
               )}
             </h1>
 
-            <span className="flex space-x-4">
-              <Button className="flex space-x-2 w-full" size="lg">
+            <span>
+              <Button className="flex space-x-2 w-full" size="lg" onClick={handleAddToCart}>
                 Add to
                 <ShoppingCartIcon className="size-6" />
-              </Button>
-              <Button className="flex space-x-4 w-full" size="lg">
-                Add to
-                <HeartIcon className="size-6" />
               </Button>
             </span>
           </div>
