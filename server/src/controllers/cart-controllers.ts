@@ -10,15 +10,42 @@ export const addToCart = async (req: Request, res: Response): Promise<void> => {
     }
 
     let cart = await Cart.findOne({ user: userId });
-    if (!cart) cart = await new Cart({ user: userId, products: [{ productId, quantity }] }).save();
+    if (!cart)
+      cart = await new Cart({ user: userId, products: [{ product: productId, quantity }] }).save();
     else {
-      cart.products.push({ productId, quantity });
+      cart.products.push({ product: productId, quantity });
       await cart.save();
     }
 
     res.status(200).json({ message: 'Product added to cart' });
   } catch (error) {
     console.log('Add to cart error:', (error as Error).message);
+    res.status(402).json({ message: (error as Error).message });
+  }
+};
+
+export const getCart = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      res.status(422).json({ message: 'User ID is required' });
+      return;
+    }
+
+    const cart = await Cart.findOne({ user: id }).populate('products.product');
+    if (!cart) {
+      res.status(200).json({ cart: [] });
+      return;
+    }
+
+    const formattedCart = cart.products.map((product: any) => ({
+      ...product.product._doc,
+      quantity: product.quantity,
+    }));
+
+    res.status(200).json({ cart: formattedCart });
+  } catch (error) {
+    console.log('Get cart error:', (error as Error).message);
     res.status(402).json({ message: (error as Error).message });
   }
 };

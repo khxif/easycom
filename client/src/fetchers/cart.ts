@@ -11,7 +11,7 @@ export const addToCart = async (body: {
   return data.data;
 };
 
-export const getMyCart = async (id: User['_id']) => {
+export const getMyCart = async (id?: User['_id']) => {
   const data = await apiClient.get(`/cart/${id}`);
   console.log(data.data);
 

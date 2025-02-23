@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 
 const cartSchema = new mongoose.Schema({
-  user: { type: mongoose.Types.ObjectId, required: true },
+  user: { type: mongoose.Types.ObjectId, required: true, ref: 'User' },
   products: [
     {
-      productId: { type: mongoose.Types.ObjectId, required: true },
+      product: { type: mongoose.Types.ObjectId, required: true, ref: 'Product' },
       quantity: { type: Number, default: 1 },
     },
   ],

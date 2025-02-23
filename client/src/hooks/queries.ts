@@ -1,4 +1,5 @@
 import * as AdminFetchers from '@/fetchers/admins';
+import * as CartFetchers from '@/fetchers/cart';
 import * as FavoriteFetchers from '@/fetchers/favorite';
 import * as OverviewFetchers from '@/fetchers/overview';
 import * as ProductFetchers from '@/fetchers/products';
@@ -82,5 +83,12 @@ export const useGetMyProfile = () => {
   return useQuery({
     queryKey: ['profile'],
     queryFn: ProfileFetchers.getProfile,
+  });
+};
+
+export const useGetMyCart = (id?: User['_id']) => {
+  return useQuery({
+    queryKey: ['cart', id],
+    queryFn: () => CartFetchers.getMyCart(id),
   });
 };
