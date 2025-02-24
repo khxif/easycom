@@ -26,7 +26,7 @@ export default function CartPage() {
   const handleRemoveFromCart = async (productId: string) => {
     try {
       const res = await mutateAsync({ userId: user?._id as string, productId });
-      if (res.statusText !== 'OK') return toast.error('Failed to remove from cart');
+      if (res.status !== 200) return toast.error('Failed to remove from cart');
 
       queryClient.invalidateQueries({ queryKey: ['cart', user?._id] });
       toast.success('Removed from cart');

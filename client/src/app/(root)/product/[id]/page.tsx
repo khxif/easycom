@@ -24,7 +24,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
     try {
       const res = await mutateAsync({ userId: user?._id as string, productId: id, quantity });
       console.log(res)
-      if (res.statusText !== 'OK') return toast.error('Failed to add to cart');
+      if (res.status !== 200) return toast.error('Failed to add to cart');
       toast.success('Added to cart');
     } catch (error) {
       console.error(error);

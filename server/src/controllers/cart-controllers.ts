@@ -67,7 +67,7 @@ export const removeFromCart = async (req: Request, res: Response): Promise<void>
     cart.products = cart.products.filter((product: any) => product?.product?.toString() !== productId);
     await cart.save();
 
-    res.status(200).json({ message: 'Product removed from cart' });
+    res.status(200).json({ message: 'Product removed from cart' })
   } catch (error) {
     console.log('Remove from cart error:', (error as Error).message);
     res.status(402).json({ message: (error as Error).message });
