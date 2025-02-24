@@ -9,15 +9,31 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useRemoveFromCartMutation } from '@/hooks/mutations';
 import { useGetMyCart } from '@/hooks/queries';
 import { useAuthStore } from '@/stores/auth-store';
+import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
+import { toast } from 'sonner';
 
 export default function CartPage() {
+  const queryClient = useQueryClient();
   const user = useAuthStore(state => state.user);
   const { data } = useGetMyCart(user?._id);
   console.log(data?.cart);
 
+  const { mutateAsync } = useRemoveFromCartMutation();
+  const handleRemoveFromCart = async (productId: string) => {
+    try {
+      const res = await mutateAsync({ userId: user?._id as string, productId });
+      if (res.statusText !== 'OK') return toast.error('Failed to remove from cart');
+
+      queryClient.invalidateQueries({ queryKey: ['cart', user?._id] });
+      toast.success('Removed from cart');
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <main className="max-w-7xl mx-auto py-6 px-4 w-full h-full flex flex-col space-y-6">
       <h1 className="text-2xl font-semibold">My Cart</h1>
@@ -26,7 +42,10 @@ export default function CartPage() {
         <Card className="flex-[2] w-full">
           <CardContent className="p-4 divide-y-2 flex flex-col space-y-4">
             {data?.cart?.map(({ quantity, ...product }: Product & { quantity: number }) => (
-              <div className="flex justify-between py-2" key={product._id}>
+              <div
+                className="flex flex-col md:flex-row justify-between py-2 gap-y-2 md:gap-y-0"
+                key={product._id}
+              >
                 <div className="flex items-center space-x-4">
                   <Image src={product?.image_url} alt={product?.name} width={150} height={200} />
                   <div className="flex flex-col space-y-4 py-2">
@@ -49,14 +68,14 @@ export default function CartPage() {
                       currency: 'INR',
                     }).format(product?.price)}
                   </p>
-                  <Button size="sm">Remove</Button>
+                  <Button size="sm" onClick={() => handleRemoveFromCart(product?._id)}>
+                    Remove
+                  </Button>
                 </div>
               </div>
             ))}
             {data?.cart?.length === 0 && (
-              <p className="text-center text-gray-500 text-lg mx-auto">
-                Add items to cart!
-              </p>
+              <p className="text-center text-gray-500 text-lg mx-auto">Add items to cart!</p>
             )}
           </CardContent>
         </Card>

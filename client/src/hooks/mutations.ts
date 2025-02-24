@@ -49,3 +49,7 @@ export const useUpdateProfileMutation = () => {
 export const useAddToCartMutation = () => {
   return useMutation({ mutationFn: CartFetchers.addToCart });
 }
+
+export const useRemoveFromCartMutation = () => {
+  return useMutation({ mutationFn: CartFetchers.removeFromCart });
+}

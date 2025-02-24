@@ -17,3 +17,13 @@ export const getMyCart = async (id?: User['_id']) => {
 
   return data.data;
 };
+
+export const removeFromCart = async (body: {
+  userId: User['_id'];
+  productId: Product['_id'];
+}) => {
+  const data = await apiClient.post('/cart/remove', body);
+  console.log(data);
+
+  return data;
+}

@@ -49,3 +49,27 @@ export const getCart = async (req: Request, res: Response): Promise<void> => {
     res.status(402).json({ message: (error as Error).message });
   }
 };
+
+export const removeFromCart = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { userId, productId } = req.body;
+    if (!productId || !userId) {
+      res.status(422).json({ message: 'Product ID, User ID are required' });
+      return;
+    }
+
+    const cart = await Cart.findOne({ user: userId });
+    if (!cart) {
+      res.status(404).json({ message: 'Cart not found' });
+      return;
+    }
+
+    cart.products = cart.products.filter((product: any) => product?.product?.toString() !== productId);
+    await cart.save();
+
+    res.status(200).json({ message: 'Product removed from cart' });
+  } catch (error) {
+    console.log('Remove from cart error:', (error as Error).message);
+    res.status(402).json({ message: (error as Error).message });
+  }
+};
