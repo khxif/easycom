@@ -22,8 +22,8 @@ export default function CartPage() {
     <main className="max-w-7xl mx-auto py-6 px-4 w-full h-full flex flex-col space-y-6">
       <h1 className="text-2xl font-semibold">My Cart</h1>
 
-      <section className="flex items-center space-x-5">
-        <Card className="flex-[2]">
+      <section className="flex flex-col items-center gap-5 md:flex-row w-full">
+        <Card className="flex-[2] w-full">
           <CardContent className="p-4 divide-y-2 flex flex-col space-y-4">
             {data?.cart?.map(({ quantity, ...product }: Product & { quantity: number }) => (
               <div className="flex justify-between py-2" key={product._id}>
@@ -55,13 +55,13 @@ export default function CartPage() {
             ))}
             {data?.cart?.length === 0 && (
               <p className="text-center text-gray-500 text-lg mx-auto">
-                You don&apos;t have any favorites yet!
+                Add items to cart!
               </p>
             )}
           </CardContent>
         </Card>
 
-        <Card className="flex-[1] h-full">
+        <Card className="md:flex-[1] h-full w-full">
           <CardContent className="p-4 flex flex-col space-y-6">
             <h5 className="font-medium text-lg">Cart Summary</h5>
             <div className="flex justify-between">
