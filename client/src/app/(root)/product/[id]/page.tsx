@@ -8,6 +8,7 @@ import { useAuthStore } from '@/stores/auth-store';
 import { MinusIcon, PlusIcon, ShoppingCartIcon } from 'lucide-react';
 import Image from 'next/image';
 import { use, useState } from 'react';
+import { toast } from 'sonner';
 
 export default function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const [quantity, setQuantity] = useState(1);
@@ -21,8 +22,10 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
 
   const handleAddToCart = async () => {
     try {
-     const res = await mutateAsync({ userId: user?._id as string, productId: id, quantity });
-     console.log(res)
+      const res = await mutateAsync({ userId: user?._id as string, productId: id, quantity });
+      console.log(res)
+      if (res.statusText !== 'OK') return toast.error('Failed to add to cart');
+      toast.success('Added to cart');
     } catch (error) {
       console.error(error);
     }

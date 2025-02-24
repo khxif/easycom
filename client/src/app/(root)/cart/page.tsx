@@ -75,13 +75,15 @@ export default function CartPage() {
                   style: 'currency',
                   currency: 'INR',
                 }).format(
-                  data?.cart?.reduce((acc, { price, quantity }) => acc + price * quantity, 0) || 0
+                  data?.cart?.reduce(
+                    (acc: number, { quantity, ...product }: Product & { quantity: number }) =>
+                      acc + product.price * quantity,
+                    0,
+                  ),
                 )}
               </p>
             </div>
-            <Button className="mt-auto">
-              Buy now
-            </Button>
+            <Button className="mt-auto">Buy now</Button>
           </CardContent>
         </Card>
       </section>
