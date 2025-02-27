@@ -94,11 +94,12 @@ export default function CartPage() {
                   style: 'currency',
                   currency: 'INR',
                 }).format(
-                  data?.cart?.reduce(
-                    (acc: number, { quantity, ...product }: Product & { quantity: number }) =>
-                      acc + product.price * quantity,
-                    0,
-                  ),
+                  data?.cart &&
+                    data?.cart?.reduce(
+                      (acc: number, { quantity, ...product }: Product & { quantity: number }) =>
+                        acc + product.price * quantity,
+                      0,
+                    ),
                 )}
               </p>
             </div>

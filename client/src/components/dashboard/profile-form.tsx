@@ -94,7 +94,7 @@ export function ProfileForm({ form, handleSubmit }: ProfileFormProps) {
               <FormControl>
                 <Input placeholder="Email" {...field} />
               </FormControl>
-              <FormDescription>Contact admin to change email.</FormDescription>
+              <FormDescription>Email cannot be changed.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
