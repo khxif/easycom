@@ -1,16 +1,11 @@
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { ReactNode } from "react";
-import { QueryProvider } from "./query-provider";
-import { ThemeProvider } from "./theme-provide";
+import { TooltipProvider } from '@/components/ui/tooltip';
+import { ReactNode } from 'react';
+import { QueryProvider } from './query-provider';
+import { ThemeProvider } from './theme-provide';
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange
-    >
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
       <QueryProvider>
         <TooltipProvider>{children}</TooltipProvider>
       </QueryProvider>

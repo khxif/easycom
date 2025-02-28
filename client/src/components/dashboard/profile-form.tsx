@@ -113,7 +113,7 @@ export function ProfileForm({ form, handleSubmit }: ProfileFormProps) {
             </FormItem>
           )}
         />
-        <CardFooter className="flex justify-end space-x-3">
+        <CardFooter className="flex justify-end space-x-3 px-0">
           <Button type="button" onClick={() => form.reset()} variant="ghost">
             Cancel
           </Button>

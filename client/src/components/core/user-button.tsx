@@ -52,7 +52,9 @@ export function UserButton() {
           </Link>
         )}
 
-        <DropdownMenuItem>Billing</DropdownMenuItem>
+        <Link href="/account" prefetch>
+          <DropdownMenuItem>Account</DropdownMenuItem>
+        </Link>
         <DropdownMenuItem className="flex flex-col items-start space-y-1">
           <h6 className="font-semibold">Color Theme</h6>
           <div className="flex space-x-4">

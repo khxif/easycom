@@ -15,7 +15,7 @@ export default function AccountPage() {
   const { data, isLoading } = useGetMyProfile();
 
   return (
-    <main className="p-5 flex flex-col space-y-10 pb-40">
+    <main className="p-5 flex flex-col space-y-10 pb-40 max-w-7xl mx-auto">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold md:text-3xl">Account</h1>
       </div>

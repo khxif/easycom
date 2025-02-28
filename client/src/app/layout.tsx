@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
 import { Toaster } from 'sonner';
 import './globals.css';
+import { Protected } from '@/providers/protected';
 
 const Montseratt = Montserrat({
   variable: '--font-montserrat',
@@ -24,7 +25,9 @@ export default function MainLayout({
     <html lang="en">
       <body className={`${Montseratt.className}`}>
         <Providers>
-          <RootLayout>{children}</RootLayout>
+          <RootLayout>
+            <Protected>{children}</Protected>
+          </RootLayout>
         </Providers>
         <Toaster />
       </body>
