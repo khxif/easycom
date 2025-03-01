@@ -1,7 +1,8 @@
 import * as AdminFetchers from '@/fetchers/admins';
 import * as AuthFetchers from '@/fetchers/auth';
-import * as FavoriteFetchers from '@/fetchers/favorite';
 import * as CartFetchers from '@/fetchers/cart';
+import * as FavoriteFetchers from '@/fetchers/favorite';
+import * as OrderFetchers from '@/fetchers/orders';
 import * as ProductFetchers from '@/fetchers/products';
 import * as ProfileFetchers from '@/fetchers/profile';
 import { useMutation } from '@tanstack/react-query';
@@ -48,8 +49,16 @@ export const useUpdateProfileMutation = () => {
 
 export const useAddToCartMutation = () => {
   return useMutation({ mutationFn: CartFetchers.addToCart });
-}
+};
 
 export const useRemoveFromCartMutation = () => {
   return useMutation({ mutationFn: CartFetchers.removeFromCart });
-}
+};
+
+export const useCreateOrderMutation = () => {
+  return useMutation({ mutationFn: OrderFetchers.createOrder });
+};
+
+export const useVerifyOrderMutation = () => {
+  return useMutation({ mutationFn: OrderFetchers.verifyOrder });
+};

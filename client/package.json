@@ -34,6 +34,7 @@
     "react-heart": "^1.0.6",
     "react-hook-form": "^7.54.2",
     "react-infinite-scroll-component": "^6.1.0",
+    "react-razorpay": "^3.0.1",
     "react-spinners": "^0.15.0",
     "sonner": "^1.7.1",
     "tailwind-merge": "^2.6.0",

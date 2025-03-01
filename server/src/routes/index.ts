@@ -3,6 +3,7 @@ import AdminRoutes from './admin-routes';
 import AuthRoutes from './auth-routes';
 import CartRoutes from './cart-routes';
 import FavoriteRoutes from './favorite-routes';
+import OrderRoutes from './order-routes';
 import OverviewRoutes from './overview-routes';
 import ProductRoutes from './product-routes';
 import ProfileRoutes from './profile-routes';
@@ -17,6 +18,7 @@ export const setupRoutes = (app: Express) => {
   app.use('/api/admins', AdminRoutes);
   app.use('/api/cart', CartRoutes);
   app.use('/api/favorites', FavoriteRoutes);
+  app.use('/api/orders', OrderRoutes);
   app.use('/api/products', ProductRoutes);
   app.use('/api/profile', ProfileRoutes);
   app.use('/api/users', UserRoutes);

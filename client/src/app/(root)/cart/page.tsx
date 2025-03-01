@@ -1,5 +1,6 @@
 'use client';
 
+import { PaymentButton } from '@/components/core/payment-button';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -21,6 +22,14 @@ export default function CartPage() {
   const user = useAuthStore(state => state.user);
   const { data } = useGetMyCart(user?._id);
   console.log(data?.cart);
+
+  const totalAmount =
+    data?.cart &&
+    data?.cart?.reduce(
+      (acc: number, { quantity, ...product }: Product & { quantity: number }) =>
+        acc + product.price * quantity,
+      0,
+    );
 
   const { mutateAsync } = useRemoveFromCartMutation();
   const handleRemoveFromCart = async (productId: string) => {
@@ -93,17 +102,10 @@ export default function CartPage() {
                 {new Intl.NumberFormat('en-IN', {
                   style: 'currency',
                   currency: 'INR',
-                }).format(
-                  data?.cart &&
-                    data?.cart?.reduce(
-                      (acc: number, { quantity, ...product }: Product & { quantity: number }) =>
-                        acc + product.price * quantity,
-                      0,
-                    ),
-                )}
+                }).format(totalAmount)}
               </p>
             </div>
-            <Button className="mt-auto">Buy now</Button>
+            <PaymentButton amount={totalAmount ?? 0} />
           </CardContent>
         </Card>
       </section>
