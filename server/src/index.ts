@@ -6,8 +6,6 @@ import { connectDB } from './lib/connectDB';
 import { setupRoutes } from './routes';
 dotenv.config();
 
-
-
 const port = process.env.PORT || 8888;
 const app: Express = express();
 

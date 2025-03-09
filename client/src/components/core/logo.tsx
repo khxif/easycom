@@ -1,8 +1,9 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 export function Logo() {
   return (
-    <div className="flex items-center space-x-1">
+    <Link href="/" className="flex items-center space-x-1">
       <Image
         src="/logo.png"
         alt="Logo"
@@ -11,6 +12,6 @@ export function Logo() {
         className="dark:invert object-cover"
       />
       <h2>Easycom</h2>
-    </div>
+    </Link>
   );
 }

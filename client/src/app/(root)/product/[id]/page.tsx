@@ -7,12 +7,14 @@ import { useGetProductById } from '@/hooks/queries';
 import { useAuthStore } from '@/stores/auth-store';
 import { MinusIcon, PlusIcon, ShoppingCartIcon } from 'lucide-react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { use, useState } from 'react';
 import { toast } from 'sonner';
 
 export default function ProductPage({ params }: { params: Promise<{ id: string }> }) {
-  const [quantity, setQuantity] = useState(1);
+  const router = useRouter();
   const user = useAuthStore(state => state.user);
+  const [quantity, setQuantity] = useState(1);
 
   const { id } = use(params);
   const { data: product, isLoading } = useGetProductById(id);
@@ -23,8 +25,10 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
   const handleAddToCart = async () => {
     try {
       const res = await mutateAsync({ userId: user?._id as string, productId: id, quantity });
-      console.log(res)
+      console.log(res);
       if (res.status !== 200) return toast.error('Failed to add to cart');
+
+      router.push('/cart');
       toast.success('Added to cart');
     } catch (error) {
       console.error(error);
