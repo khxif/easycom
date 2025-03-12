@@ -24,7 +24,7 @@ export default function AdminEditPage({ params }: { params: Promise<{ id: string
           <ArrowLeftIcon size={16} />
           <p>Back</p>
         </Link>
-        <h1 className="text-2xl font-semibold md:text-3xl">Add Admins</h1>
+        <h1 className="text-2xl font-semibold md:text-3xl">Edit Admin</h1>
       </div>
 
       <Card>
@@ -58,7 +58,7 @@ const AdminFormWrapper = ({ admin }: { admin: User }) => {
   const onSubmit = async (values: AdminSchemaType) => {
     try {
       const data = await mutateAsync({ admin: values, id: admin?._id });
-      if (data.statusText !== 'OK') return toast.error('Failed to update admin');
+      if (data.status !== 200) return toast.error('Failed to update admin');
 
       toast.success('Admin updated successfully');
       router.push('/admin/admins');

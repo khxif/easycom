@@ -53,7 +53,7 @@ function ProfileFormWrapper({ data }: { data: User }) {
   const handleSubmit = async (values: ProfileSchemaType) => {
     try {
       const data = await mutateAsync(values);
-      if (data.statusText !== 'OK') return toast.error('Failed to update profile');
+      if (data.status !== 200) return toast.error('Failed to update profile');
 
       toast.success('Profile updated successfully');
     } catch (error) {

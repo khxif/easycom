@@ -29,7 +29,7 @@ export default function CreateAdminPage() {
   const onSubmit = async (values: AdminSchemaType) => {
     try {
       const data = await mutateAsync(values);
-      if (data.statusText !== 'OK') return toast.error('Failed to create admin');
+      if (data.status !== 200) return toast.error('Failed to create admin');
 
       toast.success('Admin created successfully');
       router.push('/admin/admins');
