@@ -76,7 +76,7 @@ function DeleteProduct({ id }: { id: string }) {
   const handleDelete = async () => {
     try {
       const data = await mutateAsync(id);
-      if (data.statusText !== 'OK') return toast.error('Failed to delete customer');
+      if (data.status !== 200) return toast.error('Failed to delete customer');
 
       queryClient.invalidateQueries({ queryKey: ['users'] });
       toast.success('Customer deleted successfully');

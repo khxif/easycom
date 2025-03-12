@@ -60,7 +60,7 @@ function ProductFormWrapper({ product }: { product: Product }) {
   const onSubmit = async (values: ProductSchemaType) => {
     try {
       const data = await mutateAsync({ product: values, id: product?._id });
-      if (data.statusText !== 'OK') return toast.error('Failed to update product');
+      if (data.status !== 200) return toast.error('Failed to update product');
 
       toast.success('Product updated successfully');
       router.push('/admin/products');
