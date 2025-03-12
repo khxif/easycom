@@ -90,20 +90,22 @@ export default function CartPage() {
         </Card>
 
         <Card className="md:flex-[1] h-full w-full">
-          <CardContent className="p-4 flex flex-col space-y-6">
-            <h5 className="font-medium text-lg">Cart Summary</h5>
-            <div className="flex justify-between">
-              <p className="font-medium">Total Items:</p>
-              <p className="font-medium">{data?.cart?.length}</p>
-            </div>
-            <div className="flex justify-between">
-              <p className="font-medium">Total Amount:</p>
-              <p className="font-medium">
-                {new Intl.NumberFormat('en-IN', {
-                  style: 'currency',
-                  currency: 'INR',
-                }).format(totalAmount)}
-              </p>
+          <CardContent className="p-4 flex flex-col justify-between h-full space-y-4">
+            <div className='flex flex-col space-y-6'>
+              <h5 className="font-medium text-lg">Cart Summary</h5>
+              <div className="flex justify-between">
+                <p className="font-medium">Total Items:</p>
+                <p className="font-medium">{data?.cart?.length}</p>
+              </div>
+              <div className="flex justify-between">
+                <p className="font-medium">Total Amount:</p>
+                <p className="font-medium">
+                  {new Intl.NumberFormat('en-IN', {
+                    style: 'currency',
+                    currency: 'INR',
+                  }).format(totalAmount)}
+                </p>
+              </div>
             </div>
             <PaymentButton amount={totalAmount ?? 0} />
           </CardContent>
