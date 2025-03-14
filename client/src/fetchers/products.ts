@@ -6,6 +6,11 @@ export async function getProducts(limit?: number) {
   return data;
 }
 
+export async function getMyProducts() {
+  const { data } = await apiClient.get(`/products/my`);
+  return data;
+}
+
 export async function createProduct(product: ProductSchemaType) {
   const data = await apiClient.post('/products', product);
 

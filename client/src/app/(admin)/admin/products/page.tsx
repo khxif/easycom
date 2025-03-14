@@ -5,7 +5,7 @@ import { ConfirmModal } from '@/components/dashboard/confirm-modal';
 import { ProductsTable } from '@/components/dashboard/tables/product-table';
 import { Button } from '@/components/ui/button';
 import { useDeleteProductMutation } from '@/hooks/mutations';
-import { useGetProducts } from '@/hooks/queries';
+import { useGetMyProducts } from '@/hooks/queries';
 import { useQueryClient } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
 import {
@@ -21,7 +21,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 export default function ProductsPage() {
-  const { data, isLoading } = useGetProducts();
+  const { data, isLoading } = useGetMyProducts();
   console.log(data);
   return (
     <main className="p-5 flex flex-col space-y-10 pb-40">

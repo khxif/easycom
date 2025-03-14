@@ -17,6 +17,13 @@ export function useGetProducts(limit?: number) {
   });
 }
 
+export function useGetMyProducts() {
+  return useQuery({
+    queryKey: ['products'],
+    queryFn: ProductFetchers.getMyProducts,
+  });
+}
+
 export const getProductById = (id: string) => {
   return queryOptions({
     queryKey: ['product', id],
