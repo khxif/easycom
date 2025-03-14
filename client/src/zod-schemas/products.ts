@@ -12,5 +12,6 @@ export const productSchema = z.object({
     message: 'Must be a positive integer',
   }),
   location: z.string().min(2, { message: 'Enter a valid location.' }),
+  created_by: z.string().min(2, { message: 'Enter a valid Id.' }),
 });
 export type ProductSchemaType = z.infer<typeof productSchema>;

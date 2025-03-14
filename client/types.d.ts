@@ -20,4 +20,5 @@ interface Product {
   image_url: string;
   category: string;
   location: string;
+  created_by: string;
 }

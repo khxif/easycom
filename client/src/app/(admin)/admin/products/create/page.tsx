@@ -27,11 +27,13 @@ export default function CreateProductPage() {
       price: '',
       stock: '',
       location: user?.location,
+      created_by: user?._id,
     },
   });
 
   const onSubmit = async (values: ProductSchemaType) => {
     try {
+      console.log(values);
       const data = await mutateAsync(values);
       if (data.status !== 200) return toast.error('Failed to create product');
 

@@ -23,10 +23,36 @@ export const getAllProducts = async (req: Request, res: Response): Promise<void>
   }
 };
 
+export const getMyProducts = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const user = res.locals.user;
+    if (user.role === 'super-admin') {
+      const products = await Product.find();
+      res.status(200).json({ data: products });
+      return;
+    }
+
+    const products = await Product.find({ created_by: user._id });
+    res.status(200).json({ data: products });
+  } catch (error) {
+    console.log('Get my products error:', (error as Error).message);
+    res.status(402).json({ message: (error as Error).message });
+  }
+};
+
 export const createProduct = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { name, description, price, image_url, category, stock, location } = req.body;
-    if (!name || !description || !price || !image_url || !category || !stock || !location) {
+    const { name, description, price, image_url, category, stock, location, created_by } = req.body;
+    if (
+      !name ||
+      !description ||
+      !price ||
+      !image_url ||
+      !category ||
+      !stock ||
+      !location ||
+      !created_by
+    ) {
       res.status(422).json({ message: 'Missing Fields' });
       return;
     }
@@ -39,6 +65,7 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
       category,
       stock,
       location,
+      created_by,
     });
 
     await product.save();

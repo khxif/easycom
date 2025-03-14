@@ -14,7 +14,7 @@ export const verifyAdmin = async (
       res.status(401).json({ message: 'Only Admins can access this route' });
       return;
     }
-
+    res.locals.user = user;
     next();
   } catch (error) {
     console.log(`Verify admin error: ${(error as Error)?.message}`);
