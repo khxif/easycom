@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
   },
   is_admin: { type: Boolean, required: true, default: false },
   profile_picture: { type: String, required: false, default: '' },
+  location: { type: String, required: false },
 });
 
 export const User = mongoose?.models?.User || mongoose.model('User', userSchema);

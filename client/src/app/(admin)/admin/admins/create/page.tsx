@@ -23,6 +23,7 @@ export default function CreateAdminPage() {
       password: '',
       phone_number: '',
       profile_picture: '',
+      location: '',
     },
   });
 

@@ -52,6 +52,7 @@ const AdminFormWrapper = ({ admin }: { admin: User }) => {
       phone_number: admin?.phone_number ?? '',
       role: admin?.role as 'super-admin' | 'admin',
       profile_picture: admin?.profile_picture ?? '',
+      location: admin?.location ?? "",
     },
   });
 

@@ -18,10 +18,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { getMyLocation } from '@/lib/get-my-location';
 import { AdminSchemaType } from '@/zod-schemas/admin';
 import { CldUploadButton } from 'next-cloudinary';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
 interface AdminFormProps {
@@ -31,6 +33,12 @@ interface AdminFormProps {
 }
 
 export default function AdminsForm({ form, handleSubmit, isEdit }: AdminFormProps) {
+  const [loading, setLoading] = useState(false);
+
+  const handleGetMyLocation = async () => {
+    const data = await getMyLocation(setLoading);
+    form.setValue('location', data as string);
+  };
   return (
     <Form {...form}>
       <form onSubmit={handleSubmit} className="space-y-8 py-2">
@@ -120,7 +128,7 @@ export default function AdminsForm({ form, handleSubmit, isEdit }: AdminFormProp
             )}
           />
 
-          {!isEdit && (
+          {!isEdit ? (
             <FormField
               control={form.control}
               name="password"
@@ -134,7 +142,7 @@ export default function AdminsForm({ form, handleSubmit, isEdit }: AdminFormProp
                 </FormItem>
               )}
             />
-          )}
+          ) : null}
 
           <FormField
             control={form.control}
@@ -153,6 +161,25 @@ export default function AdminsForm({ form, handleSubmit, isEdit }: AdminFormProp
                     </SelectContent>
                   </Select>
                 </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-center">
+          <FormField
+            control={form.control}
+            name="location"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Location</FormLabel>
+                <FormControl>
+                  <Input placeholder="Town,City" {...field} />
+                </FormControl>
+                <Button disabled={loading} size="sm" type="button" onClick={handleGetMyLocation}>
+                  Get My Location
+                </Button>
                 <FormMessage />
               </FormItem>
             )}

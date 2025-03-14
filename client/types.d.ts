@@ -4,10 +4,11 @@ interface User {
   _id: string;
   email: string;
   name: string;
-  role: "user" | "admin" | "super-admin";
+  role: 'user' | 'admin' | 'super-admin';
   phone_number?: string;
   is_admin: boolean;
   profile_picture?: string;
+  location?: string;
 }
 
 interface Product {
