@@ -25,8 +25,8 @@ export const getAllProducts = async (req: Request, res: Response): Promise<void>
 
 export const createProduct = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { name, description, price, image_url, category, stock } = req.body;
-    if (!name || !description || !price || !image_url || !category || !stock) {
+    const { name, description, price, image_url, category, stock, location } = req.body;
+    if (!name || !description || !price || !image_url || !category || !stock || !location) {
       res.status(422).json({ message: 'Missing Fields' });
       return;
     }
@@ -38,6 +38,7 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
       image_url,
       category,
       stock,
+      location,
     });
 
     await product.save();

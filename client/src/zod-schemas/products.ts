@@ -11,5 +11,6 @@ export const productSchema = z.object({
   stock: z.string().refine(val => !isNaN(Number(val)) && Number(val) > 0, {
     message: 'Must be a positive integer',
   }),
+  location: z.string().min(2, { message: 'Enter a valid location.' }),
 });
 export type ProductSchemaType = z.infer<typeof productSchema>;

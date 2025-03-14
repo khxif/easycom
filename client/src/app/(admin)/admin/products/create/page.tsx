@@ -3,6 +3,7 @@
 import { ProductForm } from '@/components/dashboard/product-form';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useCreateProductMutation } from '@/hooks/mutations';
+import { useAuthStore } from '@/stores/auth-store';
 import { productSchema, ProductSchemaType } from '@/zod-schemas/products';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowLeft as ArrowLeftIcon } from 'lucide-react';
@@ -12,6 +13,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 export default function CreateProductPage() {
+  const user = useAuthStore(state => state.user);
   const router = useRouter();
   const { mutateAsync } = useCreateProductMutation();
 
@@ -24,6 +26,7 @@ export default function CreateProductPage() {
       image_url: '',
       price: '',
       stock: '',
+      location: user?.location,
     },
   });
 

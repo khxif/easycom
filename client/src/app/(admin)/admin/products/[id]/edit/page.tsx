@@ -5,6 +5,7 @@ import { ProductForm } from '@/components/dashboard/product-form';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useUpdateProductMutation } from '@/hooks/mutations';
 import { useGetProductById } from '@/hooks/queries';
+import { useAuthStore } from '@/stores/auth-store';
 import { productSchema, ProductSchemaType } from '@/zod-schemas/products';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowLeft as ArrowLeftIcon } from 'lucide-react';
@@ -43,6 +44,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
 
 function ProductFormWrapper({ product }: { product: Product }) {
   const router = useRouter();
+  const user = useAuthStore(state => state.user);
   const { mutateAsync } = useUpdateProductMutation();
 
   const form = useForm<ProductSchemaType>({
@@ -54,6 +56,7 @@ function ProductFormWrapper({ product }: { product: Product }) {
       image_url: product?.image_url ?? '',
       price: product?.price ? String(product?.price) : '',
       stock: product?.stock ? String(product?.stock) : '',
+      location: product?.location ?? user?.location,
     },
   });
 
