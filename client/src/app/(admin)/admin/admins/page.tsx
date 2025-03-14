@@ -1,13 +1,25 @@
 'use client';
 
 import { Loading } from '@/components/core/loading';
+import { ConfirmModal } from '@/components/dashboard/confirm-modal';
 import { AdminsTable } from '@/components/dashboard/tables/admin-table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import { useDeleteAdminMutation } from '@/hooks/mutations';
 import { useGetAdmins } from '@/hooks/queries';
+import { useQueryClient } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
-import { PencilIcon, PhoneIcon, PlusCircleIcon, ShieldIcon, TrashIcon } from 'lucide-react';
+import {
+  MapPinHouseIcon,
+  PencilIcon,
+  PhoneIcon,
+  PlusCircleIcon,
+  ShieldIcon,
+  TrashIcon,
+} from 'lucide-react';
 import Link from 'next/link';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 export default function AdminsPage() {
   const { data, isLoading } = useGetAdmins();
@@ -26,7 +38,7 @@ export default function AdminsPage() {
       {!isLoading ? (
         <AdminsTable columns={columns} data={data?.data} isLoading={isLoading} />
       ) : (
-        <Loading/>
+        <Loading />
       )}
     </main>
   );
@@ -76,21 +88,69 @@ const columns: ColumnDef<User>[] = [
     ),
   },
   {
+    accessorKey: 'location',
+    header: () => (
+      <span className="flex items-center space-x-1.5 py-4">
+        <MapPinHouseIcon className="size-4" />
+        <p>Location</p>
+      </span>
+    ),
+    cell: row => (
+      <span className="flex items-center space-x-1.5 py-4">
+        <p className="capitalize">{row.getValue() as string}</p>
+      </span>
+    ),
+  },
+  {
     accessorKey: '_id',
     header: '',
-    cell: row => {
+    cell: ({ row }) => {
       return (
         <div className="flex space-x-1 py-2">
-          <Link href={`/admin/admins/${row.getValue()}/edit`}>
+          <Link href={`/admin/admins/${row.original._id}/edit`}>
             <Button size="sm" variant="ghost" color="primary">
               <PencilIcon className="size-6" />
             </Button>
           </Link>
-          <Button size="sm" variant="ghost">
-            <TrashIcon className="text-red-600 size-6" />
-          </Button>
+          <DeleteAdmin id={row.original._id} />
         </div>
       );
     },
   },
 ];
+
+function DeleteAdmin({ id }: { id: string }) {
+  const queryClient = useQueryClient();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { mutateAsync } = useDeleteAdminMutation();
+
+  const handleDelete = async () => {
+    try {
+      const data = await mutateAsync(id);
+      if (data.status !== 200) return toast.error('Failed to delete admin');
+
+      queryClient.invalidateQueries({ queryKey: ['admins'] });
+      toast.success('Admin deleted successfully');
+      setIsModalOpen(false);
+    } catch (error) {
+      console.log(error);
+      toast.error('Failed to delete admin');
+    }
+  };
+  return (
+    <>
+      <Button size="sm" variant="ghost" onClick={() => setIsModalOpen(true)}>
+        <TrashIcon className="text-red-600 size-6" />
+      </Button>
+      <ConfirmModal
+        isOpen={isModalOpen}
+        setIsOpen={setIsModalOpen}
+        onConfirm={handleDelete}
+        title="Confirm Delete"
+        description="Do you want to delete admin?"
+        buttonText="Delete"
+      />
+    </>
+  );
+}

@@ -24,3 +24,9 @@ export const updateAdmin = async (options: { id: string; admin: AdminSchemaType 
 
   return data;
 };
+
+export const deleteAdmin = async (id: string) => {
+  const data = await apiClient.delete(`/admins/${id}`);
+
+  return data;
+};

@@ -9,5 +9,6 @@ router.get('/', verifyToken, verifySuperAdmin, AdminController.getAdmins);
 router.get('/:id', verifyToken, verifySuperAdmin, AdminController.getAdminById);
 router.post('/', verifyToken, verifySuperAdmin, AdminController.createAdmin);
 router.put('/:id', verifyToken, verifySuperAdmin, AdminController.updateAdmin);
+router.delete('/:id', verifyToken, verifySuperAdmin, AdminController.deleteAdmin);
 
 export default router;

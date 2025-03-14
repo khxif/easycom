@@ -91,3 +91,25 @@ export const getAdminById = async (req: Request, res: Response): Promise<void> =
     res.status(500).json({ message: 'Get Admin error' });
   }
 };
+
+export const deleteAdmin = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      res.status(422).json({ message: 'Missing required fields' });
+      return;
+    }
+
+    const admin = await User.findById(id);
+    if (!admin) {
+      res.status(404).json({ message: 'Admin not found' });
+      return;
+    }
+
+    await User.findByIdAndDelete(id);
+
+    res.status(200).json({ message: 'Admin deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Delete Admin error' });
+  }
+};

@@ -36,6 +36,10 @@ export const useUpdateAdminMutation = () => {
   return useMutation({ mutationFn: AdminFetchers.updateAdmin });
 };
 
+export const useDeleteAdminMutation = () => {
+  return useMutation({ mutationFn: AdminFetchers.deleteAdmin });
+};
+
 export const useAddFavoritesMutation = () => {
   return useMutation({ mutationFn: FavoriteFetchers.addFavorites });
 };
