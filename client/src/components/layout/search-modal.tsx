@@ -50,7 +50,7 @@ export function SearchModal({ isOpen, setIsOpen }: SearchModalProps) {
   };
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="">
+      <DialogContent className="max-w-md w-full md:max-w-xl">
         <DialogHeader>
           <DialogTitle>Search For Products</DialogTitle>
         </DialogHeader>

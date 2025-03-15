@@ -20,7 +20,7 @@ export function Header() {
 
         <div className="flex items-center space-x-6">
           <Tooltip>
-            <TooltipTrigger className="hidden md:block">
+            <TooltipTrigger>
               <SearchIcon className="size-5" onClick={() => setIsSearchModalOpen(true)} />
             </TooltipTrigger>
             <TooltipContent>Search Products</TooltipContent>
