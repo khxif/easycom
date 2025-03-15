@@ -5,15 +5,16 @@ import * as OverviewFetchers from '@/fetchers/overview';
 import * as ProductFetchers from '@/fetchers/products';
 import * as ProfileFetchers from '@/fetchers/profile';
 import * as UsersFetchers from '@/fetchers/users';
+import { FilterQueryType } from '@/zod-schemas/query';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
-export function useGetProducts(limit?: number) {
+export function useGetProducts(query: Partial<FilterQueryType>) {
   return useQuery({
-    queryKey: ['products', limit],
-    queryFn: () => ProductFetchers.getProducts(limit),
-    staleTime: 5000,
-    gcTime: Infinity,
-    placeholderData: prev => prev || { data: [], meta: { total: 0 } },
+    queryKey: ['products', { query }],
+    queryFn: () => ProductFetchers.getProducts(query),
+    // staleTime: 5000,
+    // gcTime: Infinity,
+    // placeholderData: prev => prev || { data: [], meta: { total: 0 } },
   });
 }
 

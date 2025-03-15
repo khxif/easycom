@@ -1,8 +1,12 @@
 import { apiClient } from '@/lib/api-client';
 import { ProductSchemaType } from '@/zod-schemas/products';
+import { FilterQueryType } from '@/zod-schemas/query';
+import qs from 'query-string';
 
-export async function getProducts(limit?: number) {
-  const { data } = await apiClient.get(`/products?limit=${limit}`);
+export async function getProducts(query: Partial<FilterQueryType>) {
+  const queryString = qs.stringify(query, { skipNull: true, skipEmptyString: true });
+
+  const { data } = await apiClient.get(`/products?${queryString}`);
   return data;
 }
 

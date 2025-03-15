@@ -1,10 +1,11 @@
 import { RootLayout } from '@/layout/root-layout';
+import { Protected } from '@/providers/protected';
 import { Providers } from '@/providers/providers';
 import type { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { Toaster } from 'sonner';
 import './globals.css';
-import { Protected } from '@/providers/protected';
 
 const Montseratt = Montserrat({
   variable: '--font-montserrat',
@@ -26,7 +27,9 @@ export default function MainLayout({
       <body className={`${Montseratt.className}`}>
         <Providers>
           <RootLayout>
-            <Protected>{children}</Protected>
+            <Protected>
+              <NuqsAdapter>{children}</NuqsAdapter>
+            </Protected>
           </RootLayout>
         </Providers>
         <Toaster />
