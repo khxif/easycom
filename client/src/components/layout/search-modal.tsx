@@ -54,7 +54,7 @@ export function SearchModal({ isOpen, setIsOpen }: SearchModalProps) {
   };
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="max-w-md w-full md:max-w-xl">
+      <DialogContent className="max-w-sm w-full md:max-w-xl">
         <DialogHeader>
           <DialogTitle>Search For Products</DialogTitle>
         </DialogHeader>
@@ -76,7 +76,7 @@ export function SearchModal({ isOpen, setIsOpen }: SearchModalProps) {
           </form>
           <FilterButton />
           <DialogFooter>
-            <Button className="w-full" type="submit" size="sm">
+            <Button onClick={() => handleSearch(form.getValues())} className="w-full" size="sm">
               Search
             </Button>
           </DialogFooter>
@@ -104,7 +104,7 @@ function FilterButton() {
           {location ? <>{location}</> : <>Filter by Location</>}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-72 p-4" align="start" sideOffset={-15}>
+      <PopoverContent className="w-72 p-4" align="start" sideOffset={10}>
         <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
           <FormLabel>Filter By Location</FormLabel>
           <Input

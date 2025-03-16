@@ -4,13 +4,16 @@ import { Loading } from '@/components/core/loading';
 import { ProductCard } from '@/components/core/product-card';
 import { useGetMyFavorites, useGetProducts } from '@/hooks/queries';
 import { useExtractSearchParams } from '@/hooks/use-extract-search-params';
+import useGetMyLocation from '@/hooks/use-get-my-location';
 import { useAuthStore } from '@/stores/auth-store';
+import { MapPinHouseIcon } from 'lucide-react';
 import { parseAsInteger, useQueryState } from 'nuqs';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 export default function HomePage() {
   const user = useAuthStore(state => state.user);
   const { searchParams } = useExtractSearchParams();
+  const { location } = useGetMyLocation();
 
   const { data, isLoading } = useGetProducts(searchParams);
   const { data: favorites } = useGetMyFavorites(user?._id as string);
@@ -19,7 +22,11 @@ export default function HomePage() {
   const [limit, setLimit] = useQueryState('limit', parseAsInteger.withDefault(10));
 
   return (
-    <main className="max-w-7xl mx-auto py-6 px-4 w-full h-full">
+    <main className="max-w-7xl mx-auto py-4 px-4 w-full h-full flex flex-col space-y-5">
+      <span className="flex items-center space-x-2 w-full justify-end">
+        <MapPinHouseIcon className="size-4" />
+        <p>{location}</p>
+      </span>
       <section>
         {!isLoading ? (
           <InfiniteScroll
@@ -41,6 +48,7 @@ export default function HomePage() {
                   ?.map((fav: Product) => fav._id)
                   .includes(product._id)}
                 userId={user?._id as string}
+                location={product?.location}
               />
             ))}
           </InfiniteScroll>

@@ -2,7 +2,7 @@
 
 import { useAddFavoritesMutation, useRemoveFavoritesMutation } from '@/hooks/mutations';
 import { useQueryClient } from '@tanstack/react-query';
-import { ArrowRightIcon } from 'lucide-react';
+import { ArrowRightIcon, MapPinIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Heart from 'react-heart';
@@ -17,6 +17,7 @@ interface ProductCardProps {
   image_url: string;
   isFavorite: boolean;
   userId: string;
+  location: string;
 }
 
 export function ProductCard({
@@ -27,6 +28,7 @@ export function ProductCard({
   isFavorite,
   productId,
   userId,
+  location,
 }: ProductCardProps) {
   const queryClient = useQueryClient();
 
@@ -83,6 +85,11 @@ export function ProductCard({
             />
           </span>
           <p className="truncate text-muted-foreground">{description}</p>
+
+          <span className="flex items-center space-x-2 text-gray-100 pt-2.5">
+            <MapPinIcon className="size-4" />
+            <p>{location}</p>
+          </span>
         </div>
       </CardContent>
       <CardFooter>
