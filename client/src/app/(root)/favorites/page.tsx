@@ -25,6 +25,7 @@ export default function FavoritesPage() {
               image_url={favorite?.image_url}
               isFavorite={true}
               userId={user?._id as string}
+              location={favorite?.location}
             />
           ))
         ) : (
