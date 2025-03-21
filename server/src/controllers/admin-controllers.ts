@@ -4,7 +4,7 @@ import { User } from '../models/User';
 
 export const getAdmins = async (req: Request, res: Response): Promise<void> => {
   try {
-    const admins = await User.find({ role: ['super-admin'] });
+    const admins = await User.find({ role: ['super-admin'], is_admin: true }).select('-password');
 
     const meta = {
       total: admins.length,

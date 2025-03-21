@@ -7,6 +7,7 @@ import OrderRoutes from './order-routes';
 import OverviewRoutes from './overview-routes';
 import ProductRoutes from './product-routes';
 import ProfileRoutes from './profile-routes';
+import SellerRoutes from './seller-routes';
 import UserRoutes from './user-routes';
 
 export const setupRoutes = (app: Express) => {
@@ -21,6 +22,7 @@ export const setupRoutes = (app: Express) => {
   app.use('/api/orders', OrderRoutes);
   app.use('/api/products', ProductRoutes);
   app.use('/api/profile', ProfileRoutes);
+  app.use('/api/sellers', SellerRoutes);
   app.use('/api/users', UserRoutes);
   app.use('/api/overview', OverviewRoutes);
 };

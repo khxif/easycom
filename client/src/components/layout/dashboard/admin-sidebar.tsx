@@ -3,6 +3,7 @@
 import { cn } from '@/lib/utils';
 import {
   BookUserIcon,
+  HandshakeIcon,
   LayoutDashboardIcon,
   ShoppingBagIcon,
   UserCogIcon,
@@ -27,6 +28,11 @@ export const links = [
     title: 'Customers',
     url: '/admin/customers',
     icon: UsersIcon,
+  },
+  {
+    title: 'Sellers',
+    url: '/admin/sellers',
+    icon: HandshakeIcon,
   },
   {
     title: 'Admins',

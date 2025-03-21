@@ -4,6 +4,7 @@ import * as FavoriteFetchers from '@/fetchers/favorite';
 import * as OverviewFetchers from '@/fetchers/overview';
 import * as ProductFetchers from '@/fetchers/products';
 import * as ProfileFetchers from '@/fetchers/profile';
+import * as SellerFetchers from '@/fetchers/sellers';
 import * as UsersFetchers from '@/fetchers/users';
 import { FilterQueryType } from '@/zod-schemas/query';
 import { queryOptions, useQuery } from '@tanstack/react-query';
@@ -98,5 +99,12 @@ export const useGetMyCart = (id?: User['_id']) => {
   return useQuery({
     queryKey: ['cart', id],
     queryFn: () => CartFetchers.getMyCart(id),
+  });
+};
+
+export const useGetSellers = () => {
+  return useQuery({
+    queryKey: ['sellers'],
+    queryFn: SellerFetchers.getSellers,
   });
 };

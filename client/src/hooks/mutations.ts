@@ -5,6 +5,7 @@ import * as FavoriteFetchers from '@/fetchers/favorite';
 import * as OrderFetchers from '@/fetchers/orders';
 import * as ProductFetchers from '@/fetchers/products';
 import * as ProfileFetchers from '@/fetchers/profile';
+import * as SellerFetchers from '@/fetchers/sellers';
 import * as UserFetchers from '@/fetchers/users';
 import { useMutation } from '@tanstack/react-query';
 
@@ -70,4 +71,8 @@ export const useVerifyOrderMutation = () => {
 
 export const useDeleteUserMutation = () => {
   return useMutation({ mutationFn: UserFetchers.deleteUser });
+};
+
+export const useDeleteSellerMutation = () => {
+  return useMutation({ mutationFn: SellerFetchers.deleteSeller });
 };
