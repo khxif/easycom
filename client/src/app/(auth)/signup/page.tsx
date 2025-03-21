@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -9,30 +9,31 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useSignupMutation } from "@/hooks/mutations";
-import { useAuthStore } from "@/stores/auth-store";
-import { signupSchema, SignupSchemaType } from "@/zod-schemas/auth";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { AxiosError } from "axios";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useSignupMutation } from '@/hooks/mutations';
+import { useAuthStore } from '@/stores/auth-store';
+import { signupSchema, SignupSchemaType } from '@/zod-schemas/auth';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { AxiosError } from 'axios';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 export default function SignupPage() {
   const router = useRouter();
-  const authenticate = useAuthStore((state) => state.authenticate);
+  const authenticate = useAuthStore(state => state.authenticate);
   const { mutateAsync } = useSignupMutation();
 
   const form = useForm<SignupSchemaType>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      password: "",
+      name: '',
+      email: '',
+      password: '',
+      phone_number: '',
     },
   });
 
@@ -41,16 +42,15 @@ export default function SignupPage() {
       const { user, token } = await mutateAsync(values);
       authenticate(user, token);
 
-      toast.success("Logged in successfully");
-      router.push("/");
+      toast.success('Logged in successfully');
+      router.push('/');
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
 
-      if (axiosError.response)
-        toast.error(axiosError.response?.data?.message || "Unknown error");
+      if (axiosError.response) toast.error(axiosError.response?.data?.message || 'Unknown error');
       else {
         console.error(error);
-        toast.error("An unexpected error occurred");
+        toast.error('An unexpected error occurred');
       }
     }
   };
@@ -58,10 +58,7 @@ export default function SignupPage() {
     <div className="w-full flex flex-col space-y-6 font-medium">
       <h1 className="text-2xl">Signup</h1>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 w-full"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
           <FormField
             control={form.control}
             name="name"
@@ -71,7 +68,6 @@ export default function SignupPage() {
                 <FormControl>
                   <Input placeholder="user" {...field} />
                 </FormControl>
-                <FormDescription>Enter your name.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -94,6 +90,20 @@ export default function SignupPage() {
 
           <FormField
             control={form.control}
+            name="phone_number"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Phone Number</FormLabel>
+                <FormControl>
+                  <Input placeholder="978*******" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
             name="password"
             render={({ field }) => (
               <FormItem>
@@ -101,7 +111,6 @@ export default function SignupPage() {
                 <FormControl>
                   <Input type="password" placeholder="password123" {...field} />
                 </FormControl>
-                <FormDescription>Enter a Password.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}

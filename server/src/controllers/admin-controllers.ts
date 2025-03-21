@@ -4,7 +4,7 @@ import { User } from '../models/User';
 
 export const getAdmins = async (req: Request, res: Response): Promise<void> => {
   try {
-    const admins = await User.find({ role: ['admin', 'super-admin'] });
+    const admins = await User.find({ role: ['super-admin'] });
 
     const meta = {
       total: admins.length,
@@ -18,8 +18,8 @@ export const getAdmins = async (req: Request, res: Response): Promise<void> => {
 
 export const createAdmin = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { name, email, password, role, phone_number, profile_picture, location } = req.body;
-    if (!name || !email || !password || !role || !phone_number || !location) {
+    const { name, email, password, phone_number, profile_picture, location } = req.body;
+    if (!name || !email || !password || !phone_number || !location) {
       res.status(422).json({ message: 'Missing required fields' });
       return;
     }
@@ -34,7 +34,7 @@ export const createAdmin = async (req: Request, res: Response): Promise<void> =>
     const admin = new User({
       email,
       password: hashedPassword,
-      role,
+      role: 'super-admin',
       name,
       phone_number,
       is_admin: true,
@@ -80,7 +80,7 @@ export const getAdminById = async (req: Request, res: Response): Promise<void> =
       return;
     }
 
-    const admin = await User.findOne({ _id: id, is_admin: true });
+    const admin = await User.findOne({ _id: id, role: ['super-admin'] });
     if (!admin) {
       res.status(404).json({ message: 'Admin not found' });
       return;
