@@ -73,6 +73,14 @@ export const useDeleteUserMutation = () => {
   return useMutation({ mutationFn: UserFetchers.deleteUser });
 };
 
+export const useCreateSellerMutation = () => {
+  return useMutation({ mutationFn: SellerFetchers.createSeller });
+};
+
+export const useUpdateSellerMutation = () => {
+  return useMutation({ mutationFn: SellerFetchers.updateSeller });
+};
+
 export const useDeleteSellerMutation = () => {
   return useMutation({ mutationFn: SellerFetchers.deleteSeller });
 };

@@ -108,3 +108,14 @@ export const useGetSellers = () => {
     queryFn: SellerFetchers.getSellers,
   });
 };
+
+export const getSellerById = (id: string) => {
+  return queryOptions({
+    queryKey: ['sellers', id],
+    queryFn: () => SellerFetchers.getSellerById(id),
+  });
+};
+
+export const useGetSellerById = (id: string) => {
+  return useQuery(getSellerById(id));
+};
