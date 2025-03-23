@@ -1,22 +1,24 @@
 'use client';
 
 import { useCreateOrderMutation, useVerifyOrderMutation } from '@/hooks/mutations';
-import { Button } from '../ui/button';
-import { useRazorpay } from 'react-razorpay';
-import type { RazorpayOrderOptions } from 'react-razorpay';
-import { toast } from 'sonner';
 import { useAuthStore } from '@/stores/auth-store';
+import type { RazorpayOrderOptions } from 'react-razorpay';
+import { useRazorpay } from 'react-razorpay';
+import { toast } from 'sonner';
+import { Button } from '../ui/button';
+import { useRouter } from 'next/navigation';
 
 export function PaymentButton({ amount }: { amount: number }) {
+  const router = useRouter();
   const user = useAuthStore(state => state.user);
   const { Razorpay } = useRazorpay();
-  
+
   const { mutateAsync: createOrderMutation } = useCreateOrderMutation();
   const { mutateAsync: verifyOrderMutation } = useVerifyOrderMutation();
 
   const handlePayment = async () => {
     try {
-      const { data: order } = await createOrderMutation(amount);
+      const { data: order } = await createOrderMutation({ amount, user_id: user?._id as string });
       console.log(order);
 
       const options: RazorpayOrderOptions = {
@@ -32,9 +34,11 @@ export function PaymentButton({ amount }: { amount: number }) {
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,
+              user_id: user?._id as string,
             });
 
             toast.success('Payment successful!');
+            router.push('/');
           } catch (error) {
             toast.error('Payment failed: ' + (error as Error).message);
           }
