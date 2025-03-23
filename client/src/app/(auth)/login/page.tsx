@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -9,29 +9,28 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useLoginMutation } from "@/hooks/mutations";
-import { useAuthStore } from "@/stores/auth-store";
-import { loginSchema, LoginSchemaType } from "@/zod-schemas/auth";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { AxiosError } from "axios";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useLoginMutation } from '@/hooks/mutations';
+import { useAuthStore } from '@/stores/auth-store';
+import { loginSchema, LoginSchemaType } from '@/zod-schemas/auth';
+import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 export default function LoginPage() {
   const router = useRouter();
-  const authenticate = useAuthStore((state) => state.authenticate);
+  const authenticate = useAuthStore(state => state.authenticate);
   const { mutateAsync } = useLoginMutation();
 
   const form = useForm<LoginSchemaType>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   });
 
@@ -40,17 +39,10 @@ export default function LoginPage() {
       const { user, token } = await mutateAsync(values);
       authenticate(user, token);
 
-      toast.success("Logged in successfully");
-      router.push("/");
+      toast.success('Logged in successfully');
+      router.push('/');
     } catch (error) {
-      const axiosError = error as AxiosError<{ message: string }>;
-
-      if (axiosError.response)
-        toast.error(axiosError.response?.data?.message || "Unknown error");
-      else {
-        console.error(error);
-        toast.error("An unexpected error occurred");
-      }
+      console.log(error);
     }
   };
 
@@ -58,10 +50,7 @@ export default function LoginPage() {
     <div className="w-full flex flex-col space-y-6 font-medium">
       <h1 className="text-2xl">Login</h1>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 w-full"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
           <FormField
             control={form.control}
             name="email"

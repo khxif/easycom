@@ -107,7 +107,7 @@ const columns: ColumnDef<User>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-1 py-2">
-          <Link href={`/admin/admins/${row.original._id}/edit`}>
+          <Link href={`/admin/sellers/${row.original._id}/edit`}>
             <Button size="sm" variant="ghost" color="primary">
               <PencilIcon className="size-6" />
             </Button>

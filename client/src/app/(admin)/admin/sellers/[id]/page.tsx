@@ -1,6 +1,3 @@
-
 export default function SellerEdit() {
-  return (
-    <div>SellerEdit</div>
-  )
+  return <div>SellerEdit</div>;
 }

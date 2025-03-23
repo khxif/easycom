@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { User } from '../models/User';
 import { hashPassword } from '../lib/hash-password';
+import { User } from '../models/User';
 
 export const getSellers = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -91,8 +91,6 @@ export const getSellerById = async (req: Request, res: Response): Promise<void> 
     res.status(500).json({ message: 'Get Seller error' });
   }
 };
-
-
 
 export const deleteSeller = async (req: Request, res: Response): Promise<void> => {
   try {
