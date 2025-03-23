@@ -22,3 +22,14 @@ interface Product {
   location: string;
   created_by: string;
 }
+
+interface Order {
+  _id: string;
+  user: User;
+  products: {
+    product: Product;
+    quantity: number;
+  }[];
+  amount: number;
+  status: 'PENDING' | 'SUCCESS' | 'FAILED';
+}

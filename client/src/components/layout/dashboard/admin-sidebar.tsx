@@ -5,6 +5,7 @@ import {
   BookUserIcon,
   HandshakeIcon,
   LayoutDashboardIcon,
+  SendToBackIcon,
   ShoppingBagIcon,
   UserCogIcon,
   UsersIcon,
@@ -38,6 +39,11 @@ export const links = [
     title: 'Admins',
     url: '/admin/admins',
     icon: UserCogIcon,
+  },
+  {
+    title: 'Orders',
+    url: '/admin/orders',
+    icon: SendToBackIcon,
   },
   {
     title: 'Account',

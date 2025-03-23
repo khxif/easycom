@@ -1,6 +1,7 @@
 import * as AdminFetchers from '@/fetchers/admins';
 import * as CartFetchers from '@/fetchers/cart';
 import * as FavoriteFetchers from '@/fetchers/favorite';
+import * as OrderFetchers from '@/fetchers/orders';
 import * as OverviewFetchers from '@/fetchers/overview';
 import * as ProductFetchers from '@/fetchers/products';
 import * as ProfileFetchers from '@/fetchers/profile';
@@ -118,4 +119,11 @@ export const getSellerById = (id: string) => {
 
 export const useGetSellerById = (id: string) => {
   return useQuery(getSellerById(id));
+};
+
+export const useGetAllOrders = () => {
+  return useQuery({
+    queryKey: ['orders'],
+    queryFn: () => OrderFetchers.getAllOrders(),
+  });
 };

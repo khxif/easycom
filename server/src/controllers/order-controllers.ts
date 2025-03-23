@@ -11,7 +11,7 @@ const razorpay = new Razorpay({
 
 export const getAllOrders = async (req: Request, res: Response): Promise<void> => {
   try {
-    const orders = await Order.find();
+    const orders = await Order.find().populate('user').populate('products.product');
     res.status(200).json({ data: orders });
   } catch (error) {
     console.log(error);
@@ -40,14 +40,16 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
       return;
     }
 
+    const order = await razorpay.orders.create(options);
+
     await new Order({
       user: user_id,
       amount: amount,
       products: cart.products,
       status: 'PENDING',
+      razorpay_order_id: order.id,
     }).save();
 
-    const order = await razorpay.orders.create(options);
     res.status(200).json(order);
   } catch (error) {
     console.log(error);
@@ -74,14 +76,16 @@ export const verifyOrder = async (req: Request, res: Response): Promise<void> =>
       res.status(400).json({ error: 'Invalid payment signature' });
       return;
     }
+
     const cart = await Cart.findOne({ user: user_id });
     cart.products = [];
     await cart.save();
 
-    await Order.findOneAndUpdate({ user: user_id }, { status: 'SUCCESS' });
+    await Order.findOneAndUpdate({ razorpay_order_id }, { status: 'SUCCESS' });
 
     res.status(200).json({ message: 'Payment verified successfully' });
   } catch (error) {
     console.log(error);
+    res.status(500).json({ message: 'Verify Order error' });
   }
 };

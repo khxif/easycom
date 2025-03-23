@@ -1,5 +1,11 @@
 import { apiClient } from '@/lib/api-client';
 
+export const getAllOrders = async () => {
+  const { data } = await apiClient.get('/orders');
+
+  return data;
+};
+
 export const createOrder = async (body: { amount: number; user_id: User['_id'] }) => {
   const data = await apiClient.post('/orders/create', body);
 
