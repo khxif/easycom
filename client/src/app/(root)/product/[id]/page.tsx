@@ -15,7 +15,7 @@ import { useAddToCartMutation } from '@/hooks/mutations';
 import { useGetProductById } from '@/hooks/queries';
 import { parseLocation } from '@/lib/utils';
 import { useAuthStore } from '@/stores/auth-store';
-import { MapPinIcon, MinusIcon, PlusIcon, ShoppingCartIcon } from 'lucide-react';
+import { MinusIcon, PlusIcon, ShoppingCartIcon } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { use, useState } from 'react';
@@ -79,11 +79,6 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
               <h1 className="text-lg font-medium">{product?.name}</h1>
               <p className="text-muted-foreground">{product?.description}</p>
 
-              <span className="flex items-center space-x-2 text-gray-100">
-                <MapPinIcon className="size-4" />
-                <p>{product?.location}</p>
-              </span>
-
               <span className="flex w-full items-center space-x-8">
                 <h1 className="text-base font-normal">Quantity</h1>
                 <span className="flex w-full items-center justify-between border-b-2 border-primary py-2 ">
@@ -123,12 +118,13 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
           <Loading />
         )}
       </section>
-      <section className="flex flex-col space-y-6 py-14">
-        <h4 className="text-2xl font-medium text-center">Product Location</h4>
-        {!isLoading && location ? (
+
+      {!isLoading && location ? (
+        <section className="flex flex-col space-y-6 py-14">
+          <h4 className="text-2xl font-medium text-center">Product Location</h4>
           <LeafletMap place={location.place} city={location.city} position={location.position} />
-        ) : null}
-      </section>
+        </section>
+      ) : null}
     </main>
   );
 }

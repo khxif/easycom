@@ -3,8 +3,10 @@
 import { Loading } from '@/components/core/loading';
 import { OrdersTable } from '@/components/dashboard/tables/orders-table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge, BadgeVariants } from '@/components/ui/badge';
 import { useGetAllOrders } from '@/hooks/queries';
 import { ColumnDef } from '@tanstack/react-table';
+import { CircleCheckIcon, Clock10Icon } from 'lucide-react';
 import Link from 'next/link';
 
 export default function OrdersPage() {
@@ -51,6 +53,31 @@ const columns: ColumnDef<Order>[] = [
   {
     accessorKey: 'status',
     header: 'Status',
+    cell: ({ row }) => {
+      const map = {
+        success: {
+          icon: CircleCheckIcon,
+          label: 'Success',
+          variant: 'success',
+        },
+        pending: {
+          icon: Clock10Icon,
+          label: 'Pending',
+          variant: 'pending',
+        },
+      };
+      const {
+        label,
+        icon: Icon,
+        variant,
+      } = map[row.original.status.toLowerCase() as keyof typeof map];
+      return (
+        <Badge variant={variant as BadgeVariants} className="flex items-center space-x-2 max-w-fit">
+          <Icon className="size-4" />
+          <p>{label}</p>
+        </Badge>
+      );
+    },
   },
   {
     accessorKey: 'products',

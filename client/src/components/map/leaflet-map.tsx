@@ -1,6 +1,7 @@
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
+import { useEffect } from 'react';
+import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png',
@@ -19,6 +20,7 @@ export function LeafletMap({ place, city, position }: LeafletMapProps) {
     <div className="h-[400px] w-full">
       <MapContainer center={[15.3173, 75.7139]} zoom={5} className="h-full w-full">
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <ZoomToMarker position={position} />
         <Marker position={position}>
           <Popup>
             <strong>{place}</strong> - {city}
@@ -27,4 +29,16 @@ export function LeafletMap({ place, city, position }: LeafletMapProps) {
       </MapContainer>
     </div>
   );
+}
+
+function ZoomToMarker({ position }: { position: [number, number] }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (position) {
+      map.flyTo(position, 13, { duration: 2 }); // Smooth zooming to the marker
+    }
+  }, [position, map]);
+
+  return null;
 }
