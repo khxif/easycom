@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge, BadgeVariants } from '@/components/ui/badge';
 import { useGetAllOrders } from '@/hooks/queries';
 import { ColumnDef } from '@tanstack/react-table';
-import { CircleCheckIcon, Clock10Icon } from 'lucide-react';
+import { CircleCheckIcon, CircleXIcon, Clock10Icon } from 'lucide-react';
 import Link from 'next/link';
 
 export default function OrdersPage() {
@@ -64,6 +64,11 @@ const columns: ColumnDef<Order>[] = [
           icon: Clock10Icon,
           label: 'Pending',
           variant: 'pending',
+        },
+        failed: {
+          icon: CircleXIcon,
+          label: 'Failed',
+          variant: 'failed',
         },
       };
       const {

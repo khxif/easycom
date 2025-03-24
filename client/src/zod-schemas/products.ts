@@ -5,7 +5,7 @@ export const productSchema = z.object({
   price: z.string().refine(val => !isNaN(Number(val)) && Number(val) > 0, {
     message: 'Must be a positive integer',
   }),
-  category: z.string().min(2, { message: 'Enter a valid category.' }),
+  category: z.array(z.string().min(2, { message: 'Enter a valid category.' })),
   description: z.string().min(5, { message: 'Enter a valid description.' }),
   image_url: z.string().url({ message: 'Upload a proper image' }),
   stock: z.string().refine(val => !isNaN(Number(val)) && Number(val) > 0, {

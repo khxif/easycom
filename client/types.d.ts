@@ -18,7 +18,7 @@ interface Product {
   stock: number;
   description: string;
   image_url: string;
-  category: string;
+  category: string[];
   location: string;
   created_by: string;
 }

@@ -49,7 +49,7 @@ function ProductFormWrapper({ product }: { product: Product }) {
     resolver: zodResolver(productSchema),
     defaultValues: {
       name: product?.name ?? '',
-      category: product?.category ?? '',
+      category: product?.category ?? [''],
       description: product?.description ?? '',
       image_url: product?.image_url ?? '',
       price: product?.price ? String(product?.price) : '',

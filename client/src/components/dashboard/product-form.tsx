@@ -17,6 +17,7 @@ import { CldUploadButton } from 'next-cloudinary';
 import Image from 'next/image';
 import Link from 'next/link';
 import { UseFormReturn } from 'react-hook-form';
+import { MultiSelect } from '../ui/multi-select';
 
 interface ProductFormProps {
   form: UseFormReturn<ProductSchemaType, unknown, undefined>;
@@ -91,10 +92,20 @@ export function ProductForm({ form, handleSubmit, isEdit }: ProductFormProps) {
             control={form.control}
             name="category"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className='flex flex-col w-full'>
                 <FormLabel>Category</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  {/* <Input placeholder="shadcn" {...field} /> */}
+                  <MultiSelect
+                    options={[
+                      { label: 'Shoes', id: 'shoes' },
+                      { label: 'Clothes', id: 'clothes' },
+                      { label: 'Electronics', id: 'electronics' },
+                      { label: 'Others', id: 'others' },
+                    ]}
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

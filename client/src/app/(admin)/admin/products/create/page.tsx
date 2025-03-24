@@ -21,7 +21,7 @@ export default function CreateProductPage() {
     resolver: zodResolver(productSchema),
     defaultValues: {
       name: '',
-      category: '',
+      category: [],
       description: '',
       image_url: '',
       price: '',
