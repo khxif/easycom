@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { Order } from '../models/Order';
 import { Product } from '../models/Product';
 import { User } from '../models/User';
 
@@ -8,10 +9,61 @@ export const getOverview = async (req: Request, res: Response): Promise<void> =>
     const users = await User.find({ role: 'user' });
     const admins = await User.find({ is_admin: true });
 
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth() + 1;
+
+    const monthlyOrders = await Order.aggregate([
+      {
+        $match: {
+          createdAt: {
+            $gte: new Date(`${currentYear}-01-01`),
+            $lt: new Date(`${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-01`),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: { month: { $month: '$createdAt' } },
+          totalOrders: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          month: '$_id.month',
+          totalOrders: 1,
+          _id: 0,
+        },
+      },
+      {
+        $sort: { month: 1 },
+      },
+    ]);
+
+    const months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+
+    const ordersByMonth = monthlyOrders.map(order => ({
+      month: months[order.month - 1],
+      orders: order.totalOrders,
+    }));
+
     const overview = {
       total_products: products?.length,
       total_users: users?.length,
       total_admins: admins?.length,
+      orders_by_month: ordersByMonth,
     };
 
     res.json(overview).status(200);
