@@ -13,3 +13,10 @@ export function getErrorMessage(error: Error) {
 
   return errorMessage;
 }
+
+export function parseLocation(location: string) {
+  if (!location) return;
+
+  const [place, city, position] = location.split(' ');
+  return { place, city, position: JSON.parse(position) };
+}

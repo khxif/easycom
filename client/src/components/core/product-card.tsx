@@ -2,7 +2,7 @@
 
 import { useAddFavoritesMutation, useRemoveFavoritesMutation } from '@/hooks/mutations';
 import { useQueryClient } from '@tanstack/react-query';
-import { ArrowRightIcon, MapPinIcon } from 'lucide-react';
+import { ArrowRightIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Heart from 'react-heart';
@@ -17,7 +17,6 @@ interface ProductCardProps {
   image_url: string;
   isFavorite: boolean;
   userId: string;
-  location: string;
 }
 
 export function ProductCard({
@@ -28,7 +27,6 @@ export function ProductCard({
   isFavorite,
   productId,
   userId,
-  location,
 }: ProductCardProps) {
   const queryClient = useQueryClient();
 
@@ -70,27 +68,20 @@ export function ProductCard({
           placeholder="blur"
         />
 
-        <div className="flex flex-col space-y-0.5">
-          <span className="flex items-center justify-between">
-            <Link href={`/product/${productId}`}>
-              <h4 className="text-lg font-medium">{name}</h4>
-            </Link>
-            <Heart
-              isActive={isFavorite}
-              onClick={isFavorite ? removeFavorites : addFavorites}
-              className="size-5"
-              inactiveColor="rgba(255,125,125,.75)"
-              animationTrigger="both"
-              animationDuration={0.1}
-            />
-          </span>
-          <p className="truncate text-muted-foreground">{description}</p>
-
-          <span className="flex items-center space-x-2 text-gray-100 pt-2.5">
-            <MapPinIcon className="size-4" />
-            <p>{location}</p>
-          </span>
-        </div>
+        <span className="flex items-center justify-between">
+          <Link href={`/product/${productId}`}>
+            <h4 className="text-lg font-medium">{name}</h4>
+          </Link>
+          <Heart
+            isActive={isFavorite}
+            onClick={isFavorite ? removeFavorites : addFavorites}
+            className="size-5"
+            inactiveColor="rgba(255,125,125,.75)"
+            animationTrigger="both"
+            animationDuration={0.1}
+          />
+        </span>
+        <p className="truncate text-muted-foreground">{description}</p>
       </CardContent>
       <CardFooter>
         <Link
@@ -101,10 +92,6 @@ export function ProductCard({
             {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(price)}
           </p>
 
-          {/* <Button className="flex space-x-2" size="sm">
-            Add to
-            <ShoppingCartIcon />
-          </Button> */}
           <ArrowRightIcon className="size-5" />
         </Link>
       </CardFooter>

@@ -34,7 +34,7 @@ export const getMyLocation = async (
     const district = data.address.state_district || data.address.county || 'Unknown District';
 
     setLoading(false);
-    return `${city}, ${district}`;
+    return `${city} ${district} [${latitude},${longitude}]`;
   } catch (error) {
     setLoading(false);
     toast.error(error instanceof Error ? error.message : 'An unknown error occurred.');

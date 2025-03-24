@@ -1,6 +1,7 @@
 'use client';
 
 import { Loading } from '@/components/core/loading';
+import { LeafletMap } from '@/components/map/leaflet-map';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -12,6 +13,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { useAddToCartMutation } from '@/hooks/mutations';
 import { useGetProductById } from '@/hooks/queries';
+import { parseLocation } from '@/lib/utils';
 import { useAuthStore } from '@/stores/auth-store';
 import { MapPinIcon, MinusIcon, PlusIcon, ShoppingCartIcon } from 'lucide-react';
 import Image from 'next/image';
@@ -26,6 +28,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
 
   const { id } = use(params);
   const { data: product, isLoading } = useGetProductById(id);
+  const location = parseLocation(product?.location);
   const { mutateAsync } = useAddToCartMutation();
 
   const handleAddToCart = async () => {
@@ -40,6 +43,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
       console.error(error);
     }
   };
+
   return (
     <main className="max-w-7xl mx-auto py-5 px-4 md:px-0 pb-40 flex flex-col space-y-8">
       <Breadcrumb>
@@ -118,6 +122,12 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
         ) : (
           <Loading />
         )}
+      </section>
+      <section className="flex flex-col space-y-6 py-14">
+        <h4 className="text-2xl font-medium text-center">Product Location</h4>
+        {!isLoading && location ? (
+          <LeafletMap place={location.place} city={location.city} position={location.position} />
+        ) : null}
       </section>
     </main>
   );
