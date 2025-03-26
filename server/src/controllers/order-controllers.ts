@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import Razorpay from 'razorpay';
 import { Cart } from '../models/Cart';
 import { Order } from '../models/Order';
+import { Product } from '../models/Product';
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
@@ -77,7 +78,13 @@ export const verifyOrder = async (req: Request, res: Response): Promise<void> =>
       return;
     }
 
-    const cart = await Cart.findOne({ user: user_id });
+    const cart = await Cart.findOne({ user: user_id }).populate('products.product');
+    cart?.products.map(async (product: any) => {
+      await Product.findOneAndUpdate(
+        { name: product.product.name },
+        { stock: product.product.stock - product.quantity },
+      );
+    });
     cart.products = [];
     await cart.save();
 

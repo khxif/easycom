@@ -32,4 +32,6 @@ interface Order {
   }[];
   amount: number;
   status: 'PENDING' | 'SUCCESS' | 'FAILED';
+  createdAt: Date;
+  updatedAt: Date;
 }

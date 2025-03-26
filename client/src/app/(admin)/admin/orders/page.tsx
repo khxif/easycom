@@ -6,7 +6,13 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge, BadgeVariants } from '@/components/ui/badge';
 import { useGetAllOrders } from '@/hooks/queries';
 import { ColumnDef } from '@tanstack/react-table';
-import { CircleCheckIcon, CircleXIcon, Clock10Icon } from 'lucide-react';
+import {
+  ChartNoAxesColumnIncreasingIcon,
+  CircleCheckIcon,
+  CircleDollarSignIcon,
+  CircleXIcon,
+  Clock10Icon,
+} from 'lucide-react';
 import Link from 'next/link';
 
 export default function OrdersPage() {
@@ -18,7 +24,7 @@ export default function OrdersPage() {
         <h1 className="text-2xl font-semibold md:text-3xl">Orders</h1>
       </div>
 
-      {!isLoading ? (
+      {!isLoading && data ? (
         <OrdersTable columns={columns} data={data?.data} isLoading={isLoading} />
       ) : (
         <Loading />
@@ -35,24 +41,34 @@ const columns: ColumnDef<Order>[] = [
       <div className="flex items-center space-x-4 p-2">
         <Avatar>
           <AvatarImage src={row.original.user.profile_picture} />
-          <AvatarFallback>{row.original.user.name.split(' ').join('')[0]}</AvatarFallback>
+          <AvatarFallback>{row.original.user?.name.split(' ').join('')[0]}</AvatarFallback>
         </Avatar>
 
         <Link href={`/admin/admins/${row.original._id}`}>
           <span className="flex flex-col space-y-2">
-            <h2 className="font-medium">{row.original.user.name}</h2>
+            <h2 className="font-medium">{row.original.user?.name}</h2>
           </span>
         </Link>
       </div>
     ),
   },
   {
-    header: 'Amount',
+    header: () => (
+      <span className="flex items-center space-x-1.5">
+        <CircleDollarSignIcon className="size-5" />
+        <p>Amount</p>
+      </span>
+    ),
     accessorKey: 'amount',
   },
   {
     accessorKey: 'status',
-    header: 'Status',
+    header: () => (
+      <span className="flex items-center space-x-1.5">
+        <ChartNoAxesColumnIncreasingIcon className="size-5" />
+        <p>Status</p>
+      </span>
+    ),
     cell: ({ row }) => {
       const map = {
         success: {
@@ -89,9 +105,14 @@ const columns: ColumnDef<Order>[] = [
     header: 'Products',
     cell: ({ row }) => {
       const products = row.original.products
-        ?.map((product: { product: Product }) => product.product.name)
+        ?.map((product: { product: Product }) => product?.product?.name ?? 'Deleted Product')
         .join(', ');
       return <p>{products}</p>;
     },
+  },
+  {
+    accessorKey: 'created_at',
+    header: 'Order Placed',
+    cell: ({ row }) => <p>{new Date(row.original.createdAt).toLocaleString()}</p>,
   },
 ];
