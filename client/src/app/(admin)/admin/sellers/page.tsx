@@ -9,14 +9,7 @@ import { useDeleteSellerMutation } from '@/hooks/mutations';
 import { useGetSellers } from '@/hooks/queries';
 import { useQueryClient } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
-import {
-  MapPinHouseIcon,
-  PencilIcon,
-  PhoneIcon,
-  PlusCircleIcon,
-  ShieldIcon,
-  TrashIcon,
-} from 'lucide-react';
+import { MapPinHouseIcon, PencilIcon, PhoneIcon, PlusCircleIcon, TrashIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -70,20 +63,6 @@ const columns: ColumnDef<User>[] = [
       <span className="flex items-center space-x-1.5 py-4">
         <PhoneIcon className="size-4" />
         <p>Phone</p>
-      </span>
-    ),
-  },
-  {
-    accessorKey: 'role',
-    header: () => (
-      <span className="flex items-center space-x-1.5 py-4">
-        <ShieldIcon className="size-4" />
-        <p>Role</p>
-      </span>
-    ),
-    cell: row => (
-      <span className="flex items-center space-x-1.5 py-4">
-        <p className="capitalize">{(row.getValue() as string).split('-').join(' ')}</p>
       </span>
     ),
   },

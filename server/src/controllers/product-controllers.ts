@@ -154,20 +154,20 @@ export const getProductSales = async (req: Request, res: Response): Promise<void
     }
 
     const currentYear = new Date().getFullYear();
-    const currentMonth = new Date().getMonth(); // 0-indexed (0 = January, 11 = December)
+    const currentMonth = new Date().getMonth();
 
     const salesData = await Order.aggregate([
       {
         $match: {
-          status: 'SUCCESS', // Only successful orders
+          status: 'SUCCESS',
           createdAt: {
             $gte: new Date(`${currentYear}-01-01`),
             $lt: new Date(`${currentYear + 1}-01-01`),
           },
-          'products.product': new mongoose.Types.ObjectId(productId), // Filter by specific product ID
+          'products.product': new mongoose.Types.ObjectId(productId),
         },
       },
-      { $unwind: '$products' }, // Flatten products array
+      { $unwind: '$products' },
       {
         $match: {
           'products.product': new mongoose.Types.ObjectId(productId),
@@ -175,11 +175,11 @@ export const getProductSales = async (req: Request, res: Response): Promise<void
       },
       {
         $group: {
-          _id: { $month: '$createdAt' }, // Group sales by month
-          sales: { $sum: '$products.quantity' }, // Calculate total sales (sum of quantities)
+          _id: { $month: '$createdAt' },
+          sales: { $sum: '$products.quantity' },
         },
       },
-      { $sort: { _id: 1 } }, // Sort by month in ascending order
+      { $sort: { _id: 1 } },
     ]);
 
     // Full month names
@@ -198,7 +198,6 @@ export const getProductSales = async (req: Request, res: Response): Promise<void
       'December',
     ];
 
-    // Format the output to include full month names, handling months without sales
     const formattedData = Array(12)
       .fill(0)
       .map((_, i) => {
@@ -209,7 +208,6 @@ export const getProductSales = async (req: Request, res: Response): Promise<void
         };
       });
 
-    // Slice data from January to the current month dynamically
     const filteredData = formattedData.slice(0, currentMonth + 1);
 
     res.status(200).json({ data: filteredData });

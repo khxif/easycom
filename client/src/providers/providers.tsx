@@ -5,7 +5,7 @@ import { ThemeProvider } from './theme-provide';
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+    <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
       <QueryProvider>
         <TooltipProvider>{children}</TooltipProvider>
       </QueryProvider>
