@@ -66,7 +66,6 @@ const SellerFormWrapper = ({ seller }: { seller: User }) => {
       form.reset();
     } catch (error) {
       console.log(error);
-      toast.error('Failed to create seller');
     }
   };
   return <AdminsForm form={form} handleSubmit={form.handleSubmit(onSubmit)} isEdit />;

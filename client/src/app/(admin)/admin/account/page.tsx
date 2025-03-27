@@ -58,7 +58,6 @@ function ProfileFormWrapper({ data }: { data: User }) {
       toast.success('Profile updated successfully');
     } catch (error) {
       console.log(error);
-      toast.error('Failed to update profile');
     }
   };
   return <ProfileForm form={form} handleSubmit={form.handleSubmit(handleSubmit)} />;

@@ -42,7 +42,6 @@ export default function CreateProductPage() {
       form.reset();
     } catch (error) {
       console.log(error);
-      toast.error('Failed to create product');
     }
   };
   return (

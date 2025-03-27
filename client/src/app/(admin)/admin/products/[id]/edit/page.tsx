@@ -69,7 +69,6 @@ function ProductFormWrapper({ product }: { product: Product }) {
       form.reset();
     } catch (error) {
       console.log(error);
-      toast.error('Failed to update product');
     }
   };
   return <ProductForm form={form} handleSubmit={form.handleSubmit(onSubmit)} isEdit />;

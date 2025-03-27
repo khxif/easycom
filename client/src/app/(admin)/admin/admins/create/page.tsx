@@ -37,7 +37,6 @@ export default function CreateAdminPage() {
       form.reset();
     } catch (error) {
       console.log(error);
-      toast.error('Failed to create admin');
     }
   };
   return (

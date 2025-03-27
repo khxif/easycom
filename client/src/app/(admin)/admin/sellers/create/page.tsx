@@ -37,7 +37,6 @@ export default function CreateSellerPage() {
       form.reset();
     } catch (error) {
       console.log(error);
-      toast.error('Failed to create seller');
     }
   };
   return (
