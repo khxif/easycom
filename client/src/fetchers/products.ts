@@ -26,6 +26,11 @@ export async function getProductById(id?: string) {
   return data;
 }
 
+export async function getProductSales(id?: string) {
+  const { data } = await apiClient.get(`/products/${id}/sales`);
+  return data;
+}
+
 export async function updateProduct(options: { product: ProductSchemaType; id?: string }) {
   const data = await apiClient.put(`/products/${options?.id}`, options?.product);
 

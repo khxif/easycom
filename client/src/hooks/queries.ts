@@ -38,6 +38,17 @@ export const useGetProductById = (id: string) => {
   return useQuery(getProductById(id));
 };
 
+export const getProductSales = (id: string) => {
+  return queryOptions({
+    queryKey: ['product', id, 'orders'],
+    queryFn: () => ProductFetchers.getProductSales(id),
+  });
+};
+
+export const useGetProductSales = (id: string) => {
+  return useQuery(getProductSales(id));
+};
+
 export function useGetAdmins() {
   return useQuery({
     queryKey: ['admins'],

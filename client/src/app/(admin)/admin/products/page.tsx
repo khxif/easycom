@@ -45,29 +45,24 @@ export default function ProductsPage() {
 
 const columns: ColumnDef<Product>[] = [
   {
-    cell: row => {
+    cell: ({ row }) => {
       return (
-        <div className="size-14">
-          <img
-            src={row.getValue() as string}
-            alt="product-image"
-            className="rounded-full  size-12 object-fill"
-          />
+        <div className="flex items-center space-x-2">
+          <div className="size-14">
+            <img
+              src={row.original.image_url}
+              alt="product-image"
+              className="rounded-full  size-12 object-fill"
+            />
+          </div>
+          <Link href={`/admin/products/${row.original._id}`}>
+            <p>{row.original.name}</p>
+          </Link>
         </div>
       );
     },
     header: 'Product Image',
     accessorKey: 'image_url',
-  },
-  {
-    accessorKey: 'name',
-    header: () => (
-      <span>
-        <p>
-          Product Name <span className="text-primary">*</span>
-        </p>
-      </span>
-    ),
   },
   {
     accessorKey: 'category',

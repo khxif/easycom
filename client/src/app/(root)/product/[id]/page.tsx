@@ -2,6 +2,7 @@
 
 import { Loading } from '@/components/core/loading';
 import { LeafletMap } from '@/components/map/leaflet-map';
+import { Badge } from '@/components/ui/badge';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -28,6 +29,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
 
   const { id } = use(params);
   const { data: product, isLoading } = useGetProductById(id);
+  console.log(product);
   const location = parseLocation(product?.location);
   const { mutateAsync } = useAddToCartMutation();
 
@@ -78,6 +80,13 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
             <div className="flex-1 flex flex-col space-y-5">
               <h1 className="text-lg font-medium">{product?.name}</h1>
               <p className="text-muted-foreground">{product?.description}</p>
+              <span className='flex items-center space-x-4'>
+                {product?.category?.map((category: string, index: number) => (
+                  <Badge variant="secondary" key={index} className="capitalize">
+                    {category}
+                  </Badge>
+                ))}
+              </span>
 
               <span className="flex w-full items-center space-x-8">
                 <h1 className="text-base font-normal">Quantity</h1>
