@@ -49,7 +49,7 @@ function ProductFormWrapper({ product }: { product: Product }) {
     resolver: zodResolver(productSchema),
     defaultValues: {
       name: product?.name ?? '',
-      category: product?.category ,
+      category: product?.category ??[],
       description: product?.description ?? '',
       image_url: product?.image_url ?? '',
       price: product?.price ? String(product?.price) : '',
@@ -61,6 +61,7 @@ function ProductFormWrapper({ product }: { product: Product }) {
 
   const onSubmit = async (values: ProductSchemaType) => {
     try {
+      console.log(values)
       const data = await mutateAsync({ product: values, id: product?._id });
       if (data.status !== 200) return toast.error('Failed to update product');
 

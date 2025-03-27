@@ -98,10 +98,15 @@ export function ProductForm({ form, handleSubmit, isEdit }: ProductFormProps) {
                   {/* <Input placeholder="shadcn" {...field} /> */}
                   <MultiSelect
                     options={[
-                      { label: 'Shoes', id: 'shoes' },
-                      { label: 'Clothes', id: 'clothes' },
+                      { label: 'Fashion', id: 'fashion' },
+                      { label: 'Grocery', id: 'grocery' },
+                      { label: 'Food', id: 'food' },
+                      { label: 'Health', id: 'health' },
+                      { label: 'Mobiles', id: 'mobiles' },
+                      { label: 'Home', id: 'home' },
                       { label: 'Electronics', id: 'electronics' },
-                      { label: 'Others', id: 'others' },
+                      { label: 'Appliances', id: 'appliances' },
+                      { label: 'Gadgets', id: 'gadgets' },
                     ]}
                     value={field.value}
                     onChange={field.onChange}
@@ -142,7 +147,7 @@ export function ProductForm({ form, handleSubmit, isEdit }: ProductFormProps) {
         </div>
         <CardFooter className="flex justify-end space-x-4">
           <Link href="/admin/products">
-            <Button type="submit" variant="ghost">
+            <Button type="button" variant="ghost">
               Cancel
             </Button>
           </Link>

@@ -17,7 +17,6 @@ interface MultiSelectProps {
 }
 
 export function MultiSelect({ options, value, onChange }: MultiSelectProps) {
-  console.log(value);
   const [selectedOptions, setSelectedOptions] = useState<string[]>(value);
 
   const toggleOption = (optionId: string) => {
