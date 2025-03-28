@@ -77,7 +77,6 @@ export function UserButton() {
           <Button
             onClick={() => {
               logout();
-              window.location.reload();
             }}
             variant="ghost"
             className="text-red-600 font-medium flex items-center justify-center w-full hover:text-red-600"

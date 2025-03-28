@@ -1,5 +1,6 @@
 'use client';
 
+import { Loading } from '@/components/core/loading';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   ChartContainer,
@@ -11,11 +12,10 @@ import { useGetOverview } from '@/hooks/queries';
 import { Users as UsersIcon } from 'lucide-react';
 import CountUp from 'react-countup';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, XAxis } from 'recharts';
-import { Loading } from '@/components/core/loading';
 
 export default function OverviewPage() {
   const { data: overview, isLoading } = useGetOverview();
-  console.log(overview);
+  
   return (
     <main className="p-5 flex flex-col space-y-10 pb-40">
       {!isLoading ? (
