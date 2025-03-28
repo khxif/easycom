@@ -119,7 +119,12 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
               </h1>
 
               <span>
-                <Button className="flex space-x-2 w-full" size="lg" onClick={handleAddToCart}>
+                <Button
+                  className="flex space-x-2 w-full"
+                  size="lg"
+                  onClick={handleAddToCart}
+                  disabled={isPending}
+                >
                   Add to
                   <ShoppingCartIcon className="size-6" />
                 </Button>
