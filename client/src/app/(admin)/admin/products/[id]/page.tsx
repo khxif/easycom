@@ -21,7 +21,7 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
   console.log(product);
   return (
     <main className="p-5 flex flex-col space-y-8 pb-24">
-      {!isLoading ? (
+      {!isLoading && product ? (
         <>
           <div className="flex flex-col space-y-5">
             <Link href="/admin/products" className="flex items-center space-x-2 text-sm">
@@ -71,9 +71,9 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
 }
 
 function SalesGraph({ id }: { id: string }) {
-  const { data } = useGetProductSales(id);
+  const { data, isLoading } = useGetProductSales(id);
   console.log(data);
-  return (
+  return !isLoading && data ? (
     <Card>
       <CardHeader>
         <CardTitle>Sales</CardTitle>
@@ -121,6 +121,8 @@ function SalesGraph({ id }: { id: string }) {
         </ResponsiveContainer>
       </CardContent>
     </Card>
+  ) : (
+    <Loading />
   );
 }
 

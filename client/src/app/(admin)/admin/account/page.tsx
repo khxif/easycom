@@ -30,7 +30,7 @@ export default function AccountPage() {
           </div>
         </CardHeader>
         <CardContent className="py-5 flex items-center space-x-5">
-          {!isLoading ? <ProfileFormWrapper data={data} /> : <Loading />}
+          {!isLoading && data ? <ProfileFormWrapper data={data} /> : <Loading />}
         </CardContent>
       </Card>
     </main>

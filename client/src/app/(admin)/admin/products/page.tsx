@@ -34,7 +34,7 @@ export default function ProductsPage() {
           </Button>
         </Link>
       </div>
-      {!isLoading ? (
+      {!isLoading && data ? (
         <ProductsTable columns={columns} data={data?.data} isLoading={isLoading} />
       ) : (
         <Loading />

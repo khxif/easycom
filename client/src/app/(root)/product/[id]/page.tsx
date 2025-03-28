@@ -73,7 +73,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
                 alt={product?.name}
                 width={1500}
                 height={500}
-                className="w-full object-fill h-96"
+                className="w-full h-96 object-contain"
               />
             </div>
 

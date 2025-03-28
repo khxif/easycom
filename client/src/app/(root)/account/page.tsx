@@ -13,7 +13,7 @@ import { toast } from 'sonner';
 
 export default function AccountPage() {
   const { data, isLoading } = useGetMyProfile();
-
+  console.log(data);
   return (
     <main className="p-5 flex flex-col space-y-10 pb-40 max-w-7xl mx-auto">
       <div className="flex items-center justify-between">
@@ -30,7 +30,7 @@ export default function AccountPage() {
           </div>
         </CardHeader>
         <CardContent className="py-5 flex items-center space-x-5">
-          {!isLoading ? <ProfileFormWrapper data={data} /> : <Loading />}
+          {!isLoading && data ? <ProfileFormWrapper data={data} /> : <Loading />}
         </CardContent>
       </Card>
     </main>

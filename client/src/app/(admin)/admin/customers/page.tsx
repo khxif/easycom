@@ -22,7 +22,7 @@ export default function UsersPage() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold md:text-3xl">Customers list</h1>
       </div>
-      {!isLoading ? (
+      {!isLoading && data ? (
         <CustomersTable columns={columns} data={data?.data} isLoading={isLoading} />
       ) : (
         <Loading />

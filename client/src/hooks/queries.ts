@@ -31,6 +31,7 @@ export const getProductById = (id: string) => {
   return queryOptions({
     queryKey: ['product', id],
     queryFn: () => ProductFetchers.getProductById(id),
+    enabled:Boolean(id),
   });
 };
 
