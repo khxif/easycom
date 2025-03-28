@@ -62,7 +62,7 @@ export function ProductCard({
           height={140}
           src={image_url}
           alt={name}
-          className="aspect-square size-48 w-full object-cover rounded-t-lg"
+          className="aspect-square size-48 w-full object-contain rounded-t-lg"
           loading="lazy"
           blurDataURL="/assets/product-placeholder.png"
           placeholder="blur"

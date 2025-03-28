@@ -74,13 +74,16 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
                 width={1500}
                 height={500}
                 className="w-full h-96 object-contain"
+                loading="lazy"
+                blurDataURL="/assets/product-placeholder.png"
+                placeholder="blur"
               />
             </div>
 
             <div className="flex-1 flex flex-col space-y-5">
               <h1 className="text-lg font-medium">{product?.name}</h1>
               <p className="text-muted-foreground">{product?.description}</p>
-              <span className='flex items-center space-x-4'>
+              <span className="flex items-center space-x-4">
                 {product?.category?.map((category: string, index: number) => (
                   <Badge variant="secondary" key={index} className="capitalize">
                     {category}
