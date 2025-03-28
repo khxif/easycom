@@ -57,7 +57,7 @@ export const links = [
 
 export function AdminSidebar() {
   const user = useAuthStore(state => state.user);
-  console.log(user);
+  
   const pathname = usePathname();
   const filteredRoutes = links.filter(route => {
     if (!route.isProtected) return true;

@@ -31,7 +31,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
   const { data: product, isLoading } = useGetProductById(id);
   console.log(product);
   const location = parseLocation(product?.location);
-  const { mutateAsync } = useAddToCartMutation();
+  const { mutateAsync, isPending } = useAddToCartMutation();
 
   const handleAddToCart = async () => {
     try {
