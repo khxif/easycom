@@ -7,7 +7,7 @@ export const getOverview = async (req: Request, res: Response): Promise<void> =>
   try {
     const products = await Product.find();
     const users = await User.find({ role: 'user' });
-    const admins = await User.find({ is_admin: true });
+    const sellers = await User.find({ is_admin: true, role: 'admin' });
 
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth() + 1;
@@ -62,7 +62,7 @@ export const getOverview = async (req: Request, res: Response): Promise<void> =>
     const overview = {
       total_products: products?.length,
       total_users: users?.length,
-      total_admins: admins?.length,
+      total_sellers: sellers?.length,
       orders_by_month: ordersByMonth,
     };
 

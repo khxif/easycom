@@ -53,9 +53,9 @@ export default function OverviewPage() {
               <CardContent className="py-5 flex items-center space-x-5">
                 <UsersIcon />
                 <div className="flex flex-col space-y-1.5">
-                  <h2 className="font-semibold text-xl">Total Admins</h2>
+                  <h2 className="font-semibold text-xl">Total Sellers</h2>
                   <p className="font-medium text-lg">
-                    <CountUp end={overview?.total_admins ?? 0} duration={2} />
+                    <CountUp end={overview?.total_sellers ?? 0} duration={2} />
                   </p>
                 </div>
               </CardContent>
