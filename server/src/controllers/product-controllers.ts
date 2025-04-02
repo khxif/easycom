@@ -5,11 +5,12 @@ import { Product } from '../models/Product';
 
 export const getAllProducts = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { limit, name, location } = req.query;
+    const { limit, name, location, category } = req.query;
 
     const query: Record<string, unknown> = {};
     if (name) query.name = { $regex: name, $options: 'i' };
     if (location) query.location = { $regex: location, $options: 'i' };
+    if (category) query.category = { $regex: category, $options: 'i' };
 
     const [products, total] = await Promise.all([
       Product.find(query).limit(Number(limit) || 10),

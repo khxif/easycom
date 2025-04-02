@@ -19,6 +19,13 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { searchSchema, SearchSchemaType } from '@/zod-schemas/search';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
@@ -74,7 +81,10 @@ export function SearchModal({ isOpen, setIsOpen }: SearchModalProps) {
               )}
             />
           </form>
-          <FilterButton />
+          <div className="flex items-center space-x-5">
+            <FilterButton />
+            <DropdownFilter />
+          </div>
           <DialogFooter>
             <Button onClick={() => handleSearch(form.getValues())} className="w-full" size="sm">
               Search
@@ -121,3 +131,63 @@ function FilterButton() {
     </Popover>
   );
 }
+
+function DropdownFilter() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [category, setCategory] = useQueryState('category');
+  const [tempCategory, setTempSetCategory] = useState(category ?? '');
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setCategory(tempCategory);
+    setIsOpen(false);
+  };
+  return (
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
+      <PopoverTrigger asChild>
+        <Button variant="outline" className="flex items-center gap-2 max-w-fit">
+          <MapPinHouseIcon className="size-5" />
+          {category ? <>{category}</> : <>Filter by Category</>}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-72 p-4" align="start" sideOffset={10}>
+        <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+          <FormLabel>Filter By Category</FormLabel>
+          <Select
+            onValueChange={(value: string) => setTempSetCategory(value)}
+            defaultValue={tempCategory}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Electronics" />
+            </SelectTrigger>
+            <SelectContent>
+              {options.map(option => (
+                <SelectItem key={option.id} value={option.id}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Button type="submit" size="sm" className="w-full">
+            Apply
+          </Button>
+        </form>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
+const options = [
+  { label: 'Fashion', id: 'fashion' },
+  { label: 'Grocery', id: 'grocery' },
+  { label: 'Food', id: 'food' },
+  { label: 'Health', id: 'health' },
+  { label: 'Mobiles', id: 'mobiles' },
+  { label: 'Home', id: 'home' },
+  { label: 'Electronics', id: 'electronics' },
+  { label: 'Appliances', id: 'appliances' },
+  { label: 'Gadgets', id: 'gadgets' },
+  { label: 'New', id: 'new' },
+  { label: 'Owned', id: 'owned' },
+];

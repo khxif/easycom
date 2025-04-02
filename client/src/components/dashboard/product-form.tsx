@@ -92,7 +92,7 @@ export function ProductForm({ form, handleSubmit, isEdit }: ProductFormProps) {
             control={form.control}
             name="category"
             render={({ field }) => (
-              <FormItem className='flex flex-col w-full'>
+              <FormItem className="flex flex-col w-full">
                 <FormLabel>Category</FormLabel>
                 <FormControl>
                   {/* <Input placeholder="shadcn" {...field} /> */}
@@ -107,6 +107,8 @@ export function ProductForm({ form, handleSubmit, isEdit }: ProductFormProps) {
                       { label: 'Electronics', id: 'electronics' },
                       { label: 'Appliances', id: 'appliances' },
                       { label: 'Gadgets', id: 'gadgets' },
+                      { label: 'New', id: 'new' },
+                      { label: 'Owned', id: 'owned' },
                     ]}
                     value={field.value}
                     onChange={field.onChange}
