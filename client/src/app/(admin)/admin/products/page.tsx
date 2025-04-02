@@ -12,7 +12,6 @@ import {
   ChartColumnStackedIcon,
   CircleDollarSignIcon,
   LayersIcon,
-  PencilIcon,
   PlusCircleIcon,
   TrashIcon,
 } from 'lucide-react';
@@ -97,11 +96,11 @@ const columns: ColumnDef<Product>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
-          <Link href={`/admin/products/${row.original._id}/edit`}>
+          {/* <Link href={`/admin/products/${row.original._id}/edit`}>
             <Button size="sm" variant="ghost" color="primary">
               <PencilIcon className="size-6" />
             </Button>
-          </Link>
+          </Link> */}
           <DeleteProduct id={row.original._id} />
         </div>
       );
