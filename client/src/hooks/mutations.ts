@@ -1,6 +1,7 @@
 import * as AdminFetchers from '@/fetchers/admins';
 import * as AuthFetchers from '@/fetchers/auth';
 import * as CartFetchers from '@/fetchers/cart';
+import * as DepartmentsFetchers from '@/fetchers/departments';
 import * as FavoriteFetchers from '@/fetchers/favorite';
 import * as OrderFetchers from '@/fetchers/orders';
 import * as ProductFetchers from '@/fetchers/products';
@@ -83,4 +84,12 @@ export const useUpdateSellerMutation = () => {
 
 export const useDeleteSellerMutation = () => {
   return useMutation({ mutationFn: SellerFetchers.deleteSeller });
+};
+
+export const useCreateDepartmentMutation = () => {
+  return useMutation({ mutationFn: DepartmentsFetchers.createDepartments });
+};
+
+export const useUpdateDepartmentMutation = () => {
+  return useMutation({ mutationFn: DepartmentsFetchers.updateDepartments });
 };

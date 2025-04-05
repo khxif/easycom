@@ -27,6 +27,11 @@ export const links = [
     icon: ShoppingBagIcon,
   },
   {
+    title: 'Departments',
+    url: '/admin/departments',
+    icon: ShoppingBagIcon,
+  },
+  {
     title: 'Customers',
     url: '/admin/customers',
     icon: UsersIcon,
@@ -57,7 +62,7 @@ export const links = [
 
 export function AdminSidebar() {
   const user = useAuthStore(state => state.user);
-  
+
   const pathname = usePathname();
   const filteredRoutes = links.filter(route => {
     if (!route.isProtected) return true;
