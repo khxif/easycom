@@ -1,10 +1,13 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { useGetDepartments } from '@/hooks/queries';
 import { PlusCircleIcon } from 'lucide-react';
 import Link from 'next/link';
 
 export default function DepartmentsPage() {
+  const { data } = useGetDepartments();
+  console.log(data);
   return (
     <main className="p-5 flex flex-col space-y-10 pb-40">
       <div className="flex items-center justify-between">

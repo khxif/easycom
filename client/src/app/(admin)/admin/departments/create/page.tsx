@@ -2,6 +2,7 @@
 
 import DepartmentsForm from '@/components/dashboard/departments-form';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useCreateDepartmentMutation } from '@/hooks/mutations';
 import { departmentSchema, DepartmentSchemaType } from '@/zod-schemas/department';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowLeft as ArrowLeftIcon } from 'lucide-react';
@@ -12,6 +13,7 @@ import { toast } from 'sonner';
 
 export default function CreateDepartmentPage() {
   const router = useRouter();
+  const { mutateAsync } = useCreateDepartmentMutation();
 
   const form = useForm<DepartmentSchemaType>({
     resolver: zodResolver(departmentSchema),
@@ -23,10 +25,10 @@ export default function CreateDepartmentPage() {
 
   const onSubmit = async (values: DepartmentSchemaType) => {
     try {
-      console.log(values);
+      await mutateAsync(values);
 
-      toast.success('Admin created successfully');
-      router.push('/admin/admins');
+      toast.success('Department created successfully');
+      router.push('/admin/departments');
       form.reset();
     } catch (error) {
       console.log(error);
