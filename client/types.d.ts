@@ -35,3 +35,10 @@ interface Order {
   createdAt: Date;
   updatedAt: Date;
 }
+
+interface Meta {
+  page: number;
+  limit: number;
+  total: number;
+  total_pages: number;
+}

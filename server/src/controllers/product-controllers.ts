@@ -30,14 +30,42 @@ export const getAllProducts = async (req: Request, res: Response): Promise<void>
 export const getMyProducts = async (req: Request, res: Response): Promise<void> => {
   try {
     const user = res.locals.user;
+    const { limit, page } = req.query;
+
+    const query: Record<string, unknown> = {};
+
     if (user.role === 'super-admin') {
-      const products = await Product.find();
-      res.status(200).json({ data: products });
+      const [products, total] = await Promise.all([
+        Product.find(query)
+          .skip(Number(page || 0) * Number(limit || 10))
+          .limit(Number(limit || 10)),
+        Product.countDocuments(query),
+      ]);
+
+      const meta = {
+        limit: products.length,
+        total,
+        total_pages: Math.ceil(total / Number(limit || 10)),
+      };
+
+      res.status(200).json({ data: products, meta });
       return;
     }
 
-    const products = await Product.find({ created_by: user._id });
-    res.status(200).json({ data: products });
+    const [products, total] = await Promise.all([
+      Product.find({ ...query, created_by: user._id })
+        .skip(Number(page) * Number(limit) || 10)
+        .limit(Number(limit) || 10),
+      Product.countDocuments({ ...query, created_by: user._id }),
+    ]);
+
+    const meta = {
+      limit: products.length,
+      total,
+      total_pages: Math.ceil(total / Number(limit || 10)),
+    };
+
+    res.status(200).json({ data: products, meta });
   } catch (error) {
     console.log('Get my products error:', (error as Error).message);
     res.status(402).json({ message: (error as Error).message });
@@ -74,7 +102,7 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
 
     await product.save();
 
-    res.json({ message: 'Product created successfully' }).status(200);
+    res.status(200).json({ message: 'Product created successfully' });
   } catch (error) {
     console.log('Create Product error:', (error as Error).message);
     res.status(402).json({ message: (error as Error).message });
@@ -183,7 +211,6 @@ export const getProductSales = async (req: Request, res: Response): Promise<void
       { $sort: { _id: 1 } },
     ]);
 
-    // Full month names
     const monthNames = [
       'January',
       'February',

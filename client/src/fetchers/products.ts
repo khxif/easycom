@@ -10,8 +10,10 @@ export async function getProducts(query: Partial<FilterQueryType>) {
   return data;
 }
 
-export async function getMyProducts() {
-  const { data } = await apiClient.get(`/products/my`);
+export async function getMyProducts(query: Partial<FilterQueryType>) {
+  const queryString = qs.stringify(query, { skipNull: true, skipEmptyString: true });
+
+  const { data } = await apiClient.get(`/products/my?${queryString}`);
   return data;
 }
 

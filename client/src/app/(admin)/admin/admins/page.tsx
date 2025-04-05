@@ -106,15 +106,13 @@ function DeleteAdmin({ id }: { id: string }) {
 
   const handleDelete = async () => {
     try {
-      const data = await mutateAsync(id);
-      if (data.status !== 200) return toast.error('Failed to delete admin');
+      await mutateAsync(id);
 
       queryClient.invalidateQueries({ queryKey: ['admins'] });
       toast.success('Admin deleted successfully');
       setIsModalOpen(false);
     } catch (error) {
       console.log(error);
-      toast.error('Failed to delete admin');
     }
   };
   return (

@@ -14,16 +14,13 @@ export function useGetProducts(query: Partial<FilterQueryType>) {
   return useQuery({
     queryKey: ['products', { query }],
     queryFn: () => ProductFetchers.getProducts(query),
-    // staleTime: 5000,
-    // gcTime: Infinity,
-    // placeholderData: prev => prev || { data: [], meta: { total: 0 } },
   });
 }
 
-export function useGetMyProducts() {
+export function useGetMyProducts(query: Partial<FilterQueryType>) {
   return useQuery({
-    queryKey: ['products'],
-    queryFn: ProductFetchers.getMyProducts,
+    queryKey: ['products', { query }],
+    queryFn: () => ProductFetchers.getMyProducts(query),
   });
 }
 
@@ -31,7 +28,7 @@ export const getProductById = (id: string) => {
   return queryOptions({
     queryKey: ['product', id],
     queryFn: () => ProductFetchers.getProductById(id),
-    enabled:Boolean(id),
+    enabled: Boolean(id),
   });
 };
 

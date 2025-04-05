@@ -6,21 +6,25 @@ import { ProductsTable } from '@/components/dashboard/tables/product-table';
 import { Button } from '@/components/ui/button';
 import { useDeleteProductMutation } from '@/hooks/mutations';
 import { useGetMyProducts } from '@/hooks/queries';
+import { useExtractSearchParams } from '@/hooks/use-extract-search-params';
 import { useQueryClient } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
 import {
   ChartColumnStackedIcon,
   CircleDollarSignIcon,
   LayersIcon,
+  PencilIcon,
   PlusCircleIcon,
   TrashIcon,
 } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
 export default function ProductsPage() {
-  const { data, isLoading } = useGetMyProducts();
+  const { searchParams } = useExtractSearchParams();
+  const { data, isLoading } = useGetMyProducts(searchParams);
   console.log(data);
   return (
     <main className="p-5 flex flex-col space-y-10 pb-40">
@@ -34,7 +38,12 @@ export default function ProductsPage() {
         </Link>
       </div>
       {!isLoading && data ? (
-        <ProductsTable columns={columns} data={data?.data} isLoading={isLoading} />
+        <ProductsTable
+          columns={columns}
+          data={data?.data}
+          isLoading={isLoading}
+          meta={data?.meta}
+        />
       ) : (
         <Loading />
       )}
@@ -48,7 +57,9 @@ const columns: ColumnDef<Product>[] = [
       return (
         <div className="flex items-center space-x-2">
           <div className="size-14">
-            <img
+            <Image
+              width={100}
+              height={100}
               src={row.original.image_url}
               alt="product-image"
               className="rounded-full  size-12 object-fill"
@@ -96,11 +107,11 @@ const columns: ColumnDef<Product>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
-          {/* <Link href={`/admin/products/${row.original._id}/edit`}>
+          <Link href={`/admin/products/${row.original._id}/edit`}>
             <Button size="sm" variant="ghost" color="primary">
               <PencilIcon className="size-6" />
             </Button>
-          </Link> */}
+          </Link>
           <DeleteProduct id={row.original._id} />
         </div>
       );
