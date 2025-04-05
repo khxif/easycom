@@ -1,12 +1,15 @@
 'use client';
 
+import { Loading } from '@/components/core/loading';
+import { DepartmentsTable } from '@/components/dashboard/tables/departments-table';
 import { Button } from '@/components/ui/button';
 import { useGetDepartments } from '@/hooks/queries';
+import { ColumnDef } from '@tanstack/react-table';
 import { PlusCircleIcon } from 'lucide-react';
 import Link from 'next/link';
 
 export default function DepartmentsPage() {
-  const { data } = useGetDepartments();
+  const { data, isLoading } = useGetDepartments();
   console.log(data);
   return (
     <main className="p-5 flex flex-col space-y-10 pb-40">
@@ -19,6 +22,23 @@ export default function DepartmentsPage() {
           </Button>
         </Link>
       </div>
+
+      {!isLoading && data ? (
+        <DepartmentsTable columns={columns} data={data?.data} isLoading={isLoading} />
+      ) : (
+        <Loading />
+      )}
     </main>
   );
 }
+
+const columns: ColumnDef<Department>[] = [
+  {
+    accessorKey: 'name',
+    header: 'Department Name',
+  },
+  {
+    accessorKey: 'description',
+    header: 'Description',
+  },
+];

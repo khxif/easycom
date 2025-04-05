@@ -42,3 +42,12 @@ interface Meta {
   total: number;
   total_pages: number;
 }
+
+interface Department {
+  _id: string;
+  name: string;
+  description: string;
+  created_by: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
