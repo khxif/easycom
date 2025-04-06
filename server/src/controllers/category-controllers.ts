@@ -80,7 +80,7 @@ export const getCategoryById = async (req: Request, res: Response): Promise<void
   }
 };
 
-export const deleteAdmin = async (req: Request, res: Response): Promise<void> => {
+export const deleteCategory = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
     if (!id) {

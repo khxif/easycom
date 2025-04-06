@@ -1,12 +1,17 @@
 'use client';
 
 import { Loading } from '@/components/core/loading';
+import { ConfirmModal } from '@/components/dashboard/confirm-modal';
 import { CategoriesTable } from '@/components/dashboard/tables/categories/categories-table';
 import { Button } from '@/components/ui/button';
+import { useDeleteCategoryMutation } from '@/hooks/mutations';
 import { useGetCategories } from '@/hooks/queries';
+import { useQueryClient } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
-import { PencilIcon, PlusCircleIcon } from 'lucide-react';
+import { PencilIcon, PlusCircleIcon, TrashIcon } from 'lucide-react';
 import Link from 'next/link';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 export default function CategoriesPage() {
   const { data, isLoading } = useGetCategories();
@@ -52,9 +57,43 @@ const columns: ColumnDef<Category>[] = [
               <PencilIcon className="size-6" />
             </Button>
           </Link>
-          {/* <DeleteAdmin id={row.original._id} /> */}
+          <DeleteCategory id={row.original._id} />
         </div>
       );
     },
   },
 ];
+
+function DeleteCategory({ id }: { id: string }) {
+  const queryClient = useQueryClient();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { mutateAsync } = useDeleteCategoryMutation();
+
+  const handleDelete = async () => {
+    try {
+      await mutateAsync(id);
+
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
+      toast.success('Category deleted successfully');
+      setIsModalOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  return (
+    <>
+      <Button size="sm" variant="ghost" onClick={() => setIsModalOpen(true)}>
+        <TrashIcon className="text-red-600 size-6" />
+      </Button>
+      <ConfirmModal
+        isOpen={isModalOpen}
+        setIsOpen={setIsModalOpen}
+        onConfirm={handleDelete}
+        title="Confirm Delete"
+        description="Do you want to delete category?"
+        buttonText="Delete"
+      />
+    </>
+  );
+}
