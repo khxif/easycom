@@ -46,7 +46,7 @@ export function CategoriesForm({ form, handleSubmit, isEdit }: DepartmentFormPro
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>Description</FormLabel>
                 <FormControl>
                   <Textarea placeholder="Description" rows={5} {...field} />
                 </FormControl>

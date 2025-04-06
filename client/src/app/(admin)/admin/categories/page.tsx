@@ -32,7 +32,7 @@ export default function CategoriesPage() {
   );
 }
 
-const columns: ColumnDef<Department>[] = [
+const columns: ColumnDef<Category>[] = [
   {
     accessorKey: 'name',
     header: 'Category Name',

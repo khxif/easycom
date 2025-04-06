@@ -93,3 +93,7 @@ export const useCreateCategoryMutation = () => {
 export const useUpdateCategoryMutation = () => {
   return useMutation({ mutationFn: CategoriesFetchers.updateCategories });
 };
+
+export const useDeleteCategoryMutation = () => {
+  return useMutation({ mutationFn: CategoriesFetchers.deleteCategories });
+};

@@ -43,7 +43,7 @@ interface Meta {
   total_pages: number;
 }
 
-interface Department {
+interface Category {
   _id: string;
   name: string;
   description: string;

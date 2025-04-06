@@ -144,3 +144,15 @@ export const useGetCategories = () => {
     queryFn: () => CategoryFetchers.getCategories(),
   });
 };
+
+export function getCategoryById(id: string) {
+  return queryOptions({
+    queryKey: ['categories', id],
+    queryFn: () => CategoryFetchers.getCategoriesById(id),
+    enabled: Boolean(id),
+  });
+}
+
+export function useGetCategoryById(id: string) {
+  return useQuery(getCategoryById(id));
+}
