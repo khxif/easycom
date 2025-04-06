@@ -34,6 +34,7 @@ import { MapPinHouseIcon } from 'lucide-react';
 import { useQueryState } from 'nuqs';
 import { FormEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { FilterButton } from '../core/filter-button';
 import { Loading } from '../core/loading';
 
 interface SearchModalProps {
@@ -43,6 +44,7 @@ interface SearchModalProps {
 
 export function SearchModal({ isOpen, setIsOpen }: SearchModalProps) {
   const [name, setName] = useQueryState('name');
+  const [location, setLocation] = useQueryState('location');
   const queryClient = useQueryClient();
 
   const form = useForm<SearchSchemaType>({
@@ -84,7 +86,13 @@ export function SearchModal({ isOpen, setIsOpen }: SearchModalProps) {
             />
           </form>
           <div className="flex items-center space-x-5">
-            <FilterButton />
+            <FilterButton
+              value={location}
+              setValue={setLocation}
+              placeholder="City, State"
+              label="Filter By Location"
+              icon={MapPinHouseIcon}
+            />
             <DropdownFilter />
           </div>
           <DialogFooter>
@@ -95,42 +103,6 @@ export function SearchModal({ isOpen, setIsOpen }: SearchModalProps) {
         </Form>
       </DialogContent>
     </Dialog>
-  );
-}
-
-function FilterButton() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [location, setLocation] = useQueryState('location');
-  const [tempLocation, setTempLocation] = useState(location ?? '');
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLocation(tempLocation);
-    setIsOpen(false);
-  };
-  return (
-    <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <PopoverTrigger asChild>
-        <Button variant="outline" className="flex items-center gap-2 max-w-fit">
-          <MapPinHouseIcon className="size-5" />
-          {location ? <>{location}</> : <>Filter by Location</>}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-72 p-4" align="start" sideOffset={10}>
-        <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
-          <FormLabel>Filter By Location</FormLabel>
-          <Input
-            value={tempLocation}
-            onChange={e => setTempLocation(e.target.value)}
-            placeholder="City, State"
-            className="w-full"
-          />
-          <Button type="submit" size="sm" className="w-full">
-            Apply
-          </Button>
-        </form>
-      </PopoverContent>
-    </Popover>
   );
 }
 
