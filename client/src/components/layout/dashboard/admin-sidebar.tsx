@@ -27,8 +27,8 @@ export const links = [
     icon: ShoppingBagIcon,
   },
   {
-    title: 'Departments',
-    url: '/admin/departments',
+    title: 'Categories',
+    url: '/admin/categories',
     icon: ShoppingBagIcon,
   },
   {

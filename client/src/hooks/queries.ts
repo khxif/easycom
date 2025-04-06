@@ -1,6 +1,6 @@
 import * as AdminFetchers from '@/fetchers/admins';
 import * as CartFetchers from '@/fetchers/cart';
-import * as DepartmentFetchers from '@/fetchers/departments';
+import * as CategoryFetchers from '@/fetchers/categories';
 import * as FavoriteFetchers from '@/fetchers/favorite';
 import * as OrderFetchers from '@/fetchers/orders';
 import * as OverviewFetchers from '@/fetchers/overview';
@@ -138,9 +138,9 @@ export const useGetAllOrders = () => {
   });
 };
 
-export const useGetDepartments = () => {
+export const useGetCategories = () => {
   return useQuery({
-    queryKey: ['departments'],
-    queryFn: () => DepartmentFetchers.getDepartments(),
+    queryKey: ['categories'],
+    queryFn: () => CategoryFetchers.getCategories(),
   });
 };

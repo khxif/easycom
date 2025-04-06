@@ -11,18 +11,18 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { DepartmentSchemaType } from '@/zod-schemas/department';
+import { CategorySchemaType } from '@/zod-schemas/category';
 import Link from 'next/link';
 import { UseFormReturn } from 'react-hook-form';
 import { Textarea } from '../ui/textarea';
 
 interface DepartmentFormProps {
-  form: UseFormReturn<DepartmentSchemaType, unknown, undefined>;
+  form: UseFormReturn<CategorySchemaType, unknown, undefined>;
   handleSubmit: React.FormEventHandler<HTMLFormElement>;
   isEdit?: boolean;
 }
 
-export default function DepartmentsForm({ form, handleSubmit, isEdit }: DepartmentFormProps) {
+export function CategoriesForm({ form, handleSubmit, isEdit }: DepartmentFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={handleSubmit} className="space-y-8 py-2">
@@ -57,7 +57,7 @@ export default function DepartmentsForm({ form, handleSubmit, isEdit }: Departme
         </div>
 
         <CardFooter className="flex justify-end space-x-4">
-          <Link href="/admin/departments">
+          <Link href="/admin/categories">
             <Button type="submit" variant="ghost">
               Cancel
             </Button>

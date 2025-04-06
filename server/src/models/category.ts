@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const departmentSchema = new mongoose.Schema(
+const categorySchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     description: { type: String, required: true },
@@ -8,5 +8,5 @@ const departmentSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-export const Department =
-  mongoose?.models?.Department || mongoose.model('Department', departmentSchema);
+export const Category =
+  mongoose?.models?.Category || mongoose.model('Category', categorySchema);

@@ -1,9 +1,9 @@
 'use client';
 
-import DepartmentsForm from '@/components/dashboard/departments-form';
+import { CategoriesForm } from '@/components/dashboard/categories-form';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useCreateDepartmentMutation } from '@/hooks/mutations';
-import { departmentSchema, DepartmentSchemaType } from '@/zod-schemas/department';
+import { useCreateCategoryMutation } from '@/hooks/mutations';
+import { categorySchema, CategorySchemaType } from '@/zod-schemas/category';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowLeft as ArrowLeftIcon } from 'lucide-react';
 import Link from 'next/link';
@@ -13,22 +13,22 @@ import { toast } from 'sonner';
 
 export default function CreateDepartmentPage() {
   const router = useRouter();
-  const { mutateAsync } = useCreateDepartmentMutation();
+  const { mutateAsync } = useCreateCategoryMutation();
 
-  const form = useForm<DepartmentSchemaType>({
-    resolver: zodResolver(departmentSchema),
+  const form = useForm<CategorySchemaType>({
+    resolver: zodResolver(categorySchema),
     defaultValues: {
       name: '',
       description: '',
     },
   });
 
-  const onSubmit = async (values: DepartmentSchemaType) => {
+  const onSubmit = async (values: CategorySchemaType) => {
     try {
       await mutateAsync(values);
 
-      toast.success('Department created successfully');
-      router.push('/admin/departments');
+      toast.success('Category created successfully');
+      router.push('/admin/categories');
       form.reset();
     } catch (error) {
       console.log(error);
@@ -37,19 +37,19 @@ export default function CreateDepartmentPage() {
   return (
     <main className="p-5 flex flex-col space-y-8 pb-24">
       <div className="flex flex-col space-y-5">
-        <Link href="/admin/departments" className="flex items-center space-x-2 text-sm">
+        <Link href="/admin/categories" className="flex items-center space-x-2 text-sm">
           <ArrowLeftIcon size={16} />
           <p>Back</p>
         </Link>
-        <h1 className="text-2xl font-semibold md:text-3xl">Add Departments</h1>
+        <h1 className="text-2xl font-semibold md:text-3xl">Add Categories</h1>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Department Details</CardTitle>
+          <CardTitle>Category Details</CardTitle>
         </CardHeader>
         <CardContent>
-          <DepartmentsForm form={form} handleSubmit={form.handleSubmit(onSubmit)} />
+          <CategoriesForm form={form} handleSubmit={form.handleSubmit(onSubmit)} />
         </CardContent>
       </Card>
     </main>

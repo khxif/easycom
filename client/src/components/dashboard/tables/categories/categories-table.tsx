@@ -17,7 +17,7 @@ interface DataTableProps<TData, TValue> {
   isLoading?: boolean;
 }
 
-export function DepartmentsTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function CategoriesTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
