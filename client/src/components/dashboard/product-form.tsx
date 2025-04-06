@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { useGetCategories } from '@/hooks/queries';
 import { ProductSchemaType } from '@/zod-schemas/products';
 import { CldUploadButton } from 'next-cloudinary';
 import Image from 'next/image';
@@ -26,6 +27,7 @@ interface ProductFormProps {
 }
 
 export function ProductForm({ form, handleSubmit, isEdit }: ProductFormProps) {
+  const { data, isLoading } = useGetCategories();
   return (
     <Form {...form}>
       <form onSubmit={handleSubmit} className="space-y-8 py-2">
@@ -59,7 +61,7 @@ export function ProductForm({ form, handleSubmit, isEdit }: ProductFormProps) {
             )}
           />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-center">
           <FormField
             control={form.control}
             name="name"
@@ -95,24 +97,16 @@ export function ProductForm({ form, handleSubmit, isEdit }: ProductFormProps) {
               <FormItem className="flex flex-col w-full">
                 <FormLabel>Category</FormLabel>
                 <FormControl>
-                  {/* <Input placeholder="shadcn" {...field} /> */}
-                  <MultiSelect
-                    options={[
-                      { label: 'Fashion', id: 'fashion' },
-                      { label: 'Grocery', id: 'grocery' },
-                      { label: 'Food', id: 'food' },
-                      { label: 'Health', id: 'health' },
-                      { label: 'Mobiles', id: 'mobiles' },
-                      { label: 'Home', id: 'home' },
-                      { label: 'Electronics', id: 'electronics' },
-                      { label: 'Appliances', id: 'appliances' },
-                      { label: 'Gadgets', id: 'gadgets' },
-                      { label: 'New', id: 'new' },
-                      { label: 'Owned', id: 'owned' },
-                    ]}
-                    value={field.value}
-                    onChange={field.onChange}
-                  />
+                  {!isLoading ? (
+                    <MultiSelect
+                      options={data?.data?.map((category: Category) => ({
+                        label: category?.name,
+                        id: category?.name,
+                      }))}
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
+                  ) : null}
                 </FormControl>
                 <FormMessage />
               </FormItem>

@@ -26,6 +26,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useGetCategories } from '@/hooks/queries';
 import { searchSchema, SearchSchemaType } from '@/zod-schemas/search';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
@@ -33,6 +34,7 @@ import { MapPinHouseIcon } from 'lucide-react';
 import { useQueryState } from 'nuqs';
 import { FormEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { Loading } from '../core/loading';
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -133,6 +135,8 @@ function FilterButton() {
 }
 
 function DropdownFilter() {
+  const { data, isLoading } = useGetCategories();
+
   const [isOpen, setIsOpen] = useState(false);
   const [category, setCategory] = useQueryState('category');
   const [tempCategory, setTempSetCategory] = useState(category ?? '');
@@ -158,14 +162,18 @@ function DropdownFilter() {
             defaultValue={tempCategory}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Electronics" />
+              <SelectValue placeholder="Select a category" />
             </SelectTrigger>
             <SelectContent>
-              {options.map(option => (
-                <SelectItem key={option.id} value={option.id}>
-                  {option.label}
-                </SelectItem>
-              ))}
+              {!isLoading ? (
+                data?.data.map((category: Category) => (
+                  <SelectItem key={category?._id} value={category?.name}>
+                    {category?.name}
+                  </SelectItem>
+                ))
+              ) : (
+                <Loading />
+              )}
             </SelectContent>
           </Select>
 
@@ -177,17 +185,3 @@ function DropdownFilter() {
     </Popover>
   );
 }
-
-const options = [
-  { label: 'Fashion', id: 'fashion' },
-  { label: 'Grocery', id: 'grocery' },
-  { label: 'Food', id: 'food' },
-  { label: 'Health', id: 'health' },
-  { label: 'Mobiles', id: 'mobiles' },
-  { label: 'Home', id: 'home' },
-  { label: 'Electronics', id: 'electronics' },
-  { label: 'Appliances', id: 'appliances' },
-  { label: 'Gadgets', id: 'gadgets' },
-  { label: 'New', id: 'new' },
-  { label: 'Owned', id: 'owned' },
-];

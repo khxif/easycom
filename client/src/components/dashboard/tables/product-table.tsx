@@ -80,12 +80,12 @@ export function ProductsTable<TData, TValue>({
               )}
             </TableBody>
           </Table>
-          <div className="flex items-center justify-end border-t">
+          <div className="flex items-center justify-end border-t px-4">
             <ReactPaginate
               breakLabel="..."
               initialPage={page}
               nextLabel={
-                <Button size="sm" disabled={page === meta?.total_pages - 1}>
+                <Button size="sm" disabled={page === meta?.total_pages - 1} variant="outline">
                   <ChevronRightIcon className="size-5" />
                 </Button>
               }
@@ -93,7 +93,7 @@ export function ProductsTable<TData, TValue>({
               pageRangeDisplayed={2}
               pageCount={meta?.total_pages}
               previousLabel={
-                <Button size="sm" disabled={page === 0}>
+                <Button size="sm" disabled={page === 0} variant="outline">
                   <ChevronLeftIcon className="size-5" />
                 </Button>
               }
