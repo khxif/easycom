@@ -30,9 +30,10 @@ export const getAllProducts = async (req: Request, res: Response): Promise<void>
 export const getMyProducts = async (req: Request, res: Response): Promise<void> => {
   try {
     const user = res.locals.user;
-    const { limit, page } = req.query;
+    const { limit, page, name } = req.query;
 
     const query: Record<string, unknown> = {};
+    if (name) query.name = { $regex: name, $options: 'i' };
 
     if (user.role === 'super-admin') {
       const [products, total] = await Promise.all([

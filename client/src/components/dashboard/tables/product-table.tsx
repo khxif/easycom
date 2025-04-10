@@ -2,6 +2,14 @@
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   Table,
   TableBody,
@@ -10,9 +18,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { useGetCategories } from '@/hooks/queries';
+import { useDebounce } from '@/hooks/use-debounce';
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import { parseAsInteger, useQueryState } from 'nuqs';
+import { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { Loading } from '../../core/loading';
 
@@ -29,16 +40,48 @@ export function ProductsTable<TData, TValue>({
   isLoading,
   meta,
 }: DataTableProps<TData, TValue>) {
+  const { data: categories } = useGetCategories();
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
 
+  const [tempName, setTempName] = useState('');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [name, setName] = useQueryState('name', { defaultValue: '' });
   const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(0));
+  const [category, setCategory] = useQueryState('category', { defaultValue: '' });
+
+  const debouncedValue = useDebounce(tempName, 300);
+
+  useEffect(() => {
+    setName(debouncedValue);
+  }, [debouncedValue, setName]);
   return (
     <Card>
       <CardContent className="p-5">
+        <div className="flex items-center justify-between space-x-8 pb-4">
+          <Input
+            value={tempName}
+            onChange={e => setTempName(e.target.value)}
+            placeholder="Search Products by name"
+            className="flex-[2]"
+          />
+
+          <Select value={category} onValueChange={setCategory}>
+            <SelectTrigger className="flex-[0.5]">
+              <SelectValue placeholder="categories" />
+            </SelectTrigger>
+            <SelectContent>
+              {categories?.data?.map((category: Category) => (
+                <SelectItem key={category?._id} value={category?.name}>
+                  {category?.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
         <div className="rounded-md border w-full">
           <Table>
             <TableHeader>
@@ -56,6 +99,7 @@ export function ProductsTable<TData, TValue>({
                 </TableRow>
               ))}
             </TableHeader>
+
             <TableBody className="w-full">
               {!isLoading ? (
                 table.getRowModel().rows?.length ? (
@@ -76,7 +120,11 @@ export function ProductsTable<TData, TValue>({
                   </TableRow>
                 )
               ) : (
-                <Loading />
+                <TableRow className="h-24" key={0}>
+                  <TableCell colSpan={columns.length} className="text-center">
+                    <Loading />
+                  </TableCell>
+                </TableRow>
               )}
             </TableBody>
           </Table>

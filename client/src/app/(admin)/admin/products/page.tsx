@@ -1,6 +1,5 @@
 'use client';
 
-import { Loading } from '@/components/core/loading';
 import { ConfirmModal } from '@/components/dashboard/confirm-modal';
 import { ProductsTable } from '@/components/dashboard/tables/product-table';
 import { Button } from '@/components/ui/button';
@@ -37,16 +36,8 @@ export default function ProductsPage() {
           </Button>
         </Link>
       </div>
-      {!isLoading && data ? (
-        <ProductsTable
-          columns={columns}
-          data={data?.data}
-          isLoading={isLoading}
-          meta={data?.meta}
-        />
-      ) : (
-        <Loading />
-      )}
+
+      <ProductsTable columns={columns} data={data?.data} isLoading={isLoading} meta={data?.meta} />
     </main>
   );
 }
