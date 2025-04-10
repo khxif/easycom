@@ -5,18 +5,17 @@ import { ProductCard } from '@/components/core/product-card';
 import { useGetMyFavorites, useGetProducts } from '@/hooks/queries';
 import { useExtractSearchParams } from '@/hooks/use-extract-search-params';
 import { useAuthStore } from '@/stores/auth-store';
-import { parseAsInteger, useQueryState } from 'nuqs';
+import { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 export default function HomePage() {
+  const [limit, setLimit] = useState(10);
   const user = useAuthStore(state => state.user);
   const { searchParams } = useExtractSearchParams();
 
-  const { data, isLoading } = useGetProducts(searchParams);
+  const { data, isLoading } = useGetProducts({ ...searchParams, limit });
   const { data: favorites } = useGetMyFavorites(user?._id as string);
   const products = data?.data as Product[];
-
-  const [limit, setLimit] = useQueryState('limit', parseAsInteger.withDefault(10));
 
   return (
     <main className="max-w-7xl mx-auto py-4 px-4 w-full h-full">

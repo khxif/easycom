@@ -15,6 +15,9 @@ export function useGetProducts(query: Partial<FilterQueryType>) {
   return useQuery({
     queryKey: ['products', { query }],
     queryFn: () => ProductFetchers.getProducts(query),
+    // staleTime: 5000,
+    gcTime: Infinity,
+    placeholderData: prev => prev || { data: [], meta: { total: 0 } },
   });
 }
 
