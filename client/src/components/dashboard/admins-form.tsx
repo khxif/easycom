@@ -11,6 +11,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useGetCities } from '@/hooks/use-get-cities';
 import { getMyLocation } from '@/lib/get-my-location';
 import { AdminSchemaType } from '@/zod-schemas/admin';
 import { CldUploadButton } from 'next-cloudinary';
@@ -18,6 +19,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
+import { Combobox } from '../ui/combobox';
 
 interface AdminFormProps {
   form: UseFormReturn<AdminSchemaType, unknown, undefined>;
@@ -32,6 +34,9 @@ export default function AdminsForm({ form, handleSubmit, isEdit }: AdminFormProp
     const data = await getMyLocation(setLoading);
     form.setValue('location', data as string);
   };
+
+  const { cities } = useGetCities();
+  console.log(cities);
   return (
     <Form {...form}>
       <form onSubmit={handleSubmit} className="space-y-8 py-2">
@@ -78,7 +83,7 @@ export default function AdminsForm({ form, handleSubmit, isEdit }: AdminFormProp
             )}
           />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
           <FormField
             control={form.control}
             name="name"
@@ -141,10 +146,17 @@ export default function AdminsForm({ form, handleSubmit, isEdit }: AdminFormProp
             control={form.control}
             name="location"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="flex items-start  space-y-4 flex-col w-full">
                 <FormLabel>Location</FormLabel>
                 <FormControl>
-                  <Input placeholder="Town,City" {...field} />
+                  <Combobox
+                    value={field.value}
+                    onChange={field.onChange}
+                    options={cities}
+                    placeholder="Select a city..."
+                    emptyLabel="No matches found."
+                    searchInputPlaceholder="Search for a city..."
+                  />
                 </FormControl>
                 <Button disabled={loading} size="sm" type="button" onClick={handleGetMyLocation}>
                   Get My Location
