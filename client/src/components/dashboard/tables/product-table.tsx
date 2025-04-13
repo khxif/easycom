@@ -1,5 +1,7 @@
 'use client';
 
+import { Loading } from '@/components/core/loading';
+import { TablePagination } from '@/components/core/table-pagination';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -20,12 +22,10 @@ import {
 } from '@/components/ui/table';
 import { useGetCategories } from '@/hooks/queries';
 import { useDebounce } from '@/hooks/use-debounce';
+import { useExtractSearchParams } from '@/hooks/use-extract-search-params';
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
-import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import { parseAsInteger, useQueryState } from 'nuqs';
 import { useEffect, useState } from 'react';
-import ReactPaginate from 'react-paginate';
-import { Loading } from '../../core/loading';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -54,6 +54,7 @@ export function ProductsTable<TData, TValue>({
   const [category, setCategory] = useQueryState('category', { defaultValue: '' });
 
   const debouncedValue = useDebounce(tempName, 300);
+  const { searchParams, clearSearchParams } = useExtractSearchParams();
 
   useEffect(() => {
     setName(debouncedValue);
@@ -61,26 +62,35 @@ export function ProductsTable<TData, TValue>({
   return (
     <Card>
       <CardContent className="p-5">
-        <div className="flex items-center justify-between space-x-8 pb-4">
-          <Input
-            value={tempName}
-            onChange={e => setTempName(e.target.value)}
-            placeholder="Search Products by name"
-            className="flex-[2]"
-          />
+        <div className="flex flex-col space-y-4 pb-4">
+          <div className="flex items-center justify-between flex-col md:flex-row gap-4 ">
+            <Input
+              value={tempName}
+              onChange={e => setTempName(e.target.value)}
+              placeholder="Search Products by name"
+              className="flex-[2]"
+            />
 
-          <Select value={category} onValueChange={setCategory}>
-            <SelectTrigger className="flex-[0.5]">
-              <SelectValue placeholder="categories" />
-            </SelectTrigger>
-            <SelectContent>
-              {categories?.data?.map((category: Category) => (
-                <SelectItem key={category?._id} value={category?.name}>
-                  {category?.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+            <Select value={category} onValueChange={setCategory}>
+              <SelectTrigger className="flex-[0.5]">
+                <SelectValue placeholder="categories" />
+              </SelectTrigger>
+              <SelectContent>
+                {categories?.data?.map((category: Category) => (
+                  <SelectItem key={category?._id} value={category?.name}>
+                    {category?.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          {Object.entries(searchParams).length ? (
+            <div className="flex w-full justify-end">
+              <Button variant="ghost" onClick={() => clearSearchParams()}>
+                Clear Filters
+              </Button>
+            </div>
+          ) : null}
         </div>
         <div className="rounded-md border w-full">
           <Table>
@@ -129,25 +139,7 @@ export function ProductsTable<TData, TValue>({
             </TableBody>
           </Table>
           <div className="flex items-center justify-end border-t px-4">
-            <ReactPaginate
-              breakLabel="..."
-              initialPage={page}
-              nextLabel={
-                <Button size="sm" disabled={page === meta?.total_pages - 1} variant="outline">
-                  <ChevronRightIcon className="size-5" />
-                </Button>
-              }
-              onPageChange={selectedItem => setPage(selectedItem.selected)}
-              pageRangeDisplayed={2}
-              pageCount={meta?.total_pages}
-              previousLabel={
-                <Button size="sm" disabled={page === 0} variant="outline">
-                  <ChevronLeftIcon className="size-5" />
-                </Button>
-              }
-              renderOnZeroPageCount={null}
-              className="flex items-center space-x-4  py-4"
-            />
+            <TablePagination page={page} setPage={setPage} meta={meta} />
           </div>
         </div>
       </CardContent>
