@@ -1,12 +1,12 @@
 'use client';
 
-import { Loading } from '@/components/core/loading';
 import { ConfirmModal } from '@/components/dashboard/confirm-modal';
 import { CustomersTable } from '@/components/dashboard/tables/customer-table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { useDeleteUserMutation } from '@/hooks/mutations';
 import { useGetUsers } from '@/hooks/queries';
+import { useExtractSearchParams } from '@/hooks/use-extract-search-params';
 import { useQueryClient } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
 import { PhoneIcon, TrashIcon } from 'lucide-react';
@@ -15,18 +15,16 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 export default function UsersPage() {
-  const { data, isLoading } = useGetUsers();
-  console.log(data);
+  const { searchParams } = useExtractSearchParams();
+  const { data, isLoading } = useGetUsers(searchParams);
+  
   return (
     <main className="p-5 flex flex-col space-y-10 pb-40">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold md:text-3xl">Customers list</h1>
       </div>
-      {!isLoading && data ? (
-        <CustomersTable columns={columns} data={data?.data} isLoading={isLoading} />
-      ) : (
-        <Loading />
-      )}
+
+      <CustomersTable columns={columns} data={data?.data} meta={data?.meta} isLoading={isLoading} />
     </main>
   );
 }

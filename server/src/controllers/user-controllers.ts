@@ -3,10 +3,20 @@ import { User } from '../models/User';
 
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
   try {
-    const users = await User.find({ is_admin: false });
+    const { page, limit, name } = req.query;
+
+    const query: Record<string, unknown> = {};
+    if (name) query.name = { $regex: name, $options: 'i' };
+
+    const [users, total] = await Promise.all([
+      User.find({ ...query, is_admin: false }),
+      User.countDocuments({ ...query, is_admin: false }),
+    ]);
 
     const meta = {
-      total: users.length,
+      limit: users.length,
+      total,
+      total_pages: Math.ceil(total / Number(limit || 10)),
     };
 
     res.status(200).json({ data: users, meta });

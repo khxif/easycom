@@ -68,7 +68,7 @@ export function ProductsTable<TData, TValue>({
               value={tempName}
               onChange={e => setTempName(e.target.value)}
               placeholder="Search Products by name"
-              className="flex-[2]"
+              className="flex-[2] py-2.5"
             />
 
             <Select value={category} onValueChange={setCategory}>
@@ -84,9 +84,9 @@ export function ProductsTable<TData, TValue>({
               </SelectContent>
             </Select>
           </div>
-          {Object.entries(searchParams).length ? (
+          {searchParams.name || searchParams.category ? (
             <div className="flex w-full justify-end">
-              <Button variant="ghost" onClick={() => clearSearchParams()}>
+              <Button variant="outline" onClick={() => clearSearchParams()}>
                 Clear Filters
               </Button>
             </div>

@@ -84,10 +84,10 @@ export const useGetMyFavorites = (id: string) => {
   });
 };
 
-export const useGetUsers = () => {
+export const useGetUsers = (query: Partial<FilterQueryType>) => {
   return useQuery({
-    queryKey: ['users'],
-    queryFn: UsersFetchers.getUsers,
+    queryKey: ['users',{query}],
+    queryFn:()=> UsersFetchers.getUsers(query),
   });
 };
 
