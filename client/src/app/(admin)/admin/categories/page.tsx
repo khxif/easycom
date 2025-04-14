@@ -1,8 +1,7 @@
 'use client';
 
-import { Loading } from '@/components/core/loading';
 import { ConfirmModal } from '@/components/dashboard/confirm-modal';
-import { CategoriesTable } from '@/components/dashboard/tables/categories/categories-table';
+import { CategoriesTable } from '@/components/dashboard/tables/categories-table';
 import { Button } from '@/components/ui/button';
 import { useDeleteCategoryMutation } from '@/hooks/mutations';
 import { useGetCategories } from '@/hooks/queries';
@@ -28,11 +27,7 @@ export default function CategoriesPage() {
         </Link>
       </div>
 
-      {!isLoading ? (
-        <CategoriesTable columns={columns} data={data?.data} isLoading={isLoading} />
-      ) : (
-        <Loading />
-      )}
+      <CategoriesTable columns={columns} data={data?.data} isLoading={isLoading} />
     </main>
   );
 }

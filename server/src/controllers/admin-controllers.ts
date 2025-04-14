@@ -106,6 +106,11 @@ export const deleteAdmin = async (req: Request, res: Response): Promise<void> =>
       return;
     }
 
+    if (admin.email === 'admin@easycom.com') {
+      res.status(401).json({ message: 'Cannot delete system admin' });
+      return;
+    }
+
     await User.findByIdAndDelete(id);
 
     res.status(200).json({ message: 'Admin deleted successfully' });

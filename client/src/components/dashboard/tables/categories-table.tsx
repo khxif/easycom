@@ -18,7 +18,7 @@ interface DataTableProps<TData, TValue> {
   isLoading: boolean;
 }
 
-export function AdminsTable<TData, TValue>({
+export function CategoriesTable<TData, TValue>({
   columns,
   data,
   isLoading,
