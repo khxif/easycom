@@ -1,6 +1,5 @@
 'use client';
 
-import { Loading } from '@/components/core/loading';
 import { OrdersTable } from '@/components/dashboard/tables/orders-table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge, BadgeVariants } from '@/components/ui/badge';
@@ -17,18 +16,14 @@ import Link from 'next/link';
 
 export default function OrdersPage() {
   const { data, isLoading } = useGetAllOrders();
-  console.log(data);
+
   return (
     <main className="p-5 flex flex-col space-y-10 pb-40">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold md:text-3xl">Orders</h1>
       </div>
 
-      {!isLoading && data ? (
-        <OrdersTable columns={columns} data={data?.data} isLoading={isLoading} />
-      ) : (
-        <Loading />
-      )}
+      <OrdersTable columns={columns} data={data?.data} isLoading={isLoading} />
     </main>
   );
 }
@@ -36,7 +31,7 @@ export default function OrdersPage() {
 const columns: ColumnDef<Order>[] = [
   {
     accessorKey: 'user',
-    header: 'User',
+    header: 'Name',
     cell: ({ row }) => (
       <div className="flex items-center space-x-4 p-2">
         <Avatar>
@@ -103,12 +98,13 @@ const columns: ColumnDef<Order>[] = [
   {
     accessorKey: 'products',
     header: 'Products',
-    cell: ({ row }) => {
-      const products = row.original.products
-        ?.map((product: { product: Product }) => product?.product?.name ?? 'Deleted Product')
-        .join(', ');
-      return <p>{products}</p>;
-    },
+    cell: ({ row }) => (
+      <div className="flex flex-col space-y-4">
+        {row.original.products?.map((product: { product: Product }, index: number) => (
+          <p key={product?.product?._id ?? index}>{product?.product?.name ?? 'Deleted Product'}</p>
+        ))}
+      </div>
+    ),
   },
   {
     accessorKey: 'created_at',

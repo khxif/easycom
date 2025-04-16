@@ -62,7 +62,7 @@ const columns: ColumnDef<Product>[] = [
         </div>
       );
     },
-    header: 'Product Image',
+    header: 'Name',
     accessorKey: 'image_url',
   },
   {

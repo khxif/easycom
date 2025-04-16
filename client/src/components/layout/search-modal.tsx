@@ -85,7 +85,7 @@ export function SearchModal({ isOpen, setIsOpen }: SearchModalProps) {
               )}
             />
           </form>
-          <div className="flex items-center space-x-5">
+          <div className="flex gap-4 flex-col md:flex-row md:items-center">
             <FilterButton
               value={location}
               setValue={setLocation}

@@ -35,7 +35,7 @@ export default function CategoriesPage() {
 const columns: ColumnDef<Category>[] = [
   {
     accessorKey: 'name',
-    header: 'Category Name',
+    header: 'Name',
   },
   {
     accessorKey: 'description',

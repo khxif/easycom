@@ -1,6 +1,7 @@
 'use client';
 
 import { Loading } from '@/components/core/loading';
+import { SummaryCard } from '@/components/core/summary-card';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   ChartConfig,
@@ -18,7 +19,7 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, XAxis } from 'rech
 export default function ProductDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const { data: product, isLoading } = useGetProductById(id);
-  console.log(product);
+  
   return (
     <main className="p-5 flex flex-col space-y-8 pb-24">
       {!isLoading && product ? (
@@ -40,25 +41,8 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
             </div>
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <Card>
-                <CardContent className="py-5 flex items-center space-x-5">
-                  <UsersIcon />
-                  <div className="flex flex-col space-y-1.5">
-                    <h2 className="font-semibold text-xl">Created By</h2>
-                    <p className="font-medium text-lg">{product?.created_by?.name}</p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="py-5 flex items-center space-x-5">
-                  <UsersIcon />
-                  <div className="flex flex-col space-y-1.5">
-                    <h2 className="font-semibold text-xl">Current Stock</h2>
-                    <p className="font-medium text-lg">{product?.stock}</p>
-                  </div>
-                </CardContent>
-              </Card>
+              <SummaryCard title="Created By" text={product?.created_by?.name} icon={UsersIcon} />
+              <SummaryCard title="Current Stock" count={product?.stock ?? 0} icon={UsersIcon} />
             </div>
           </div>
           <SalesGraph id={id} />
@@ -72,7 +56,7 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
 
 function SalesGraph({ id }: { id: string }) {
   const { data, isLoading } = useGetProductSales(id);
-  console.log(data);
+
   return !isLoading && data ? (
     <Card>
       <CardHeader>

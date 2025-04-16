@@ -1,6 +1,7 @@
 'use client';
 
 import { Loading } from '@/components/core/loading';
+import { SummaryCard } from '@/components/core/summary-card';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   ChartContainer,
@@ -10,12 +11,11 @@ import {
 } from '@/components/ui/chart';
 import { useGetOverview } from '@/hooks/queries';
 import { Users as UsersIcon } from 'lucide-react';
-import CountUp from 'react-countup';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, XAxis } from 'recharts';
 
 export default function OverviewPage() {
   const { data: overview, isLoading } = useGetOverview();
-  
+
   return (
     <main className="p-5 flex flex-col space-y-10 pb-40">
       {!isLoading ? (
@@ -25,41 +25,21 @@ export default function OverviewPage() {
           </div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            <Card>
-              <CardContent className="py-5 flex items-center space-x-5">
-                <UsersIcon />
-                <div className="flex flex-col space-y-1.5">
-                  <h2 className="font-semibold text-xl">Total Products</h2>
-                  <p className="font-medium text-lg">
-                    <CountUp end={overview?.total_products ?? 0} duration={2} />
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="py-5 flex items-center space-x-5">
-                <UsersIcon />
-                <div className="flex flex-col space-y-1.5">
-                  <h2 className="font-semibold text-xl">Total Users</h2>
-                  <p className="font-medium text-lg">
-                    <CountUp end={overview?.total_users ?? 0} duration={2} />
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="py-5 flex items-center space-x-5">
-                <UsersIcon />
-                <div className="flex flex-col space-y-1.5">
-                  <h2 className="font-semibold text-xl">Total Sellers</h2>
-                  <p className="font-medium text-lg">
-                    <CountUp end={overview?.total_sellers ?? 0} duration={2} />
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+            <SummaryCard
+              title="Total Products"
+              count={overview?.total_products ?? 0}
+              icon={UsersIcon}
+            />
+            <SummaryCard
+              title="Total Customers"
+              count={overview?.total_users ?? 0}
+              icon={UsersIcon}
+            />
+            <SummaryCard
+              title="Total Sellers"
+              count={overview?.total_sellers ?? 0}
+              icon={UsersIcon}
+            />
           </div>
 
           <Card>

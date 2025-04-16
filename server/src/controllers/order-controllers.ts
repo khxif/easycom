@@ -35,7 +35,6 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
     };
 
     const cart = await Cart.findOne({ user: user_id }).populate('products.product');
-    console.log(cart);
     if (!cart || cart.products.length === 0) {
       res.status(400).json({ message: 'No products in cart' });
       return;
