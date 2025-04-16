@@ -8,6 +8,7 @@ import {
   LayoutDashboardIcon,
   SendToBackIcon,
   ShoppingBagIcon,
+  TagIcon,
   UserCogIcon,
   UsersIcon,
 } from 'lucide-react';
@@ -29,7 +30,7 @@ export const links = [
   {
     title: 'Categories',
     url: '/admin/categories',
-    icon: ShoppingBagIcon,
+    icon: TagIcon,
   },
   {
     title: 'Customers',

@@ -10,7 +10,7 @@ import {
   type ChartConfig,
 } from '@/components/ui/chart';
 import { useGetOverview } from '@/hooks/queries';
-import { Users as UsersIcon } from 'lucide-react';
+import { HandshakeIcon, ShoppingBagIcon, Users as UsersIcon } from 'lucide-react';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, XAxis } from 'recharts';
 
 export default function OverviewPage() {
@@ -28,7 +28,7 @@ export default function OverviewPage() {
             <SummaryCard
               title="Total Products"
               count={overview?.total_products ?? 0}
-              icon={UsersIcon}
+              icon={ShoppingBagIcon}
             />
             <SummaryCard
               title="Total Customers"
@@ -38,7 +38,7 @@ export default function OverviewPage() {
             <SummaryCard
               title="Total Sellers"
               count={overview?.total_sellers ?? 0}
-              icon={UsersIcon}
+              icon={HandshakeIcon}
             />
           </div>
 

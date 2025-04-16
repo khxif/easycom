@@ -10,7 +10,7 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 import { useGetProductById, useGetProductSales } from '@/hooks/queries';
-import { ArrowLeftIcon, UsersIcon } from 'lucide-react';
+import { ArrowLeftIcon, LayersIcon, UserIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { use } from 'react';
@@ -19,7 +19,7 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, XAxis } from 'rech
 export default function ProductDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const { data: product, isLoading } = useGetProductById(id);
-  
+
   return (
     <main className="p-5 flex flex-col space-y-8 pb-24">
       {!isLoading && product ? (
@@ -41,8 +41,8 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
             </div>
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <SummaryCard title="Created By" text={product?.created_by?.name} icon={UsersIcon} />
-              <SummaryCard title="Current Stock" count={product?.stock ?? 0} icon={UsersIcon} />
+              <SummaryCard title="Created By" text={product?.created_by?.name} icon={UserIcon} />
+              <SummaryCard title="Current Stock" count={product?.stock ?? 0} icon={LayersIcon} />
             </div>
           </div>
           <SalesGraph id={id} />

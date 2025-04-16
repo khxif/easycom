@@ -13,7 +13,10 @@ export default function FavoritesPage() {
     <main className="max-w-7xl mx-auto py-6 px-4 w-full h-full flex flex-col space-y-6">
       <h1 className="text-2xl font-semibold">My Favorites</h1>
 
-      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 w-full pb-5">
+      <section
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4
+       gap-4 md:gap-5 w-full pb-5"
+      >
         {!isLoading ? (
           favorites?.favorites?.map((favorite: Product) => (
             <ProductCard

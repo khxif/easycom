@@ -26,7 +26,8 @@ export default function HomePage() {
             hasMore={data?.meta?.total > limit}
             next={() => setLimit(prev => prev + 10)}
             loader={<h4>Loading...</h4>}
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 h-full w-full pb-5"
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4
+             gap-4 md:gap-5 h-full w-full pb-5"
           >
             {products?.map(product => (
               <ProductCard
