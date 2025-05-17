@@ -4,6 +4,7 @@ import { OrdersTable } from '@/components/dashboard/tables/orders-table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge, BadgeVariants } from '@/components/ui/badge';
 import { useGetAllOrders } from '@/hooks/queries';
+import { useExtractSearchParams } from '@/hooks/use-extract-search-params';
 import { ColumnDef } from '@tanstack/react-table';
 import {
   ChartNoAxesColumnIncreasingIcon,
@@ -15,7 +16,9 @@ import {
 import Link from 'next/link';
 
 export default function OrdersPage() {
-  const { data, isLoading } = useGetAllOrders();
+  const { searchParams } = useExtractSearchParams();
+  const { data, isLoading } = useGetAllOrders(searchParams);
+  console.log(data?.data)
 
   return (
     <main className="p-5 flex flex-col space-y-10 pb-40">
@@ -23,7 +26,7 @@ export default function OrdersPage() {
         <h1 className="text-2xl font-semibold md:text-3xl">Orders</h1>
       </div>
 
-      <OrdersTable columns={columns} data={data?.data} isLoading={isLoading} />
+      <OrdersTable columns={columns} data={data?.data} isLoading={isLoading} meta={data?.meta} />
     </main>
   );
 }
@@ -35,7 +38,7 @@ const columns: ColumnDef<Order>[] = [
     cell: ({ row }) => (
       <div className="flex items-center space-x-4 p-2">
         <Avatar>
-          <AvatarImage src={row.original.user.profile_picture} />
+          <AvatarImage src={row.original.user.profile_picture ?? ''} />
           <AvatarFallback>{row.original.user?.name.split(' ').join('')[0]}</AvatarFallback>
         </Avatar>
 
